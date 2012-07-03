@@ -5763,63 +5763,224 @@ jede geschlossene Form auf $A$ exakt.
 (Also ist die deRham-Kohomologie trivial.)
 
 
+
+%DATE: Di 3.7.12
+
+
+\subsubsection*{Beweis für den Fall $k=1$}
+
+Sei $\omega$ eine geschlossene 1-Form, das heißt
+\begin{align*}
+\omega & =\omega_{i}\dd x^{i}
+\end{align*}
+\begin{align*}
+\dd\omega & =0\quad\Leftrightarrow\quad\partial_{i}\omega_{j}-\partial_{j}\omega_{i}=0
+\end{align*}
+Für
+\begin{align*}
+\varphi\left(x\right) & :=\int_{0}^{1}\omega_{i}\left(tx\right)\dd tx^{i}
+\end{align*}
+gilt:
+\begin{align*}
+\dd\varphi\left(x\right) & =\left(\frac{\partial}{\partial x^{j}}\varphi\left(x\right)\right)\dd x^{j}=\bigg(\int_{0}^{1}t\cdot\underbrace{\partial_{j}\omega_{i}}_{=\partial_{i}\omega_{j}}\big|_{tx}\dd t\bigg)x^{i}\dd x^{j}+\left(\int_{0}^{1}\omega_{i}\big|_{tx}\dd t\right)\delta_{j}^{i}\dd x^{j}=\\
+ & =\bigg(\int_{0}^{1}t\cdot\underbrace{\partial_{j}\omega_{i}}_{=\partial_{i}\omega_{j}}\big|_{tx}\dd t\bigg)x^{i}\dd x^{j}+\left(\int_{0}^{1}\omega_{j}\big|_{tx}\dd t\right)\dd x^{j}
+\end{align*}
+Es gilt:
+\begin{align*}
+\partial_{j}\omega_{i}\big|_{tx}x^{i}\dd x^{j} & \stackrel{\omega\text{ geschlossen}}{=}\partial_{i}\omega_{j}\big|_{tx}x^{i}\dd x^{i}\stackrel{\text{Kettenregel}}{=}\frac{\dd}{\dd t}\omega_{j}\big|_{tx}\dd x^{j}
+\end{align*}
+Es folgt:
+\begin{align*}
+\dd\varphi\left(x\right) & =\left(\int_{0}^{1}t\cdot\partial_{j}\omega_{i}\big|_{tx}\dd t\right)x^{i}\dd x^{j}+\left(\int_{0}^{1}\omega_{j}\big|_{tx}\dd t\right)\dd x^{j}\\
+ & =\left(\int_{0}^{1}\frac{\dd}{\dd t}\left(t\cdot\omega_{j}\big|_{tx}\right)\dd t\right)\dd x^{j}\stackrel{\text{part. Int.}}{=}\omega_{j}\left(x\right)\dd x^{j}
+\end{align*}
+Also ist $\varphi$ eine $0$-Form mit $\dd\varphi=\omega$, das heißt
+$\omega$ ist exakt.\qqed[Beweis für $k=1$]
+
+Frobenius \quotedblbase{}Integrabilitätsbedingungen\textquotedblleft{}
+
+Frage: Sei $\omega_{i}$ gegeben. Gibt es ein $\varphi$ so, dass
+${\displaystyle \omega_{i}=\frac{\partial}{\partial x^{i}}\varphi}$
+ist?
+
+Falls ja, folgt ${\displaystyle \frac{\partial}{\partial x^{j}}\omega_{i}=\frac{\partial^{2}}{\partial x^{i}\partial x^{j}}\varphi}$,
+also gilt $\partial_{i}\omega_{j}=\partial_{j}\omega_{i}$.
+
+Also ist $\partial_{i}\omega_{j}=\partial_{j}\omega_{i}$ eine notwendige
+Bedingung.
+
+Diese Bedingung ist auch hinreichend, wenn das Gebiet einfach zusammenhängend
+ist.
+
+
+\subsubsection*{Beweis für $k$-Formen}
+
+Lasse die Summe über Tensorindizes weg. Sei $\omega$ ein $k$-Form
+mit $k\ge1$.
+\begin{align*}
+\varphi & :=\sum_{\alpha=1}^{k}\left(-1\right)^{\alpha-1}\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)x^{i_{\alpha}}\dd x^{i_{1}}\wedge\ldots\wedge\widehat{\dd x^{i_{\alpha}}}\wedge\ldots\wedge\dd x^{i_{k}}\\
+\dd\varphi\left(x\right) & =\underbrace{\sum_{\alpha=1}^{k}\left(-1\right)^{\alpha-1}\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\underbrace{\frac{\partial x^{i_{\alpha}}}{\partial x^{j}}}_{=\delta_{j}^{i_{\alpha}}}\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\widehat{\dd x^{i_{\alpha}}}\wedge\ldots\wedge\dd x^{i_{k}}}_{=:A}+\\
+ & \quad+\underbrace{\sum_{\alpha=1}^{k}\left(-1\right)^{\alpha-1}\left(\int_{0}^{1}t^{k}\partial_{j}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)x^{i_{\alpha}}\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\widehat{\dd x^{i_{\alpha}}}\wedge\ldots\wedge\dd x^{i_{k}}}_{=:B}
+\end{align*}
+\begin{align*}
+A & =\sum_{\alpha=1}^{k}\left(-1\right)^{\alpha-1}\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{\alpha}}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\widehat{\dd x^{i_{\alpha}}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\sum_{\alpha=1}^{k}\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{\alpha}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =k\cdot\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\end{align*}
+Für $B$ nenne $j\to i_{\alpha}$ und $i_{\alpha}\to l$. 
+\begin{align*}
+B & =\sum_{\alpha=1}^{k}\left(-1\right)^{\alpha-1}\left(\int_{0}^{1}t^{k}\partial_{i_{\alpha}}\omega_{i_{1}\ldots l\ldots i_{k}}\left(tx\right)\dd t\right)x^{l}\dd x^{i_{\alpha}}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{\alpha-1}}\wedge\dd x^{i_{\alpha+1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\sum_{\alpha=1}^{k}\left(\int_{0}^{1}t^{k}\partial_{i_{\alpha}}\omega_{i_{1}\ldots l\ldots i_{k}}\left(tx\right)\dd t\right)x^{l}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\end{align*}
+$\omega$ ist geschlossen, das heißt:
+\begin{align*}
+0 & =\left(\partial_{l}\omega_{i_{1}\ldots i_{k}}-\partial_{i_{1}}\omega_{li_{1}\ldots i_{k}}-\partial_{i_{2}}\omega_{i_{1}li_{3}\ldots i_{k}}-\ldots-\partial_{i_{k}}\omega_{i_{1}\ldots i_{k-1}l}\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\left(\partial_{l}\omega_{i_{1}\ldots i_{k}}-k\partial_{i_{\alpha}}\omega_{i_{1}\ldots l\ldots i_{k}}\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\end{align*}
+Also folgt:
+\begin{align*}
+\partial_{i_{\alpha}}\omega_{i_{1}\ldots l\ldots i_{k}} & =\frac{1}{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\end{align*}
+Damit erhält man:
+\begin{align*}
+B & =\frac{1}{k}\sum_{\alpha=1}^{k}\left(\int_{0}^{1}t^{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)x^{l}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\left(\int_{0}^{1}t^{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)x^{l}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\end{align*}
+Insgesamt gibt das:
+\begin{align*}
+\dd\varphi & =k\cdot\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}+\left(\int_{0}^{1}t^{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)x^{l}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)+t^{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\left(\int_{0}^{1}\frac{\dd}{\dd t}\left(t^{k}\omega_{i_{1}\ldots i_{k}}\right)\big|_{tx}\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\omega_{i_{1}\ldots i_{k}}\left(x\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\omega
+\end{align*}
+\qqed
+
+
+\section{Integration von Differentialformen}
+
+Sei $M^{n}$ eine differenzierbare Mannigfaltigkeit (\emph{keine}
+Riemannsche Metrik), zur Einfachheit kompakt.
+
+Sei $\omega\in\Omega^{k}\left(M\right)$. Was ist $\int_{M}\omega\,?$
+
+Für $k\not=n$ geht das nicht.
+
+Für $k=n$ ist:
+\begin{align*}
+\omega & =\omega_{i_{1}\ldots i_{n}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{n}}
+\end{align*}
+
+
+Beispiel
+
+Hätten wir eine Riemannsche Metrik, könnten wir für $\omega$ die
+Volumenform nehmen:
+\begin{align*}
+\omega & :=\sqrt{\det\left(g\right)}\epsilon_{i_{1}\ldots i_{n}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{n}}
+\end{align*}
+\begin{align*}
+\int\omega_{12\ldots n}\dd x^{1}\dd x^{2}\ldots\dd x^{n} & =\int\sqrt{\det g}\underbrace{\epsilon_{1\ldots n}}_{=1}\dd x^{1}\ldots\dd x^{n}
+\end{align*}
+
+
+
+\subsection{Definition\label{sub:Def-Integral-Differentialform}}
+
+Sei $\left(\eta_{k}\right)_{k=1\ldots,K}$ eine Zerlegung der Eins,
+die einem Atlas $\left(x_{n},U_{n}\right)$ untergeordnet ist, der
+endlich gewählt werden kann, da $M^{n}$ kompakt ist. Also sei $\text{supp}\left(\eta_{k}\right)\subseteq U_{n_{k}}$.
+
+Für $\varphi\in\Omega^{n}\left(M\right)$ definiere:
+\begin{align*}
+\int_{M}\varphi & :=\sum_{k=1}^{K}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(x_{n_{k}}^{-1}\right)^{*}\left(\eta_{k}\cdot\varphi\right)\bigg|_{x}\left(\frac{\partial}{\partial x^{1}},\ldots,\frac{\partial}{\partial x^{n}}\right)\dd x^{1}\ldots\dd x^{n}
+\end{align*}
+Oder kürzer:
+\begin{align*}
+\int_{M}\varphi & =\sum_{k}\int\eta_{k}\varphi_{1\ldots n}\left(x\right)\dd x^{1}\ldots\dd x^{n}
+\end{align*}
+Denn es gilt:
+\begin{align*}
+\varphi & =\varphi_{i_{1}\ldots i_{n}}\left(x\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{n}}
+\end{align*}
+\begin{align*}
+\varphi\left(\frac{\partial}{\partial x^{1}},\ldots,\frac{\partial}{\partial x^{n}}\right) & =\varphi_{12\ldots n}\left(x\right)
+\end{align*}
+
+
+
+\subsection{Satz}
+
+Das Integral aus Definition \ref{sub:Def-Integral-Differentialform}
+ist unabhängig von der Wahl der Karten und der Zerlegung der Eins
+definiert.
+
+
 \subsubsection*{Beweis}
 
-Sei $\omega\in\Omega^{k}\left(A\right)$ und $\dd\omega=0$ und $k\ge1$,
-ansonsten ist die Behauptung trivialerweise richtig.
+Auf $M$ gibt es eine Riemannsche Metrik $g$.
 
-Wähle die kanonischen Koordinaten $\left(x_{1},\ldots,x_{n}\right)\in\mathbb{R}^{n}$.
+In jeder Karte ist dann bis auf ein Vorzeichen eine eindeutige $n$-Form
 \begin{align*}
-\omega & =\sum_{1\le i_{1}<i_{2}<\ldots<i_{k}\le n}\omega_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\varepsilon & =\pm\sqrt{\det g}\epsilon_{i_{1}\ldots i_{n}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{n}}
 \end{align*}
-Gesucht ist eine $\left(k-1\right)$-Form $\varphi$ mit $\dd\varphi=\omega$.
-Da $A$ sternförmig bezüglich 0 ist, ist $tx\subseteq A$ für $x\in A$
-und $t\in\left[0,1\right]$.
+gegeben. Da die $n$-Formen in jedem Punkt bis auf ein Vielfaches
+eindeutig sind, können wir $\varphi$ in der Form 
 \begin{align*}
-\varphi\left(x\right) & =\sum_{1\le i_{1}<\ldots<i_{k}\le n}\sum_{\alpha=1}^{k}\left(-1\right)^{\alpha-1}\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\cdot x^{i_{\alpha}}\dd x^{i_{1}}\wedge\ldots\wedge\widehat{\dd x^{i_{\alpha}}}\wedge\ldots\wedge\dd x^{i_{k}}
+\varphi & =f\cdot\varepsilon
 \end{align*}
-Dabei ist:
+mit $f\in C^{\infty}\left(U\right)$ schreiben, also:
 \begin{align*}
-\dd x^{i_{1}}\wedge\ldots\wedge\widehat{\dd x^{i_{\alpha}}}\wedge\ldots\wedge\dd x^{i_{k}} & :=\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{\alpha-1}}\wedge\dd x^{i_{\alpha+1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\varphi_{i_{1}\ldots i_{n}}\left(x\right) & =f\left(x\right)\sqrt{\det\left(g\right)}\epsilon_{i_{1}\ldots i_{n}}
 \end{align*}
-Berechne $\dd\varphi$:
+Es folgt:
+\begin{align*}
+\int\eta_{k}\varphi_{1\ldots n}\left(x\right)\dd x^{1}\ldots\dd x^{n} & =\int_{\mathbb{R}^{n}}\eta_{k}f\left(x\right)\sqrt{\det g}\underbrace{\epsilon_{12\ldots n}}_{=1}\dd x^{1}\ldots\dd x^{n}=\int\eta_{k}f\dd\mu_{g}
+\end{align*}
+Hieran sieht man, dass das Integral unabhängig von Kartenwechseln
+ist, welche die Orientierung erhalten.
 
-Wird der der Faktor $x^{i_{\alpha}}$ abgeleitet, so erhält man:
-\begin{align*}
- & \sum_{\alpha=1}^{k}\left(-1\right)^{\alpha-1}\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\cdot\dd x^{i_{\alpha}}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\widehat{\dd x^{i_{\alpha}}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
- & \quad=\sum_{\alpha=1}^{k}\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\cdot\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{\alpha}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
- & \quad=k\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\cdot\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
-\end{align*}
-Außerdem wird der Faktor $\omega_{i_{1}\ldots i_{k}}$ abgeleitet.
-Man erhält insgesamt:
-\begin{align*}
-\dd\varphi & =k\sum_{i_{1}<\ldots<i_{k}}\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}+\\
- & \quad+\underbrace{\sum_{i_{1}<\ldots<i_{k}}\sum_{\alpha=1}^{k}\sum_{j=1}^{n}\left(-1\right)^{\alpha-1}?x^{i_{\alpha}}?\left(\int_{0}^{1}t^{k-1}\left(\frac{\partial}{\partial x^{j}}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\right)\dd t\right)\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\widehat{\dd x^{i_{\alpha}}}\wedge\ldots\wedge\dd x^{i_{k}}}_{=:S}
-\end{align*}
-\begin{align*}
- & t^{k-1}\left(\frac{\partial}{\partial x^{j}}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\right)\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\widehat{\dd x^{i_{\alpha}}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
- & \quad=t^{k}\left(\frac{\partial}{\partial x^{j}}\omega_{i_{1}\ldots i_{k}}\right)\bigg|_{tx}\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\widehat{\dd x^{i_{\alpha}}}\wedge\ldots\wedge\dd x^{i_{k}}
-\end{align*}
-\begin{align*}
-\frac{\partial}{\partial x^{j}}\omega_{i_{1}\ldots i_{\alpha}\ldots i_{k}} & =\frac{\partial}{\partial x^{i_{\alpha}}}\omega_{i_{1}\ldots j\ldots i_{k}}+\left(\frac{\partial}{\partial x^{j}}\omega_{i_{1}\ldots i_{\alpha}\ldots i_{k}}-\frac{\partial}{\partial x^{i_{\alpha}}}\omega_{i_{1}\ldots j\ldots i_{k}}\right)
-\end{align*}
-Die Klammer wird bei Multiplikation mit $\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\widehat{\dd x^{i_{\alpha}}}\wedge\ldots\wedge\dd x^{i_{k}}$
-total antisymmetrisiert. Wegen $\dd\omega=0$ verschwindet er also.
+Bei Kartenwechseln, die die Orientierung umkehren, kehrt sich das
+Vorzeichen von $f$ und $\varepsilon$ um, das Integral bleibt wieder
+erhalten.\qqed
 
+Oder durch elementare Rechnung:
+\begin{align*}
+\omega & =\omega_{i_{1}\ldots i_{n}}\left(x\right)\dd x^{i}\wedge\ldots\wedge\dd x^{i_{n}}
+\end{align*}
+\begin{align*}
+\dd x^{i} & =\frac{\partial x^{i}}{\partial y^{j}}\dd y^{j}
+\end{align*}
 Damit folgt:
 \begin{align*}
-S & =\sum_{i_{1}<\ldots<i_{k}}\sum_{\alpha=1}^{k}\sum_{j=1}^{n}\left(-1\right)^{\alpha-1}\left(\int_{0}^{1}t^{k}\frac{\partial}{\partial x^{j}}\omega_{i_{1}\ldots j\ldots i_{k}}\left(x\right)\bigg|_{tx}\dd t\right)x^{j}\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\widehat{\dd x^{i_{\alpha}}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
- & =\sum_{i_{1}<\ldots<i_{k}}\sum_{j=1}^{n}\left(\int_{0}^{1}t^{k}\frac{\partial}{\partial x^{j}}\omega_{i_{1}\ldots i_{k}}\left(x\right)\bigg|_{tx}\dd t\right)x^{j}\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
-\end{align*}
-Weitere Strategie:
-\begin{align*}
-\frac{\partial}{\partial x^{j}}\omega_{i_{1}\ldots i_{k}}\left(x\right)\bigg|_{tx}x^{j} & =\frac{\dd}{\dd t}\omega_{i_{1}\ldots i_{k}}\left(tx\right)
+\omega & =\omega_{i_{1}\ldots i_{n}}\frac{\partial x^{i_{1}}}{\partial y^{j_{1}}}\ldots\frac{\partial x^{i_{n}}}{\partial y^{j_{n}}}\dd y^{j_{1}}\wedge\ldots\wedge\dd y^{j_{n}}=\left(\det\frac{\partial x^{i}}{\partial y^{j}}\right)\cdot\omega_{j_{1}\ldots j_{n}}\dd y^{j_{1}}\wedge\ldots\dd y^{j_{n}}
 \end{align*}
 \begin{align*}
-\int_{0}^{1}t^{k}\frac{\dd}{\dd t}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t
+\omega_{1\ldots n}\left(y\right) & =\det\left(\frac{\partial x^{i}}{\partial y^{j}}\right)\omega_{1\ldots n}\left(x\right)
 \end{align*}
-Integriere hier partiell. Der Randterm liefert gerade $\omega\left(x\right)$,
-während sich alles andere weghebt.
+\begin{align*}
+\int\eta_{k}\omega_{1\ldots n}\left(y\right)\dd y^{1}\ldots\dd y^{n} & =\int\eta_{k}\omega_{1\ldots n}\left(x\right)\underbrace{\det\left(\frac{\partial x^{i}}{\partial y^{j}}\right)\dd y^{1}\ldots\dd y^{n}}_{=:\dd x^{1}\cdots\dd x^{n}}
+\end{align*}
+\qqed[2.Beweis]
+
+
+\section{Der Satz von Stokes}
+
+
+\subsection{Theorem}
+
+Sei $M^{n}$ eine kompakte differenzierbare Mannigfaltigkeit (ohne
+Rand) und $\omega\in\Omega^{n-1}\left(M\right)$. Dann gilt für die
+äußere Ableitung $\dd\omega\in\Omega^{n}\left(M\right)$:
+\begin{align*}
+\int_{M}\left(\dd\omega\right) & =0
+\end{align*}
+
+
+Später: Mannigfaltigkeit mit Rand:
+\begin{align*}
+\int_{M}\dd\omega & =\int_{\partial M}\omega
+\end{align*}
+
 
 
 \part*{Anhang\thispagestyle{empty}\addcontentsline{toc}{part}{Anhang}}

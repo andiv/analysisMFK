@@ -20498,11 +20498,15 @@ Sei
 (Also ist die deRham-Kohomologie trivial.)
 \end_layout
 
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
 \begin_layout Subsubsection*
 Beweis
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Sei 
 \begin_inset Formula $\omega\in\Omega^{k}\left(A\right)$
 \end_inset
@@ -20518,7 +20522,7 @@ Sei
 , ansonsten ist die Behauptung trivialerweise richtig.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Wähle die kanonischen Koordinaten 
 \begin_inset Formula $\left(x_{1},\ldots,x_{n}\right)\in\mathbb{R}^{n}$
 \end_inset
@@ -20583,7 +20587,7 @@ Berechne
 :
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Wird der der Faktor 
 \begin_inset Formula $x^{i_{\alpha}}$
 \end_inset
@@ -20641,7 +20645,7 @@ Die Klammer wird bei Multiplikation mit
  verschwindet er also.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Damit folgt:
 \begin_inset Formula 
 \begin{align*}
@@ -20673,6 +20677,654 @@ Integriere hier partiell.
 \end_inset
 
 , während sich alles andere weghebt.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%DATE: Di 3.7.12
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis für den Fall 
+\begin_inset Formula $k=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\omega$
+\end_inset
+
+ eine geschlossene 1-Form, das heißt
+\begin_inset Formula 
+\begin{align*}
+\omega & =\omega_{i}\dd x^{i}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\dd\omega & =0\quad\Leftrightarrow\quad\partial_{i}\omega_{j}-\partial_{j}\omega_{i}=0
+\end{align*}
+
+\end_inset
+
+Für
+\begin_inset Formula 
+\begin{align*}
+\varphi\left(x\right) & :=\int_{0}^{1}\omega_{i}\left(tx\right)\dd tx^{i}
+\end{align*}
+
+\end_inset
+
+gilt:
+\begin_inset Formula 
+\begin{align*}
+\dd\varphi\left(x\right) & =\left(\frac{\partial}{\partial x^{j}}\varphi\left(x\right)\right)\dd x^{j}=\bigg(\int_{0}^{1}t\cdot\underbrace{\partial_{j}\omega_{i}}_{=\partial_{i}\omega_{j}}\big|_{tx}\dd t\bigg)x^{i}\dd x^{j}+\left(\int_{0}^{1}\omega_{i}\big|_{tx}\dd t\right)\delta_{j}^{i}\dd x^{j}=\\
+ & =\bigg(\int_{0}^{1}t\cdot\underbrace{\partial_{j}\omega_{i}}_{=\partial_{i}\omega_{j}}\big|_{tx}\dd t\bigg)x^{i}\dd x^{j}+\left(\int_{0}^{1}\omega_{j}\big|_{tx}\dd t\right)\dd x^{j}
+\end{align*}
+
+\end_inset
+
+Es gilt:
+\begin_inset Formula 
+\begin{align*}
+\partial_{j}\omega_{i}\big|_{tx}x^{i}\dd x^{j} & \stackrel{\omega\text{ geschlossen}}{=}\partial_{i}\omega_{j}\big|_{tx}x^{i}\dd x^{i}\stackrel{\text{Kettenregel}}{=}\frac{\dd}{\dd t}\omega_{j}\big|_{tx}\dd x^{j}
+\end{align*}
+
+\end_inset
+
+Es folgt:
+\begin_inset Formula 
+\begin{align*}
+\dd\varphi\left(x\right) & =\left(\int_{0}^{1}t\cdot\partial_{j}\omega_{i}\big|_{tx}\dd t\right)x^{i}\dd x^{j}+\left(\int_{0}^{1}\omega_{j}\big|_{tx}\dd t\right)\dd x^{j}\\
+ & =\left(\int_{0}^{1}\frac{\dd}{\dd t}\left(t\cdot\omega_{j}\big|_{tx}\right)\dd t\right)\dd x^{j}\stackrel{\text{part. Int.}}{=}\omega_{j}\left(x\right)\dd x^{j}
+\end{align*}
+
+\end_inset
+
+Also ist 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ eine 
+\begin_inset Formula $0$
+\end_inset
+
+-Form mit 
+\begin_inset Formula $\dd\varphi=\omega$
+\end_inset
+
+, das heißt 
+\begin_inset Formula $\omega$
+\end_inset
+
+ ist exakt.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed[Beweis für $k=1$]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Frobenius „Integrabilitätsbedingungen“
+\end_layout
+
+\begin_layout Standard
+Frage: Sei 
+\begin_inset Formula $\omega_{i}$
+\end_inset
+
+ gegeben.
+ Gibt es ein 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ so, dass 
+\begin_inset Formula ${\displaystyle \omega_{i}=\frac{\partial}{\partial x^{i}}\varphi}$
+\end_inset
+
+ ist?
+\end_layout
+
+\begin_layout Standard
+Falls ja, folgt 
+\begin_inset Formula ${\displaystyle \frac{\partial}{\partial x^{j}}\omega_{i}=\frac{\partial^{2}}{\partial x^{i}\partial x^{j}}\varphi}$
+\end_inset
+
+, also gilt 
+\begin_inset Formula $\partial_{i}\omega_{j}=\partial_{j}\omega_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Also ist 
+\begin_inset Formula $\partial_{i}\omega_{j}=\partial_{j}\omega_{i}$
+\end_inset
+
+ eine notwendige Bedingung.
+\end_layout
+
+\begin_layout Standard
+Diese Bedingung ist auch hinreichend, wenn das Gebiet einfach zusammenhängend
+ ist.
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis für 
+\begin_inset Formula $k$
+\end_inset
+
+-Formen
+\end_layout
+
+\begin_layout Standard
+Lasse die Summe über Tensorindizes weg.
+ Sei 
+\begin_inset Formula $\omega$
+\end_inset
+
+ ein 
+\begin_inset Formula $k$
+\end_inset
+
+-Form mit 
+\begin_inset Formula $k\ge1$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+\varphi & :=\sum_{\alpha=1}^{k}\left(-1\right)^{\alpha-1}\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)x^{i_{\alpha}}\dd x^{i_{1}}\wedge\ldots\wedge\widehat{\dd x^{i_{\alpha}}}\wedge\ldots\wedge\dd x^{i_{k}}\\
+\dd\varphi\left(x\right) & =\underbrace{\sum_{\alpha=1}^{k}\left(-1\right)^{\alpha-1}\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\underbrace{\frac{\partial x^{i_{\alpha}}}{\partial x^{j}}}_{=\delta_{j}^{i_{\alpha}}}\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\widehat{\dd x^{i_{\alpha}}}\wedge\ldots\wedge\dd x^{i_{k}}}_{=:A}+\\
+ & \quad+\underbrace{\sum_{\alpha=1}^{k}\left(-1\right)^{\alpha-1}\left(\int_{0}^{1}t^{k}\partial_{j}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)x^{i_{\alpha}}\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\widehat{\dd x^{i_{\alpha}}}\wedge\ldots\wedge\dd x^{i_{k}}}_{=:B}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+A & =\sum_{\alpha=1}^{k}\left(-1\right)^{\alpha-1}\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{\alpha}}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\widehat{\dd x^{i_{\alpha}}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\sum_{\alpha=1}^{k}\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{\alpha}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =k\cdot\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\end{align*}
+
+\end_inset
+
+Für 
+\begin_inset Formula $B$
+\end_inset
+
+ nenne 
+\begin_inset Formula $j\to i_{\alpha}$
+\end_inset
+
+ und 
+\begin_inset Formula $i_{\alpha}\to l$
+\end_inset
+
+.
+ 
+\begin_inset Formula 
+\begin{align*}
+B & =\sum_{\alpha=1}^{k}\left(-1\right)^{\alpha-1}\left(\int_{0}^{1}t^{k}\partial_{i_{\alpha}}\omega_{i_{1}\ldots l\ldots i_{k}}\left(tx\right)\dd t\right)x^{l}\dd x^{i_{\alpha}}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{\alpha-1}}\wedge\dd x^{i_{\alpha+1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\sum_{\alpha=1}^{k}\left(\int_{0}^{1}t^{k}\partial_{i_{\alpha}}\omega_{i_{1}\ldots l\ldots i_{k}}\left(tx\right)\dd t\right)x^{l}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula $\omega$
+\end_inset
+
+ ist geschlossen, das heißt:
+\begin_inset Formula 
+\begin{align*}
+0 & =\left(\partial_{l}\omega_{i_{1}\ldots i_{k}}-\partial_{i_{1}}\omega_{li_{1}\ldots i_{k}}-\partial_{i_{2}}\omega_{i_{1}li_{3}\ldots i_{k}}-\ldots-\partial_{i_{k}}\omega_{i_{1}\ldots i_{k-1}l}\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\left(\partial_{l}\omega_{i_{1}\ldots i_{k}}-k\partial_{i_{\alpha}}\omega_{i_{1}\ldots l\ldots i_{k}}\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\end{align*}
+
+\end_inset
+
+Also folgt:
+\begin_inset Formula 
+\begin{align*}
+\partial_{i_{\alpha}}\omega_{i_{1}\ldots l\ldots i_{k}} & =\frac{1}{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\end{align*}
+
+\end_inset
+
+Damit erhält man:
+\begin_inset Formula 
+\begin{align*}
+B & =\frac{1}{k}\sum_{\alpha=1}^{k}\left(\int_{0}^{1}t^{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)x^{l}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\left(\int_{0}^{1}t^{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)x^{l}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\end{align*}
+
+\end_inset
+
+Insgesamt gibt das:
+\begin_inset Formula 
+\begin{align*}
+\dd\varphi & =k\cdot\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}+\left(\int_{0}^{1}t^{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)x^{l}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)+t^{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\left(\int_{0}^{1}\frac{\dd}{\dd t}\left(t^{k}\omega_{i_{1}\ldots i_{k}}\right)\big|_{tx}\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\omega_{i_{1}\ldots i_{k}}\left(x\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\omega
+\end{align*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Integration von Differentialformen
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $M^{n}$
+\end_inset
+
+ eine differenzierbare Mannigfaltigkeit (
+\emph on
+keine
+\emph default
+ Riemannsche Metrik), zur Einfachheit kompakt.
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\omega\in\Omega^{k}\left(M\right)$
+\end_inset
+
+.
+ Was ist 
+\begin_inset Formula $\int_{M}\omega\,?$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Für 
+\begin_inset Formula $k\not=n$
+\end_inset
+
+ geht das nicht.
+\end_layout
+
+\begin_layout Standard
+Für 
+\begin_inset Formula $k=n$
+\end_inset
+
+ ist:
+\begin_inset Formula 
+\begin{align*}
+\omega & =\omega_{i_{1}\ldots i_{n}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{n}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Beispiel
+\end_layout
+
+\begin_layout Standard
+Hätten wir eine Riemannsche Metrik, könnten wir für 
+\begin_inset Formula $\omega$
+\end_inset
+
+ die Volumenform nehmen:
+\begin_inset Formula 
+\begin{align*}
+\omega & :=\sqrt{\det\left(g\right)}\epsilon_{i_{1}\ldots i_{n}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{n}}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\int\omega_{12\ldots n}\dd x^{1}\dd x^{2}\ldots\dd x^{n} & =\int\sqrt{\det g}\underbrace{\epsilon_{1\ldots n}}_{=1}\dd x^{1}\ldots\dd x^{n}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Definition
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Def-Integral-Differentialform"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\left(\eta_{k}\right)_{k=1\ldots,K}$
+\end_inset
+
+ eine Zerlegung der Eins, die einem Atlas 
+\begin_inset Formula $\left(x_{n},U_{n}\right)$
+\end_inset
+
+ untergeordnet ist, der endlich gewählt werden kann, da 
+\begin_inset Formula $M^{n}$
+\end_inset
+
+ kompakt ist.
+ Also sei 
+\begin_inset Formula $\text{supp}\left(\eta_{k}\right)\subseteq U_{n_{k}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Für 
+\begin_inset Formula $\varphi\in\Omega^{n}\left(M\right)$
+\end_inset
+
+ definiere:
+\begin_inset Formula 
+\begin{align*}
+\int_{M}\varphi & :=\sum_{k=1}^{K}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(x_{n_{k}}^{-1}\right)^{*}\left(\eta_{k}\cdot\varphi\right)\bigg|_{x}\left(\frac{\partial}{\partial x^{1}},\ldots,\frac{\partial}{\partial x^{n}}\right)\dd x^{1}\ldots\dd x^{n}
+\end{align*}
+
+\end_inset
+
+Oder kürzer:
+\begin_inset Formula 
+\begin{align*}
+\int_{M}\varphi & =\sum_{k}\int\eta_{k}\varphi_{1\ldots n}\left(x\right)\dd x^{1}\ldots\dd x^{n}
+\end{align*}
+
+\end_inset
+
+Denn es gilt:
+\begin_inset Formula 
+\begin{align*}
+\varphi & =\varphi_{i_{1}\ldots i_{n}}\left(x\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{n}}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\varphi\left(\frac{\partial}{\partial x^{1}},\ldots,\frac{\partial}{\partial x^{n}}\right) & =\varphi_{12\ldots n}\left(x\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Satz
+\end_layout
+
+\begin_layout Standard
+Das Integral aus Definition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Def-Integral-Differentialform"
+
+\end_inset
+
+ ist unabhängig von der Wahl der Karten und der Zerlegung der Eins definiert.
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis
+\end_layout
+
+\begin_layout Standard
+Auf 
+\begin_inset Formula $M$
+\end_inset
+
+ gibt es eine Riemannsche Metrik 
+\begin_inset Formula $g$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In jeder Karte ist dann bis auf ein Vorzeichen eine eindeutige 
+\begin_inset Formula $n$
+\end_inset
+
+-Form
+\begin_inset Formula 
+\begin{align*}
+\varepsilon & =\pm\sqrt{\det g}\epsilon_{i_{1}\ldots i_{n}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{n}}
+\end{align*}
+
+\end_inset
+
+gegeben.
+ Da die 
+\begin_inset Formula $n$
+\end_inset
+
+-Formen in jedem Punkt bis auf ein Vielfaches eindeutig sind, können wir
+ 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ in der Form 
+\begin_inset Formula 
+\begin{align*}
+\varphi & =f\cdot\varepsilon
+\end{align*}
+
+\end_inset
+
+mit 
+\begin_inset Formula $f\in C^{\infty}\left(U\right)$
+\end_inset
+
+ schreiben, also:
+\begin_inset Formula 
+\begin{align*}
+\varphi_{i_{1}\ldots i_{n}}\left(x\right) & =f\left(x\right)\sqrt{\det\left(g\right)}\epsilon_{i_{1}\ldots i_{n}}
+\end{align*}
+
+\end_inset
+
+Es folgt:
+\begin_inset Formula 
+\begin{align*}
+\int\eta_{k}\varphi_{1\ldots n}\left(x\right)\dd x^{1}\ldots\dd x^{n} & =\int_{\mathbb{R}^{n}}\eta_{k}f\left(x\right)\sqrt{\det g}\underbrace{\epsilon_{12\ldots n}}_{=1}\dd x^{1}\ldots\dd x^{n}=\int\eta_{k}f\dd\mu_{g}
+\end{align*}
+
+\end_inset
+
+Hieran sieht man, dass das Integral unabhängig von Kartenwechseln ist, welche
+ die Orientierung erhalten.
+\end_layout
+
+\begin_layout Standard
+Bei Kartenwechseln, die die Orientierung umkehren, kehrt sich das Vorzeichen
+ von 
+\begin_inset Formula $f$
+\end_inset
+
+ und 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+ um, das Integral bleibt wieder erhalten.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Oder durch elementare Rechnung:
+\begin_inset Formula 
+\begin{align*}
+\omega & =\omega_{i_{1}\ldots i_{n}}\left(x\right)\dd x^{i}\wedge\ldots\wedge\dd x^{i_{n}}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\dd x^{i} & =\frac{\partial x^{i}}{\partial y^{j}}\dd y^{j}
+\end{align*}
+
+\end_inset
+
+Damit folgt:
+\begin_inset Formula 
+\begin{align*}
+\omega & =\omega_{i_{1}\ldots i_{n}}\frac{\partial x^{i_{1}}}{\partial y^{j_{1}}}\ldots\frac{\partial x^{i_{n}}}{\partial y^{j_{n}}}\dd y^{j_{1}}\wedge\ldots\wedge\dd y^{j_{n}}=\left(\det\frac{\partial x^{i}}{\partial y^{j}}\right)\cdot\omega_{j_{1}\ldots j_{n}}\dd y^{j_{1}}\wedge\ldots\dd y^{j_{n}}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\omega_{1\ldots n}\left(y\right) & =\det\left(\frac{\partial x^{i}}{\partial y^{j}}\right)\omega_{1\ldots n}\left(x\right)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\int\eta_{k}\omega_{1\ldots n}\left(y\right)\dd y^{1}\ldots\dd y^{n} & =\int\eta_{k}\omega_{1\ldots n}\left(x\right)\underbrace{\det\left(\frac{\partial x^{i}}{\partial y^{j}}\right)\dd y^{1}\ldots\dd y^{n}}_{=:\dd x^{1}\cdots\dd x^{n}}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed[2.Beweis]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Der Satz von Stokes
+\end_layout
+
+\begin_layout Subsection
+Theorem
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $M^{n}$
+\end_inset
+
+ eine kompakte differenzierbare Mannigfaltigkeit (ohne Rand) und 
+\begin_inset Formula $\omega\in\Omega^{n-1}\left(M\right)$
+\end_inset
+
+.
+ Dann gilt für die äußere Ableitung 
+\begin_inset Formula $\dd\omega\in\Omega^{n}\left(M\right)$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\int_{M}\left(\dd\omega\right) & =0
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Später: Mannigfaltigkeit mit Rand:
+\begin_inset Formula 
+\begin{align*}
+\int_{M}\dd\omega & =\int_{\partial M}\omega
+\end{align*}
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Part*
