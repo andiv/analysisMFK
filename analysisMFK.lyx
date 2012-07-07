@@ -20960,6 +20960,102 @@ qqed
 
 \end_layout
 
+\begin_layout Subsection
+Beispiel
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+T^{2} & =\modulo{\mathbb{R}^{2}}{\mathbb{Z}^{2}}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\omega & :=\dd x\in\Omega^{1}\left(T^{2}\right)\\
+\dd\omega & =\left(\frac{\partial}{\partial x^{i}}1\right)\dd x^{i}\wedge\dd x=0
+\end{align*}
+
+\end_inset
+
+Also ist 
+\begin_inset Formula $\omega$
+\end_inset
+
+ geschlossen.
+ Ist 
+\begin_inset Formula $\omega$
+\end_inset
+
+ exakt? Also gibt es ein 
+\begin_inset Formula $\varphi\in\Omega^{0}=C^{\infty}\left(T^{2}\right)$
+\end_inset
+
+ mit 
+\begin_inset Formula $\omega=\dd\varphi$
+\end_inset
+
+?
+\begin_inset Formula 
+\begin{align*}
+\dd\varphi & =\frac{\partial\varphi}{\partial x}\dd x+\frac{\partial\varphi}{\partial y}\dd y\stackrel{!}{=}\omega
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\Rightarrow\quad\frac{\partial\varphi\left(x,y\right)}{\partial x} & =1 & \frac{\partial\varphi\left(x,y\right)}{\partial y} & =0
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\Rightarrow\varphi\left(x,y\right) & =x+c
+\end{align*}
+
+\end_inset
+
+mit 
+\begin_inset Formula $c\in\mathbb{R}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\varphi$
+\end_inset
+
+ ist auf 
+\begin_inset Formula $\mathbb{R}^{2}$
+\end_inset
+
+ stetig, aber nicht auf 
+\begin_inset Formula $T^{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Also ist 
+\begin_inset Formula $\omega$
+\end_inset
+
+ nicht exakt und 
+\begin_inset Formula $\omega\in H^{1}\not=\left\{ 0\right\} $
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Section
 Integration von Differentialformen
 \end_layout
@@ -21034,6 +21130,30 @@ Hätten wir eine Riemannsche Metrik, könnten wir für
 \begin_inset Formula 
 \begin{align*}
 \int\omega_{12\ldots n}\dd x^{1}\dd x^{2}\ldots\dd x^{n} & =\int\sqrt{\det g}\underbrace{\epsilon_{1\ldots n}}_{=1}\dd x^{1}\ldots\dd x^{n}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Allgemein 
+\begin_inset Formula $\eta\in\Omega^{k}$
+\end_inset
+
+, also 
+\begin_inset Formula $\eta_{i_{1}\ldots i_{k}}\left(x\right)$
+\end_inset
+
+ total antisymmetrisch.
+\begin_inset Formula 
+\begin{align*}
+\eta & =\sum_{1\le i_{1}<\ldots<i_{k}\le n}\eta_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\frac{1}{n^{k}}\left(\begin{array}{c}
+n\\
+k
+\end{array}\right)\sum_{i_{1}\ldots i_{k}}\eta_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
 \end{align*}
 
 \end_inset
@@ -21320,6 +21440,637 @@ Später: Mannigfaltigkeit mit Rand:
 \begin_inset Formula 
 \begin{align*}
 \int_{M}\dd\omega & =\int_{\partial M}\omega
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%DATE: Fr 6.7.12
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis
+\end_layout
+
+\begin_layout Standard
+Wähle eine endliche Zerlegung der Eins.
+\begin_inset Formula 
+\begin{align*}
+\int_{M}\dd\omega & =\sum_{k}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\eta_{k}\left(\dd\omega\right)_{1\ldots n}\dd^{n}x
+\end{align*}
+
+\end_inset
+
+Betrachte speziell:
+\begin_inset Formula 
+\begin{align*}
+\omega & =f\left(x\right)\dd x^{1}\wedge\ldots\wedge\widehat{\dd x^{l}}\wedge\ldots\wedge\dd x^{n}
+\end{align*}
+
+\end_inset
+
+Dies ist ausreichend, weil eine allgemeine 
+\begin_inset Formula $\left(n-1\right)$
+\end_inset
+
+-Form als Linearkombination solcher 
+\begin_inset Formula $\left(n-1\right)$
+\end_inset
+
+-Formen geschrieben werden kann.
+\begin_inset Formula 
+\begin{align*}
+\dd\omega & =\frac{\partial f}{\partial x^{i}}\dd x^{i}\wedge\dd x^{1}\wedge\ldots\wedge\widehat{\dd x^{l}}\wedge\ldots\wedge\dd x^{n}=\\
+ & =\left(-1\right)^{l-1}\frac{\partial f}{\partial x^{l}}\dd x^{1}\wedge\ldots\wedge\dd x^{n}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\Rightarrow\quad\int_{\mathbb{R}^{n}}\eta_{k}\left(\dd\omega\right)_{1\ldots n}\dd^{n}x & =\left(-1\right)^{l-1}\int_{\mathbb{R}^{n}}\eta_{k}\left(x\right)\frac{\partial f}{\partial x^{l}}\dd x^{1}\ldots\dd x^{n}=\\
+ & =\left(-1\right)^{l-1}\int\dd x^{1}\ldots\widehat{\int\dd x^{l}}\ldots\int\dd x^{n}\left(\int_{-\infty}^{\infty}\dd x^{l}\eta_{k}\frac{\partial f}{\partial x^{l}}\right)=\\
+ & =\left(-1\right)^{l}\int_{\mathbb{R}^{n}}\left(\frac{\partial}{\partial x^{l}}\eta_{k}\left(x\right)\right)f\dd x^{1}\ldots\dd x^{n}=\\
+ & =-\int_{\mathbb{R}^{n}}\left(\dd\eta_{k}\wedge\omega\right)
+\end{align*}
+
+\end_inset
+
+Also gilt:
+\begin_inset Formula 
+\begin{align*}
+\int_{M}\eta_{k}\dd\omega & =-\int_{M}\left(\dd\eta_{k}\right)\wedge\omega
+\end{align*}
+
+\end_inset
+
+Summiere über 
+\begin_inset Formula $k$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\sum_{k}\eta_{k} & =1
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\Rightarrow\quad\int_{M}\dd\omega & =\int_{M}\left(\dd\left(1\right)\right)\wedge\omega=0
+\end{align*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun zum Fall mit Rand: Sei 
+\begin_inset Formula $M$
+\end_inset
+
+ eine kompakte Mannigfaltigkeit mit Rand 
+\begin_inset Formula $\partial M$
+\end_inset
+
+.
+ (Dieser ist auch kompakt.)
+\begin_inset Formula 
+\begin{align*}
+x:U & \to\mathbb{R}_{-}^{n}:=\left\{ x\in\mathbb{R}^{n}\big|x^{1}<0\right\} 
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+x:U\cap\partial M & \to\mathbb{R}_{0}^{n}:=\left\{ x\in\mathbb{R}^{n}\big|x^{1}=0\right\} 
+\end{align*}
+
+\end_inset
+
+Sei 
+\begin_inset Formula $\omega\in\Omega^{k}\left(M\right)$
+\end_inset
+
+.
+ Sei 
+\begin_inset Formula $\left(x,U\right)$
+\end_inset
+
+ Karte um Randpunkt 
+\begin_inset Formula $p\in\partial M$
+\end_inset
+
+.
+ Sei 
+\begin_inset Formula $x\in\mathbb{R}_{-}^{n}$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+\omega & =\omega_{i_{1}\ldots i_{k}}\left(x\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\end{align*}
+
+\end_inset
+
+Oder
+\begin_inset Formula 
+\begin{align*}
+\omega\left(p\right):\left(\TT_{p}M\right)^{k} & \to\mathbb{R}
+\end{align*}
+
+\end_inset
+
+ist eine 
+\begin_inset Formula $k$
+\end_inset
+
+-Linearform, die total antisymmetrisch ist.
+ Fasse
+\begin_inset Formula 
+\begin{align*}
+\TT_{p}\partial M=\left\langle \frac{\partial}{\partial x^{2}}\bigg|_{p},\ldots,\frac{\partial}{\partial x^{n}}\bigg|_{p}\right\rangle  & \subseteq\left\langle \frac{\partial}{\partial x^{1}}\bigg|_{p},\ldots,\frac{\partial}{\partial x^{n}}\bigg|_{p}\right\rangle =\TT_{p}M
+\end{align*}
+
+\end_inset
+
+als Unterraum auf.
+ Schränke 
+\begin_inset Formula $\omega\big|_{p}$
+\end_inset
+
+ auf 
+\begin_inset Formula $\left(\TT_{p}\partial M\right)^{k}$
+\end_inset
+
+ ein:
+\begin_inset Formula 
+\begin{align*}
+\omega\big|_{p} & =\left(\TT_{p}\partial M\right)^{k}\to\mathbb{R}
+\end{align*}
+
+\end_inset
+
+ist multilinear und total antisymmetrisch und 
+\begin_inset Formula $\omega\in\Omega^{k}\left(\partial_{M}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Oder in Komponenten für ein 
+\begin_inset Formula $x\in\mathbb{R}_{0}^{n}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\omega\big|_{\partial M} & =\sum_{2\le i_{1}<\ldots<i_{k}\le n}\omega_{i_{1}\ldots i_{k}}\left(x\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula $\dd x^{2},\ldots,\dd x^{n}$
+\end_inset
+
+ sind Basis von 
+\begin_inset Formula $\left(\TT_{p}\partial M\right)^{*}$
+\end_inset
+
+, nämlich die duale Basis zu 
+\begin_inset Formula ${\displaystyle \frac{\partial}{\partial x^{2}},\ldots,\frac{\partial}{\partial x^{n}}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Theorem 
+\series medium
+(Satz von Stokes mit Rand)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\int_{M}\dd\omega & =\int_{\partial M}\omega
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula $M$
+\end_inset
+
+ ist 
+\begin_inset Formula $n$
+\end_inset
+
+-dimensional und 
+\begin_inset Formula $\dd\omega$
+\end_inset
+
+ eine 
+\begin_inset Formula $n$
+\end_inset
+
+-Form.
+ 
+\begin_inset Formula $\omega$
+\end_inset
+
+ ist dann eine 
+\begin_inset Formula $\left(n-1\right)$
+\end_inset
+
+-Form auf 
+\begin_inset Formula $\partial M$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis
+\end_layout
+
+\begin_layout Standard
+Wähle wieder eine endlich Zerlegung der Eins 
+\begin_inset Formula $\eta_{k}$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+\int_{M}\dd\omega & =\sum_{k}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\eta_{k}\left(x\right)\left(\dd\omega\right)_{1\ldots n}\dd x^{1}\ldots\dd x^{n}
+\end{align*}
+
+\end_inset
+
+Falls 
+\begin_inset Formula $U_{n_{k}}\cap\partial M=\emptyset$
+\end_inset
+
+, also eine Karte im Innern, so gilt genau wie im Fall ohne Rand:
+\begin_inset Formula 
+\begin{align*}
+\int_{M}\eta_{k}\dd\omega & =-\int_{M}\left(\dd\eta_{k}\right)\wedge\omega
+\end{align*}
+
+\end_inset
+
+Falls 
+\begin_inset Formula $U_{n_{k}}$
+\end_inset
+
+ den Rand schneidet, gilt:
+\begin_inset Formula 
+\begin{align*}
+\int_{M}\eta_{k}\dd\omega & =\int_{\mathbb{R}_{-}^{n}}\eta_{k}\left(x\right)\left(\dd\omega\right)_{1\ldots n}\dd x^{1}\ldots\dd x^{n}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+TODO: Abb2
+\end_layout
+
+\begin_layout Standard
+Nehme wieder an, dass gilt:
+\begin_inset Formula 
+\begin{align*}
+\omega & =f\dd x^{1}\wedge\ldots\wedge\widehat{\dd x^{l}}\wedge\ldots\wedge\dd x^{n}\\
+\dd\omega & =\left(-1\right)^{l-1}\frac{\partial f}{\partial x^{l}}\dd x^{1}\wedge\ldots\wedge\dd x^{n}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\Rightarrow\quad\int_{M}\eta_{k}\dd\omega & =\left(-1\right)^{l-1}\int_{\mathbb{R}_{-}^{n}}\eta_{k}\left(x\right)\frac{\partial f}{\partial x^{l}}\dd x^{1}\ldots\dd x^{n}
+\end{align*}
+
+\end_inset
+
+Integriere nun partiell.
+ Falls 
+\begin_inset Formula $l\not=1$
+\end_inset
+
+: 
+\begin_inset Formula ${\displaystyle \int_{-\infty}^{\infty}\dd x^{l}\ldots}$
+\end_inset
+
+ 
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ Man bekommt also keine Randterme
+\end_layout
+
+\begin_layout Standard
+Falls 
+\begin_inset Formula $l=1$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\int_{-\infty}^{0}\dd x^{1}\eta_{k}\cdot\frac{\partial f}{\partial x^{1}} & =\eta_{k}f\big|_{x^{1}=0}-\int_{-\infty}^{\infty}\dd x^{1}\left(\frac{\partial}{\partial x^{1}}\eta_{k}\right)\cdot f
+\end{align*}
+
+\end_inset
+
+Man bekommt also den Randterm:
+\begin_inset Formula 
+\begin{align*}
+\left(-1\right)^{1-1}\int_{\mathbb{R}_{0}^{n}}\eta_{k}\cdot f\dd x^{2}\ldots\dd x^{n} & =\int_{\partial M}\eta_{k}\omega\big|_{\partial M}
+\end{align*}
+
+\end_inset
+
+(Genau wie oben):
+\begin_inset Formula 
+\begin{align*}
+\omega\big|_{\partial M} & =0\quad\text{falls }l\not=1\\
+\omega\big|_{\partial M} & =f\cdot\dd x^{2}\wedge\ldots\wedge\dd x^{n}\quad\text{falls }l=1\\
+\Rightarrow\quad\int_{\partial M}\eta_{k}\omega & =\int_{\mathbb{R}_{0}^{n}}\eta_{k}\cdot f\dd x^{2}\ldots\dd x^{n}
+\end{align*}
+
+\end_inset
+
+Also gilt allgemein:
+\begin_inset Formula 
+\begin{align*}
+\int_{M}\eta_{k}\dd\omega & =-\int_{M}\left(\dd\eta_{k}\right)\wedge\omega+\int_{\partial M}\eta_{k}\omega
+\end{align*}
+
+\end_inset
+
+Summiere über 
+\begin_inset Formula $k$
+\end_inset
+
+, verwende, dass 
+\begin_inset Formula ${\displaystyle \sum_{k}\eta_{k}=1}$
+\end_inset
+
+ und 
+\begin_inset Formula $\dd1=0$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+\Rightarrow\quad\int_{M}\dd\omega & =\int_{\partial M}\omega
+\end{align*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Hodge-Stern, Hodge-Theorem
+\end_layout
+
+\begin_layout Standard
+Im Moment: 
+\begin_inset Formula $M^{n}$
+\end_inset
+
+ differenzierbare Mannigfaltigkeit, (zur Einfachheit kompakt, ohne Rand).
+\end_layout
+
+\begin_layout Standard
+Betrachte 
+\begin_inset Formula $\Omega^{k}$
+\end_inset
+
+ auf ganz 
+\begin_inset Formula $M$
+\end_inset
+
+ als Vektorraum mit für 
+\begin_inset Formula $\omega,\eta\in\Omega^{k}$
+\end_inset
+
+ und 
+\begin_inset Formula $\lambda$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\left(\lambda\omega+\nu\eta\right)\left(p\right) & :=\lambda\omega\left(p\right)+\nu\eta\left(p\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\wedge:\Omega^{k}\times\Omega^{l} & \to\Omega^{k+l} &  & \text{Wedge-Produkt}\\
+\int_{M}:\Omega^{n} & \to\mathbb{R}\text{ linear} &  & \text{Integral}
+\end{align*}
+
+\end_inset
+
+Kombiniere 
+\begin_inset Formula $\wedge$
+\end_inset
+
+ und 
+\begin_inset Formula $\int_{M}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\left\langle .,.\right\rangle :\Omega^{k}\times\Omega^{n-k} & \to\mathbb{R}\\
+\left(\omega,\eta\right) & \mapsto\int_{M}\omega\wedge\eta
+\end{align*}
+
+\end_inset
+
+Ist Bilinearform, nennt man auch 
+\emph on
+duale Paarung
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+(Bemerkung: 
+\begin_inset Formula $\Omega^{k}$
+\end_inset
+
+, 
+\begin_inset Formula $\Omega^{n-k}$
+\end_inset
+
+ sind 
+\begin_inset Formula $\infty$
+\end_inset
+
+-dimensional.
+ Wir müssten eigentlich eine Topologie auf 
+\begin_inset Formula $\Omega^{k},\Omega^{n-k}$
+\end_inset
+
+ einführen, lassen wir hier außer Acht, in Funktionalanalysis)
+\end_layout
+
+\begin_layout Standard
+Falls
+\begin_inset Formula 
+\begin{align*}
+\left\langle Au,v\right\rangle  & =\left\langle u,A^{*}v\right\rangle \quad\fall_{u\in E,v\in F}
+\end{align*}
+
+\end_inset
+
+heißt 
+\begin_inset Formula $A^{*}$
+\end_inset
+
+ Adjungierte von 
+\begin_inset Formula $A$
+\end_inset
+
+ und 
+\begin_inset Formula $\left\langle .,.\right\rangle :E\times F$
+\end_inset
+
+ duale Paarung.
+ 
+\begin_inset Formula $A:E\circlearrowleft$
+\end_inset
+
+ , 
+\begin_inset Formula $A^{*}:F\circlearrowleft$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Was ist 
+\begin_inset Formula $\dd^{*}$
+\end_inset
+
+?
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\omega\in\Omega^{k-1}$
+\end_inset
+
+ und 
+\begin_inset Formula $\eta\in\Omega^{n-k}$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+0 & \stackrel{\text{S.v.S}}{=}\int_{M}\dd\left(\omega\wedge\eta\right)\sr ={\text{graduierte}}{\text{Leibnizregel}}\int_{M}\dd\left(\omega\right)\wedge\eta+\left(-1\right)^{k-1}\omega\wedge\left(\dd\eta\right)=\left\langle \dd\omega,\eta\right\rangle +\left(-1\right)^{\left(k-1\right)}\left\langle \omega,\dd\eta\right\rangle 
+\end{align*}
+
+\end_inset
+
+Also ist 
+\emph on
+formal
+\emph default
+:
+\begin_inset Formula 
+\begin{align*}
+\dd^{*} & =\left(-1\right)^{k}\dd
+\end{align*}
+
+\end_inset
+
+Wegen 
+\begin_inset Formula $\dd^{2}=0$
+\end_inset
+
+ folgt:
+\begin_inset Formula 
+\begin{align*}
+\dd\dd^{*} & =0=\dd^{*}\dd
+\end{align*}
+
+\end_inset
+
+Es ist also unmöglich einen Differentialoperator zweiter Ordnung zu bilden.
+ 
+\begin_inset Formula 
+\begin{align*}
+*:\Omega^{k} & \to\Omega^{n-k} &  & \text{Hodge-Stern wird gebraucht}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\Delta & :=-\left(\dd^{*}\dd+\dd\dd^{*}\right) &  & \text{Hodge-Laplace}
 \end{align*}
 
 \end_inset
