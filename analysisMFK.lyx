@@ -22078,6 +22078,906 @@ Es ist also unmöglich einen Differentialoperator zweiter Ordnung zu bilden.
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%DATE: Di 10.7.12
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Ziel
+\end_layout
+
+\begin_layout Standard
+Führe auf den Vektorräumen 
+\begin_inset Formula $\Omega^{k}\left(M\right)$
+\end_inset
+
+ ein Skalarprodukt ein, sodass 
+\begin_inset Formula $\dd:\Omega^{k}\left(M\right)\to\Omega^{k+1}\left(M\right)$
+\end_inset
+
+ eine analytisch interessante Adjungierte besitzt.
+\end_layout
+
+\begin_layout Subsubsection*
+Motivation
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $E$
+\end_inset
+
+ ein 
+\begin_inset Formula $n$
+\end_inset
+
+-dimensionaler 
+\begin_inset Formula $\mathbb{R}$
+\end_inset
+
+-Vektorraum.
+ Dann gilt:
+\begin_inset Formula 
+\begin{align*}
+\text{dim}\left(\Omega^{k}\left(E\right)\right) & =\left(\begin{array}{c}
+n\\
+k
+\end{array}\right)=\dim\left(\Omega^{n-k}\left(E\right)\right)
+\end{align*}
+
+\end_inset
+
+Also sind 
+\begin_inset Formula $\Omega^{k}\left(E\right)$
+\end_inset
+
+ und 
+\begin_inset Formula $\Omega^{n-k}\left(E\right)$
+\end_inset
+
+ isomorph.
+ Ist 
+\begin_inset Formula $E$
+\end_inset
+
+ zusätzlich orientiert und mit Skalarprodukt versehen, dann gibt es einen
+ 
+\emph on
+natürlichen
+\emph default
+ Isomorphismus, der wie folgt definiert ist:
+\end_layout
+
+\begin_layout Standard
+Für jede positiv orientierte Orhonormalbasis 
+\begin_inset Formula $\left\{ e_{1},\ldots,e_{n}\right\} $
+\end_inset
+
+ und alle 
+\begin_inset Formula $k\in\left\{ 1,\ldots,n\right\} $
+\end_inset
+
+ gilt:
+\begin_inset Formula 
+\begin{align*}
+*\left(e^{1}\wedge\ldots\wedge e^{k}\right) & =e^{k+1}\wedge\ldots\wedge e^{n}
+\end{align*}
+
+\end_inset
+
+Dabei ist 
+\begin_inset Formula $\left\{ e^{1},\ldots,e^{n}\right\} $
+\end_inset
+
+ die Dualbasis bezeichnet.
+\end_layout
+
+\begin_layout Standard
+Diese Abbildung kann man schreiben als:
+\begin_inset Formula 
+\begin{align*}
+*\left(e^{j_{1}}\wedge\ldots\wedge e^{j_{k}}\right) & =\frac{1}{\left(n-k\right)!}\delta^{j_{1}i_{1}}\ldots\delta^{j_{k}i_{k}}\epsilon_{i_{1}\ldots i_{k},i_{k+1}\ldots i_{n}}e^{i_{k+1}}\wedge\ldots\wedge e^{i_{n}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sei nun 
+\begin_inset Formula $\left(M,g\right)$
+\end_inset
+
+ eine orientierte Riemannsche Mannigfaltigkeit, kompakt und ohne Rand.
+\end_layout
+
+\begin_layout Standard
+Dann erhält man eine entsprechende Abbildung 
+\begin_inset Formula $*:\Omega^{k}\left(M\right)\to\Omega^{n-k}\left(M\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Eine Darstellung in lokaler Karte 
+\begin_inset Formula $\left(x,U\right)$
+\end_inset
+
+ erhält man, indem man 
+\begin_inset Formula $\delta^{ij}$
+\end_inset
+
+ durch 
+\begin_inset Formula $g^{ij}\left(x\right)$
+\end_inset
+
+ und 
+\begin_inset Formula $\epsilon_{i_{1}\ldots i_{n}}$
+\end_inset
+
+ durch 
+\begin_inset Formula $\varepsilon_{i_{1}\ldots i_{n}}=\sqrt{\det\left(g\left(x\right)\right)}\epsilon_{i_{1}\ldots i_{n}}$
+\end_inset
+
+ ersetzt.
+\end_layout
+
+\begin_layout Subsection
+Definition
+\end_layout
+
+\begin_layout Standard
+Der 
+\emph on
+Hodge-Stern
+\emph default
+ 
+\begin_inset Formula $*$
+\end_inset
+
+ ist der lineare Isomorphismus
+\begin_inset Formula 
+\begin{align*}
+*:\Omega^{k}\left(M\right) & \to\Omega^{n-k}\left(M\right)\\
+\omega & \mapsto*\omega:=\frac{1}{\left(n-k\right)!}\varepsilon_{\phantom{i_{1}\ldots i_{k}}i_{k+1}\ldots i_{n}}^{i_{1}\ldots i_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{i_{k+1}}\wedge\ldots\wedge\dd x^{i_{n}}
+\end{align*}
+
+\end_inset
+
+Dabei ist 
+\begin_inset Formula $\varepsilon_{\phantom{i_{1}\ldots i_{k}}i_{k+1}\ldots i_{n}}^{i_{1}\ldots i_{k}}=g^{i_{1}j_{1}}\ldots g^{i_{k}j_{k}}\varepsilon_{j_{1}\ldots j_{k},i_{k+1}\ldots i_{n}}$
+\end_inset
+
+.
+ Also ist 
+\begin_inset Formula $*\omega$
+\end_inset
+
+ ein 
+\begin_inset Formula $\left(0,n-k\right)$
+\end_inset
+
+-Tensor.
+\end_layout
+
+\begin_layout Subsection
+Satz
+\end_layout
+
+\begin_layout Standard
+Es gilt:
+\begin_inset Formula 
+\begin{align*}
+*^{2} & =\left(-1\right)^{k\left(n-k\right)}\mathbb{1}_{\Omega^{k}\left(M\right)}=\begin{cases}
+\mathbb{1}_{\Omega^{k}\left(M\right)} & \text{falls }n\text{ ungerade}\\
+\left(-1\right)^{k}\mathbb{1}_{\Omega^{k}\left(M\right)} & \text{falls }n\text{ gerade}
+\end{cases}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+**\omega & =\frac{1}{k!\left(n-k\right)!}\varepsilon_{\phantom{j_{1}\ldots j_{n-k}}l_{1}\ldots l_{k}}^{j_{1}\ldots j_{n-k}}\varepsilon_{\phantom{i_{1}\ldots i_{k}}i_{k+1}\ldots i_{n}}^{i_{1}\ldots i_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
+ & =\frac{1}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}\varepsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\varepsilon_{s_{1}\ldots s_{k},i_{k+1}\ldots i_{n}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
+ & =\frac{\left(-1\right)^{k\left(n-k\right)}}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\varepsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}\varepsilon_{s_{1}\ldots s_{k},i_{k+1}\ldots i_{n}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}
+\end{align*}
+
+\end_inset
+
+Beachte:
+\begin_inset Formula 
+\begin{align*}
+\varepsilon^{i_{1}\ldots i_{n}} & =g^{i_{1}j_{1}}\ldots g^{i_{n}j_{n}}\varepsilon_{j_{1}\ldots j_{n}}=g^{i_{1}j_{1}}\ldots g^{i_{n}j_{n}}\sqrt{\det\left(g\right)}\epsilon_{j_{1}\ldots j_{n}}=\\
+ & =\det\left(g^{-1}\right)\sqrt{\det\left(g\right)}\epsilon_{j_{1}\ldots j_{n}}=\frac{\sqrt{\det\left(g\right)}}{\det\left(g\right)}\epsilon_{j_{1}\ldots j_{n}}=\frac{1}{\sqrt{\det\left(g\right)}}\epsilon_{j_{1}\ldots j_{n}}
+\end{align*}
+
+\end_inset
+
+Damit folgt:
+\begin_inset Formula 
+\begin{align*}
+**\omega & =\frac{\left(-1\right)^{k\left(n-k\right)}}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\epsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}\epsilon_{s_{1}\ldots s_{k},i_{k+1}\ldots i_{n}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}
+\end{align*}
+
+\end_inset
+
+Klar ist, dass man nur Beiträge bekommt, wenn 
+\begin_inset Formula $\left(s_{1},\ldots,s_{k}\right)$
+\end_inset
+
+ eine Permutation von 
+\begin_inset Formula $\left(r_{1},\ldots,r_{k}\right)$
+\end_inset
+
+ ist.
+ Wegen der Antisymmetrie des Dachprodukts und der Komponenten 
+\begin_inset Formula $\omega_{i_{1},\ldots,i_{k}}$
+\end_inset
+
+ folgt schließlich:
+\begin_inset Formula 
+\begin{align*}
+**\omega & =\left(-1\right)^{k\left(n-k\right)}g_{l_{1}r_{1}}g^{r_{1}i_{1}}\ldots g_{l_{k}r_{k}}g^{r_{k}i_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
+ & =\left(-1\right)^{k\left(n-k\right)}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\left(-1\right)^{k\left(n-k\right)}\omega
+\end{align*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Mit Hilfe des Hodge-Sterns kann man nun ein Skalarprodukt auf 
+\begin_inset Formula $\Omega^{k}\left(M\right)$
+\end_inset
+
+ einführen:
+\begin_inset Formula 
+\begin{align*}
+\left\langle .,.\right\rangle :\Omega^{k}\left(M\right)\times\Omega^{k}\left(M\right) & \to\mathbb{R}\\
+\left(\omega,\eta\right) & \mapsto\int_{M}\left(\omega\wedge\left(*\eta\right)\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Lemma
+\end_layout
+
+\begin_layout Standard
+Für jede 
+\begin_inset Formula $n$
+\end_inset
+
+-Form 
+\begin_inset Formula $\omega\in\Omega^{n}\left(M\right)$
+\end_inset
+
+ gilt:
+\begin_inset Formula 
+\begin{align*}
+\int_{M}\omega & =\int_{M}\left(*\omega\right)\dd\mu_{M}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+*^{2}\big|_{\Omega^{n}\left(M\right)} & =\mathbb{1}
+\end{align*}
+
+\end_inset
+
+Es ist
+\begin_inset Formula 
+\begin{align*}
+*\omega & =:f
+\end{align*}
+
+\end_inset
+
+eine skalare Funktion.
+\begin_inset Formula 
+\begin{align*}
+\omega & =*f=f\varepsilon=f\sqrt{\det\left(g\right)}\dd x^{1}\wedge\ldots\wedge\dd x^{n}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Lemma
+\end_layout
+
+\begin_layout Standard
+Die Bilinearform auf 
+\begin_inset Formula $\Omega^{k}\left(M\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\left\langle \omega,\eta\right\rangle =\int_{M}\left(\omega\wedge\left(*\eta\right)\right)$
+\end_inset
+
+ ist symmetrisch und positiv definit.
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\left\langle \omega,\eta\right\rangle  & \stackrel{\ref{a}6.6.3}{=}\int_{M}*\left(\omega\wedge\left(*\eta\right)\right)\dd\mu_{M}\\
+*\left(\omega\wedge\left(*\eta\right)\right) & =\varepsilon^{i_{1}\ldots i_{n}}\left(\omega_{i_{1}\ldots i_{k}}\left(*\eta\right)_{i_{k+1}\ldots i_{n}}\right)=\\
+ & =\frac{1}{k!}\varepsilon^{i_{1}\ldots i_{n}}\omega_{i_{1}\ldots i_{k}}\varepsilon_{j_{1}\ldots j_{k},i_{k+1}\ldots i_{n}}\eta^{j_{1}\ldots j_{k}}=\\
+ & =\frac{\left(n-k\right)!}{k!}\left(*\omega\right)^{i_{1}\ldots i_{n-k}}\left(*\eta\right)_{i_{1}\ldots i_{n-k}}
+\end{align*}
+
+\end_inset
+
+Offenbar ist dies symmetrisch und positiv definit.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Lemma
+\end_layout
+
+\begin_layout Standard
+Die Adjungierte von 
+\begin_inset Formula $\dd$
+\end_inset
+
+ bezüglich 
+\begin_inset Formula $\left\langle .,.\right\rangle $
+\end_inset
+
+ ist:
+\begin_inset Formula 
+\begin{align*}
+\dd^{*} & =\left(-1\right)^{k\left(n-k+1\right)}*\dd*:\Omega^{k}\left(M\right)\to\Omega^{k-1}\left(M\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\omega\in\Omega^{k-1}\left(M\right)$
+\end_inset
+
+ und 
+\begin_inset Formula $\eta\in\Omega^{k}\left(M\right)$
+\end_inset
+
+.
+ Dann gilt:
+\begin_inset Formula 
+\begin{align*}
+\left\langle \dd\omega,\eta\right\rangle  & =\int_{M}\left(\dd\omega\right)\wedge\left(*\eta\right)\sr ={\text{Produktregel}}{}\underbrace{\int_{M}\dd\left(\omega\wedge*\eta\right)}_{=0}+\left(-1\right)^{k}\int_{M}\omega\wedge\dd*\eta=\\
+ & \sr ={\text{Stokes}}{}\left(-1\right)^{k}\int_{M}\omega\wedge\dd*\eta=\left(-1\right)^{k\left(n-k+1\right)}\int_{M}\omega\wedge*\left(*\dd*\eta\right)=\left(-1\right)^{k\left(n-k+1\right)}\left\langle \omega,*\dd*\eta\right\rangle 
+\end{align*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Mit diesen Vorbereitungen kann man schließlich Operatoren zweiter Ordnung
+ einführen, den Laplace-Operator:
+\begin_inset Formula 
+\begin{align*}
+\Delta & :=-\left(\dd\dd^{*}+\dd^{*}\dd\right):\Omega^{k}\left(M\right)\to\Omega^{k}\left(M\right)
+\end{align*}
+
+\end_inset
+
+Auf 0-Formen ist:
+\begin_inset Formula 
+\begin{align*}
+\Delta f & =-\left(\dd\dd^{*}+\dd^{*}\dd\right)f=-\dd^{*}\dd f=\LB_{g}f
+\end{align*}
+
+\end_inset
+
+Gerade wider der Laplace-Beltrami-Operator.
+\end_layout
+
+\begin_layout Standard
+Der Laplace-Operator ist jetzt aber allgemein auf 
+\begin_inset Formula $k$
+\end_inset
+
+-Formen definiert.
+ Er hat 
+\emph on
+schöne
+\emph default
+ Eigenschaften.
+\end_layout
+
+\begin_layout Subsection
+Lemma
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{iiilist}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+iii
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{align*}
+\Delta\dd & =\dd\Delta\\
+\dd^{*}\Delta & =\Delta^{*}\dd
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+iii
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\left(-\Delta\right)$
+\end_inset
+
+ ist positiv definit, also 
+\begin_inset Formula $\left\langle -\Delta\varphi,\varphi\right\rangle \ge0$
+\end_inset
+
+ für alle 
+\begin_inset Formula $\varphi\in\Omega^{k}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+iii
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\left\langle -\Delta\varphi,\varphi\right\rangle =0\quad\Leftrightarrow\quad\dd\varphi=0$
+\end_inset
+
+ und 
+\begin_inset Formula $\dd^{*}\varphi=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{iiilist}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{iiilist}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+iii
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\Delta\dd & =-\left(\dd\dd^{*}+\dd^{*}\dd\right)\dd=-\dd\dd^{*}\dd=-\dd\left(\dd^{*}\dd+\dd\dd^{*}\right)=\dd\Delta
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula $\Delta\dd^{*}=\dd^{*}\Delta$
+\end_inset
+
+ folgt genauso, wenn man zusätzlich verwendet:
+\begin_inset Formula 
+\begin{align*}
+0 & =\left(\dd\circ\dd\right)^{*}=\dd^{*}\circ\dd^{*}=\left(\dd^{*}\right)^{2}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+iii
+\end_layout
+
+\end_inset
+
+ Es gilt:
+\begin_inset Formula 
+\begin{align*}
+\left\langle -\Delta\varphi,\varphi\right\rangle  & =\left\langle \dd\dd^{*}\varphi+\dd^{*}\dd\varphi,\varphi\right\rangle =\left\langle \dd^{*}\varphi,\dd^{*}\varphi\right\rangle +\left\langle \dd\varphi,\dd\varphi\right\rangle \ge0
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+iii
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\left\langle -\Delta\varphi,\varphi\right\rangle =0$
+\end_inset
+
+ gilt genau dann, wenn beide Summanden verschwinden.
+ Da 
+\begin_inset Formula $\left\langle ,\right\rangle $
+\end_inset
+
+ positiv definit ist, folgt 
+\begin_inset Formula $\dd\varphi=0=\dd^{*}\varphi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{iiilist}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ist 
+\begin_inset Formula $\Delta\varphi=0$
+\end_inset
+
+, so heißt 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ 
+\emph on
+harmonisch
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+Aus unserem Lemma folgt, dass dann 
+\begin_inset Formula $\dd\varphi=0=\dd^{*}\varphi$
+\end_inset
+
+.
+ Jede harmonische Form ist also geschlossen.
+\end_layout
+
+\begin_layout Standard
+Man kann also 
+\emph on
+spezielle
+\emph default
+ geschlossene Formen konstruieren, indem man harmonische Formen betrachtet.
+ Damit lässt sich die deRham-Kohomologie untersuchen.
+ Dieses Gebiet heißt Harmonische Analysis.
+\end_layout
+
+\begin_layout Standard
+Auf 0-Formen:
+\begin_inset Formula 
+\begin{align*}
+\dd^{*} & =*\dd*=0
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Denn 
+\begin_inset Formula $\dd$
+\end_inset
+
+ verschwindet auf 
+\begin_inset Formula $n$
+\end_inset
+
+-Formen.
+ Also folgt
+\begin_inset Formula 
+\begin{align*}
+\Delta & =-\dd^{*}\dd
+\end{align*}
+
+\end_inset
+
+und somit für 
+\begin_inset Formula $\omega\in\Omega^{0}\left(M\right)$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\omega\text{ geschlossen} & \quad\Leftrightarrow\quad\omega\text{ harmonisch}
+\end{align*}
+
+\end_inset
+
+Die exakten 0-Formen sind gerade die konstanten Formen.
+\begin_inset Formula 
+\begin{align*}
+0\to\mathbb{R}\stackrel{\dd}{\to}\Omega^{0}\left(M\right)\stackrel{\dd}{\to}\ldots
+\end{align*}
+
+\end_inset
+
+Damit können wir die 0-te Kohomologie berechnen:
+\end_layout
+
+\begin_layout Subsection
+Lemma
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $H^{0}\left(M\right)=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis
+\end_layout
+
+\begin_layout Standard
+Nach Korollar 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "a"
+
+\end_inset
+
+5.2.3 ist jede harmonische Funktion konstant.
+ Also ist jede geschlossene 
+\begin_inset Formula $0$
+\end_inset
+
+-Form exakt.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Part*
 Anhang
 \begin_inset ERT

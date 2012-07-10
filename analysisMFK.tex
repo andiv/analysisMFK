@@ -6218,6 +6218,279 @@ bilden.
 \end{align*}
 
 
+%DATE: Di 10.7.12
+
+
+\subsubsection*{Ziel}
+
+Führe auf den Vektorräumen $\Omega^{k}\left(M\right)$ ein Skalarprodukt
+ein, sodass $\dd:\Omega^{k}\left(M\right)\to\Omega^{k+1}\left(M\right)$
+eine analytisch interessante Adjungierte besitzt.
+
+
+\subsubsection*{Motivation}
+
+Sei $E$ ein $n$-dimensionaler $\mathbb{R}$-Vektorraum. Dann gilt:
+\begin{align*}
+\text{dim}\left(\Omega^{k}\left(E\right)\right) & =\left(\begin{array}{c}
+n\\
+k
+\end{array}\right)=\dim\left(\Omega^{n-k}\left(E\right)\right)
+\end{align*}
+Also sind $\Omega^{k}\left(E\right)$ und $\Omega^{n-k}\left(E\right)$
+isomorph. Ist $E$ zusätzlich orientiert und mit Skalarprodukt versehen,
+dann gibt es einen \emph{natürlichen} Isomorphismus, der wie folgt
+definiert ist:
+
+Für jede positiv orientierte Orhonormalbasis $\left\{ e_{1},\ldots,e_{n}\right\} $
+und alle $k\in\left\{ 1,\ldots,n\right\} $ gilt:
+\begin{align*}
+*\left(e^{1}\wedge\ldots\wedge e^{k}\right) & =e^{k+1}\wedge\ldots\wedge e^{n}
+\end{align*}
+Dabei ist $\left\{ e^{1},\ldots,e^{n}\right\} $ die Dualbasis bezeichnet.
+
+Diese Abbildung kann man schreiben als:
+\begin{align*}
+*\left(e^{j_{1}}\wedge\ldots\wedge e^{j_{k}}\right) & =\frac{1}{\left(n-k\right)!}\delta^{j_{1}i_{1}}\ldots\delta^{j_{k}i_{k}}\epsilon_{i_{1}\ldots i_{k},i_{k+1}\ldots i_{n}}e^{i_{k+1}}\wedge\ldots\wedge e^{i_{n}}
+\end{align*}
+
+
+Sei nun $\left(M,g\right)$ eine orientierte Riemannsche Mannigfaltigkeit,
+kompakt und ohne Rand.
+
+Dann erhält man eine entsprechende Abbildung $*:\Omega^{k}\left(M\right)\to\Omega^{n-k}\left(M\right)$.
+
+Eine Darstellung in lokaler Karte $\left(x,U\right)$ erhält man,
+indem man $\delta^{ij}$ durch $g^{ij}\left(x\right)$ und $\epsilon_{i_{1}\ldots i_{n}}$
+durch $\varepsilon_{i_{1}\ldots i_{n}}=\sqrt{\det\left(g\left(x\right)\right)}\epsilon_{i_{1}\ldots i_{n}}$
+ersetzt.
+
+
+\subsection{Definition}
+
+Der \emph{Hodge-Stern} $*$ ist der lineare Isomorphismus
+\begin{align*}
+*:\Omega^{k}\left(M\right) & \to\Omega^{n-k}\left(M\right)\\
+\omega & \mapsto*\omega:=\frac{1}{\left(n-k\right)!}\varepsilon_{\phantom{i_{1}\ldots i_{k}}i_{k+1}\ldots i_{n}}^{i_{1}\ldots i_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{i_{k+1}}\wedge\ldots\wedge\dd x^{i_{n}}
+\end{align*}
+Dabei ist $\varepsilon_{\phantom{i_{1}\ldots i_{k}}i_{k+1}\ldots i_{n}}^{i_{1}\ldots i_{k}}=g^{i_{1}j_{1}}\ldots g^{i_{k}j_{k}}\varepsilon_{j_{1}\ldots j_{k},i_{k+1}\ldots i_{n}}$.
+Also ist $*\omega$ ein $\left(0,n-k\right)$-Tensor.
+
+
+\subsection{Satz}
+
+Es gilt:
+\begin{align*}
+*^{2} & =\left(-1\right)^{k\left(n-k\right)}\mathbb{1}_{\Omega^{k}\left(M\right)}=\begin{cases}
+\mathbb{1}_{\Omega^{k}\left(M\right)} & \text{falls }n\text{ ungerade}\\
+\left(-1\right)^{k}\mathbb{1}_{\Omega^{k}\left(M\right)} & \text{falls }n\text{ gerade}
+\end{cases}
+\end{align*}
+
+
+
+\subsubsection*{Beweis}
+
+\begin{align*}
+**\omega & =\frac{1}{k!\left(n-k\right)!}\varepsilon_{\phantom{j_{1}\ldots j_{n-k}}l_{1}\ldots l_{k}}^{j_{1}\ldots j_{n-k}}\varepsilon_{\phantom{i_{1}\ldots i_{k}}i_{k+1}\ldots i_{n}}^{i_{1}\ldots i_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
+ & =\frac{1}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}\varepsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\varepsilon_{s_{1}\ldots s_{k},i_{k+1}\ldots i_{n}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
+ & =\frac{\left(-1\right)^{k\left(n-k\right)}}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\varepsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}\varepsilon_{s_{1}\ldots s_{k},i_{k+1}\ldots i_{n}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}
+\end{align*}
+Beachte:
+\begin{align*}
+\varepsilon^{i_{1}\ldots i_{n}} & =g^{i_{1}j_{1}}\ldots g^{i_{n}j_{n}}\varepsilon_{j_{1}\ldots j_{n}}=g^{i_{1}j_{1}}\ldots g^{i_{n}j_{n}}\sqrt{\det\left(g\right)}\epsilon_{j_{1}\ldots j_{n}}=\\
+ & =\det\left(g^{-1}\right)\sqrt{\det\left(g\right)}\epsilon_{j_{1}\ldots j_{n}}=\frac{\sqrt{\det\left(g\right)}}{\det\left(g\right)}\epsilon_{j_{1}\ldots j_{n}}=\frac{1}{\sqrt{\det\left(g\right)}}\epsilon_{j_{1}\ldots j_{n}}
+\end{align*}
+Damit folgt:
+\begin{align*}
+**\omega & =\frac{\left(-1\right)^{k\left(n-k\right)}}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\epsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}\epsilon_{s_{1}\ldots s_{k},i_{k+1}\ldots i_{n}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}
+\end{align*}
+Klar ist, dass man nur Beiträge bekommt, wenn $\left(s_{1},\ldots,s_{k}\right)$
+eine Permutation von $\left(r_{1},\ldots,r_{k}\right)$ ist. Wegen
+der Antisymmetrie des Dachprodukts und der Komponenten $\omega_{i_{1},\ldots,i_{k}}$
+folgt schließlich:
+\begin{align*}
+**\omega & =\left(-1\right)^{k\left(n-k\right)}g_{l_{1}r_{1}}g^{r_{1}i_{1}}\ldots g_{l_{k}r_{k}}g^{r_{k}i_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
+ & =\left(-1\right)^{k\left(n-k\right)}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\left(-1\right)^{k\left(n-k\right)}\omega
+\end{align*}
+\qqed
+
+Mit Hilfe des Hodge-Sterns kann man nun ein Skalarprodukt auf $\Omega^{k}\left(M\right)$
+einführen:
+\begin{align*}
+\left\langle .,.\right\rangle :\Omega^{k}\left(M\right)\times\Omega^{k}\left(M\right) & \to\mathbb{R}\\
+\left(\omega,\eta\right) & \mapsto\int_{M}\left(\omega\wedge\left(*\eta\right)\right)
+\end{align*}
+
+
+
+\subsection{Lemma}
+
+Für jede $n$-Form $\omega\in\Omega^{n}\left(M\right)$ gilt:
+\begin{align*}
+\int_{M}\omega & =\int_{M}\left(*\omega\right)\dd\mu_{M}
+\end{align*}
+
+
+
+\subsubsection*{Beweis}
+
+\begin{align*}
+*^{2}\big|_{\Omega^{n}\left(M\right)} & =\mathbb{1}
+\end{align*}
+Es ist
+\begin{align*}
+*\omega & =:f
+\end{align*}
+eine skalare Funktion.
+\begin{align*}
+\omega & =*f=f\varepsilon=f\sqrt{\det\left(g\right)}\dd x^{1}\wedge\ldots\wedge\dd x^{n}
+\end{align*}
+\qqed
+
+
+\subsection{Lemma}
+
+Die Bilinearform auf $\Omega^{k}\left(M\right)$, $\left\langle \omega,\eta\right\rangle =\int_{M}\left(\omega\wedge\left(*\eta\right)\right)$
+ist symmetrisch und positiv definit.
+
+
+\subsubsection*{Beweis}
+
+\begin{align*}
+\left\langle \omega,\eta\right\rangle  & \stackrel{\ref{a}6.6.3}{=}\int_{M}*\left(\omega\wedge\left(*\eta\right)\right)\dd\mu_{M}\\
+*\left(\omega\wedge\left(*\eta\right)\right) & =\varepsilon^{i_{1}\ldots i_{n}}\left(\omega_{i_{1}\ldots i_{k}}\left(*\eta\right)_{i_{k+1}\ldots i_{n}}\right)=\\
+ & =\frac{1}{k!}\varepsilon^{i_{1}\ldots i_{n}}\omega_{i_{1}\ldots i_{k}}\varepsilon_{j_{1}\ldots j_{k},i_{k+1}\ldots i_{n}}\eta^{j_{1}\ldots j_{k}}=\\
+ & =\frac{\left(n-k\right)!}{k!}\left(*\omega\right)^{i_{1}\ldots i_{n-k}}\left(*\eta\right)_{i_{1}\ldots i_{n-k}}
+\end{align*}
+Offenbar ist dies symmetrisch und positiv definit.\qqed
+
+
+\subsection{Lemma}
+
+Die Adjungierte von $\dd$ bezüglich $\left\langle .,.\right\rangle $
+ist:
+\begin{align*}
+\dd^{*} & =\left(-1\right)^{k\left(n-k+1\right)}*\dd*:\Omega^{k}\left(M\right)\to\Omega^{k-1}\left(M\right)
+\end{align*}
+
+
+
+\subsubsection*{Beweis}
+
+Sei $\omega\in\Omega^{k-1}\left(M\right)$ und $\eta\in\Omega^{k}\left(M\right)$.
+Dann gilt:
+\begin{align*}
+\left\langle \dd\omega,\eta\right\rangle  & =\int_{M}\left(\dd\omega\right)\wedge\left(*\eta\right)\sr ={\text{Produktregel}}{}\underbrace{\int_{M}\dd\left(\omega\wedge*\eta\right)}_{=0}+\left(-1\right)^{k}\int_{M}\omega\wedge\dd*\eta=\\
+ & \sr ={\text{Stokes}}{}\left(-1\right)^{k}\int_{M}\omega\wedge\dd*\eta=\left(-1\right)^{k\left(n-k+1\right)}\int_{M}\omega\wedge*\left(*\dd*\eta\right)=\left(-1\right)^{k\left(n-k+1\right)}\left\langle \omega,*\dd*\eta\right\rangle 
+\end{align*}
+\qqed
+
+Mit diesen Vorbereitungen kann man schließlich Operatoren zweiter
+Ordnung einführen, den Laplace-Operator:
+\begin{align*}
+\Delta & :=-\left(\dd\dd^{*}+\dd^{*}\dd\right):\Omega^{k}\left(M\right)\to\Omega^{k}\left(M\right)
+\end{align*}
+Auf 0-Formen ist:
+\begin{align*}
+\Delta f & =-\left(\dd\dd^{*}+\dd^{*}\dd\right)f=-\dd^{*}\dd f=\LB_{g}f
+\end{align*}
+Gerade wider der Laplace-Beltrami-Operator.
+
+Der Laplace-Operator ist jetzt aber allgemein auf $k$-Formen definiert.
+Er hat \emph{schöne} Eigenschaften.
+
+
+\subsection{Lemma}
+
+\begin{iiilist}
+
+\iii 
+\begin{align*}
+\Delta\dd & =\dd\Delta\\
+\dd^{*}\Delta & =\Delta^{*}\dd
+\end{align*}
+
+
+\iii $\left(-\Delta\right)$ ist positiv definit, also $\left\langle -\Delta\varphi,\varphi\right\rangle \ge0$
+für alle $\varphi\in\Omega^{k}$.
+
+\iii $\left\langle -\Delta\varphi,\varphi\right\rangle =0\quad\Leftrightarrow\quad\dd\varphi=0$
+und $\dd^{*}\varphi=0$
+
+\end{iiilist}
+
+
+\subsubsection*{Beweis}
+
+\begin{iiilist}
+
+\iii
+
+\begin{align*}
+\Delta\dd & =-\left(\dd\dd^{*}+\dd^{*}\dd\right)\dd=-\dd\dd^{*}\dd=-\dd\left(\dd^{*}\dd+\dd\dd^{*}\right)=\dd\Delta
+\end{align*}
+$\Delta\dd^{*}=\dd^{*}\Delta$ folgt genauso, wenn man zusätzlich
+verwendet:
+\begin{align*}
+0 & =\left(\dd\circ\dd\right)^{*}=\dd^{*}\circ\dd^{*}=\left(\dd^{*}\right)^{2}
+\end{align*}
+
+
+\iii Es gilt:
+\begin{align*}
+\left\langle -\Delta\varphi,\varphi\right\rangle  & =\left\langle \dd\dd^{*}\varphi+\dd^{*}\dd\varphi,\varphi\right\rangle =\left\langle \dd^{*}\varphi,\dd^{*}\varphi\right\rangle +\left\langle \dd\varphi,\dd\varphi\right\rangle \ge0
+\end{align*}
+
+
+\iii $\left\langle -\Delta\varphi,\varphi\right\rangle =0$ gilt
+genau dann, wenn beide Summanden verschwinden. Da $\left\langle ,\right\rangle $
+positiv definit ist, folgt $\dd\varphi=0=\dd^{*}\varphi$
+
+\end{iiilist}
+
+\qqed
+
+Ist $\Delta\varphi=0$, so heißt $\varphi$ \emph{harmonisch}.
+
+Aus unserem Lemma folgt, dass dann $\dd\varphi=0=\dd^{*}\varphi$.
+Jede harmonische Form ist also geschlossen.
+
+Man kann also \emph{spezielle} geschlossene Formen konstruieren, indem
+man harmonische Formen betrachtet. Damit lässt sich die deRham-Kohomologie
+untersuchen. Dieses Gebiet heißt Harmonische Analysis.
+
+Auf 0-Formen:
+\begin{align*}
+\dd^{*} & =*\dd*=0
+\end{align*}
+
+
+Denn $\dd$ verschwindet auf $n$-Formen. Also folgt
+\begin{align*}
+\Delta & =-\dd^{*}\dd
+\end{align*}
+und somit für $\omega\in\Omega^{0}\left(M\right)$:
+\begin{align*}
+\omega\text{ geschlossen} & \quad\Leftrightarrow\quad\omega\text{ harmonisch}
+\end{align*}
+Die exakten 0-Formen sind gerade die konstanten Formen.
+\begin{align*}
+0\to\mathbb{R}\stackrel{\dd}{\to}\Omega^{0}\left(M\right)\stackrel{\dd}{\to}\ldots
+\end{align*}
+Damit können wir die 0-te Kohomologie berechnen:
+
+
+\subsection{Lemma}
+
+$H^{0}\left(M\right)=0$
+
+
+\subsubsection*{Beweis}
+
+Nach Korollar \ref{a}5.2.3 ist jede harmonische Funktion konstant.
+Also ist jede geschlossene $0$-Form exakt.\qqed
+
 
 \part*{Anhang\thispagestyle{empty}\addcontentsline{toc}{part}{Anhang}}
 
