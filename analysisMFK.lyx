@@ -6,8 +6,8 @@
 \begin_preamble
 \usepackage{tikz}
 %\usepackage{tikz-3dplot}
-\usetikzlibrary{matrix,arrows,calc,decorations.pathmorphing,snakes}
-\usepackage{latexsym,stmaryrd,stackrel,array,tabularx,multirow,icomma,braket,polynom,cancel,mathbbol}
+\usetikzlibrary{matrix,arrows,calc,decorations}
+\usepackage{latexsym,stmaryrd,stackrel,array,tabularx,multirow,icomma,braket,polynom,cancel,bbm}
 \usepackage[explicit]{titlesec}
 
 % Inhaltsverzeichnis
@@ -13461,33 +13461,21 @@ Länge von Kurven
 \end_layout
 
 \begin_layout Standard
-
-\color green
-TODO: Rest überarbeiten
-\end_layout
-
-\begin_layout Standard
 Sei 
 \begin_inset Formula $\left(M^{n},g\right)$
 \end_inset
 
- eine Riemannsche Mannigfaltigkeit.
- Dann ist
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align*}
-\gamma:I=\left[a,b\right] & \to M
-\end{align*}
-
+ eine Riemannsche Mannigfaltigkeit und 
+\begin_inset Formula $\gamma:I=\left[a,b\right]\to M$
 \end_inset
 
-glatte Kurve.
+ eine glatte Kurve.
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(Länge)
 \end_layout
 
 \begin_layout Standard
@@ -13495,7 +13483,7 @@ Die Länge
 \begin_inset Formula $L$
 \end_inset
 
- einer Kurve 
+ der Kurve 
 \begin_inset Formula $\gamma$
 \end_inset
 
@@ -13539,11 +13527,13 @@ Die Unabhängigkeit von der Wahl der Karte auf
 \end_layout
 
 \begin_layout Itemize
-Zu zeigen ist die Unabhängigkeit von der Parametrisierung.
+Zu zeigen ist die Unabhängigkeit von der Parametrisierung der Kurve.
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(reguläre Kurve)
 \end_layout
 
 \begin_layout Standard
@@ -13583,11 +13573,7 @@ Sei
 \begin_inset Formula $\gamma:I:=\left[a,b\right]\to M$
 \end_inset
 
- eine glatte Kurve.
-\end_layout
-
-\begin_layout Standard
-Sei 
+ eine glatte reguläre Kurve und 
 \begin_inset Formula $\tilde{\gamma}:J\to M$
 \end_inset
 
@@ -13625,15 +13611,19 @@ L\left(\tilde{\gamma}\right) & =\int_{J}\sqrt{g_{ij}\gamma'{}^{i}\big|_{\varphi\
 
 \end_inset
 
-Eine Substitution 
+Die Substitution 
 \begin_inset Formula $t=\varphi\left(\tau\right)$
 \end_inset
 
  mit 
-\begin_inset Formula $\dd\tau=\dot{\varphi}\left(\tau\right)\dd\tau$
+\begin_inset Formula $\dd t=\dot{\varphi}\left(\tau\right)\dd\tau$
 \end_inset
 
- liefert.
+ liefert, da 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ ein Diffeomorphismus ist.
 \begin_inset Formula 
 \begin{align*}
 L\left(\tilde{\gamma}\right) & =\int_{I}\sqrt{g_{ij}\gamma'{}^{i}\big|_{\varphi\left(\tau\right)}\gamma'{}^{j}\big|_{\varphi\left(\tau\right)}}\dd t=L\left(\gamma\right)
@@ -13682,7 +13672,9 @@ Sei
 \end_layout
 
 \begin_layout Standard
-TODO: Abb2
+
+\color green
+TODO: Abb2 einfügen
 \end_layout
 
 \begin_layout Standard
@@ -13690,11 +13682,11 @@ Wähle ein
 \begin_inset Formula $f\in C_{0}^{0}\left(U\cap V\right)$
 \end_inset
 
-, also 
+, das heißt 
 \begin_inset Formula $\text{supp}\left(f\right)\subseteq U\cap V$
 \end_inset
 
- oder 
+, also 
 \begin_inset Formula $f\left(q\right)=0$
 \end_inset
 
@@ -13706,7 +13698,7 @@ Wähle ein
 \end_layout
 
 \begin_layout Standard
-Wie ist
+Wie ist das Integral
 \begin_inset Formula 
 \begin{align*}
 \int_{M}f\dd\mu & =?
@@ -13722,7 +13714,7 @@ Idee
 \end_layout
 
 \begin_layout Standard
-Integriere in Karten, also:
+Integriere in Karten und untersuche:
 \begin_inset Formula 
 \begin{align*}
 \int_{x\left(U\cap V\right)}\left(f\circ x^{-1}\right)\dd^{n}x & \stackrel{?}{=}\int_{y\left(U\cap V\right)}\left(f\circ y^{-1}\right)\dd^{n}y
@@ -13730,7 +13722,7 @@ Integriere in Karten, also:
 
 \end_inset
 
-Es gilt:
+Wegen
 \begin_inset Formula 
 \begin{align*}
 \left(f\circ x^{-1}\right) & =\left(f\circ y^{-1}\right)\circ\left(y\circ x^{-1}\right)
@@ -13738,7 +13730,7 @@ Es gilt:
 
 \end_inset
 
-Definiere:
+definiere:
 \begin_inset Formula 
 \begin{align*}
 \left(f\circ y^{-1}\right)\left(y\right) & =:g\left(y\right)\\
@@ -13768,8 +13760,8 @@ Wende dies an für
 
 \end_inset
 
-Die naive Idee geht nicht, weil das Integral davon abhängt, in welcher Karte
- man es ausrechnet.
+Die naive Idee geht nicht, weil diese Definition des Integrals davon abhängt,
+ in welcher Karte man es ausrechnet.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -13801,12 +13793,12 @@ Versuche den störenden Faktor
 \begin_inset Formula 
 \begin{align*}
 \det\tilde{g}\left(y\right) & =\det\left(\DD\left(x\circ y^{-1}\right)\right)\cdot\det\left(g\right)\cdot\det\left(\DD\left(x\circ y^{-1}\right)\right)\\
-\sqrt{\det\tilde{g}\left(y\right)} & =\sqrt{\underbrace{\det g}_{>0}}\cdot\abs{\det\left(\DD\left(x\circ y^{-1}\right)\right)}
+\sqrt{\det\tilde{g}\left(y\right)} & \stackrel{\det g>0}{=}\sqrt{\det g}\cdot\abs{\det\left(\DD\left(x\circ y^{-1}\right)\right)}
 \end{align*}
 
 \end_inset
 
-
+Wegen
 \begin_inset Formula 
 \begin{align*}
 x\circ y^{-1} & =\left(y\circ x^{-1}\right)^{-1}
@@ -13814,8 +13806,8 @@ x\circ y^{-1} & =\left(y\circ x^{-1}\right)^{-1}
 
 \end_inset
 
-Also gilt für alle 
-\begin_inset Formula $q\in U\cap V$
+gilt für alle 
+\begin_inset Formula $p\in U\cap V$
 \end_inset
 
 :
@@ -13829,7 +13821,7 @@ Also gilt für alle
 
 \begin_inset Formula 
 \begin{align*}
-\det\left(\DD\left(x\circ y^{-1}\right)\right) & =\frac{1}{\det\left(\DD\left(y\circ x^{-1}\right)\right)}
+\Rightarrow\quad\det\left(\DD\left(x\circ y^{-1}\right)\right) & =\frac{1}{\det\left(\DD\left(y\circ x^{-1}\right)\right)}
 \end{align*}
 
 \end_inset
@@ -13875,10 +13867,7 @@ Sind
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-Dann ist
+ Dann ist
 \begin_inset Formula 
 \begin{align*}
 \int_{x\left(U\cap V\right)}f\left(x\right)\sqrt{\det\left(g\left(x\right)\right)}\dd^{n}x & =\int_{y\left(U\cap V\right)}f\left(y\right)\sqrt{\det\left(g\left(y\right)\right)}\dd^{n}y
@@ -13894,7 +13883,7 @@ Dabei ist
 \begin_inset Formula $f\left(y\right)=f\circ y^{-1}$
 \end_inset
 
- und lasse die Tilde (wie üblich) weg, also 
+ und wir lassen die Tilde (wie üblich) weg und schreiben 
 \begin_inset Formula $\tilde{g}\left(y\right)=:g\left(y\right)$
 \end_inset
 
@@ -13903,9 +13892,12 @@ Dabei ist
 
 \begin_layout Subsubsection*
 Beweis
+\end_layout
+
+\begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\int_{y\left(U\cap V\right)}f\left(y\right)\sqrt{\det\left(g\left(y\right)\right)}\dd^{n}y & =\int_{x\left(U\cap V\right)}f\left(x\right)\sqrt{\det\left(g\left(x\right)\right)}\frac{1}{\abs{\det\left(\DD\left(y\circ x^{-1}\right)\right)}}\dd^{n}x=\\
+\int_{y\left(U\cap V\right)}f\left(y\right)\sqrt{\det\left(g\left(y\right)\right)}\dd^{n}y & =\int_{x\left(U\cap V\right)}f\left(x\right)\sqrt{\det\left(g\left(x\right)\right)}\frac{\abs{\det\left(\DD\left(y\circ x^{-1}\right)\right)}}{\abs{\det\left(\DD\left(y\circ x^{-1}\right)\right)}}\dd^{n}x=\\
  & =\int_{x\left(U\cap V\right)}f\left(x\right)\sqrt{\det\left(g\left(x\right)\right)}\dd^{n}x
 \end{align*}
 
@@ -13942,11 +13934,11 @@ status open
 \end_layout
 
 \begin_layout Standard
-Betrachte allgemeinere Funktionen, also keine Bedingung an den Träger.
+Betrachte allgemeinere Funktionen, stelle also keine Bedingung an den Träger.
 \end_layout
 
 \begin_layout Standard
-Beginne mit positiven Funktionen, 
+Beginne mit positiven Funktionen 
 \begin_inset Formula $f\in C^{0}\left(M,\mathbb{R}_{\ge0}\right)$
 \end_inset
 
@@ -13954,7 +13946,11 @@ Beginne mit positiven Funktionen,
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(Integral, integrierbar)
+\series default
+
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Def-integrierbar-positiv"
@@ -13982,7 +13978,11 @@ Seien
 \end_inset
 
 .
- Das Integral von 
+ Das 
+\emph on
+Integral
+\emph default
+ von 
 \begin_inset Formula $f$
 \end_inset
 
@@ -13993,12 +13993,21 @@ Seien
  ist definiert durch:
 \begin_inset Formula 
 \begin{align*}
-\int_{M}f\dd\mu & :=\sum_{k}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(f\eta_{k}\right)\circ x_{n_{k}}^{-1}\sqrt{\deg\left(g\left(x\right)\right)}\dd^{n}x\in\mathbb{R}_{\ge0}\cup\left\{ \infty\right\} 
+\int_{M}f\dd\mu & :=\sum_{k}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(f\eta_{k}\right)\circ x_{n_{k}}^{-1}\sqrt{\deg\left(g\circ x_{n_{k}}^{-1}\right)}\dd^{n}x\in\mathbb{R}_{\ge0}\cup\left\{ \infty\right\} 
 \end{align*}
 
 \end_inset
 
+Schreibe für 
+\begin_inset Formula $g\circ x_{n_{k}}^{-1}$
+\end_inset
 
+ auch kurz 
+\begin_inset Formula $g\left(x\right)$
+\end_inset
+
+.
+ 
 \begin_inset Formula $f$
 \end_inset
 
@@ -14037,14 +14046,16 @@ Sei
 \end_inset
 
 , genauer 
-\begin_inset Formula $\text{supp}\left(\mu_{m}\right)\subseteq V_{l_{m}}$
+\begin_inset Formula $\text{supp}\left(\varphi_{m}\right)\subseteq V_{l_{m}}$
 \end_inset
 
 .
+ Dann gilt:
 \begin_inset Formula 
 \begin{align*}
-\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(f\cdot\eta_{k}\right)\circ x_{n_{k}}^{-1}\sqrt{\det\left(g\left(x\right)\right)}\dd^{n}x & =\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(\left(\sum_{m}\varphi_{m}\right)\cdot f\cdot\eta_{k}\right)\circ x_{n_{k}}^{-1}\sqrt{\det\left(g\left(x\right)\right)}\dd^{n}x=\\
- & =\sum_{m\in\mathbb{N}}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(f\cdot\eta_{k}\cdot\varphi_{m}\right)\circ x_{n_{k}}^{-1}\sqrt{\det\left(g\left(x\right)\right)}\dd^{n}x
+ & \int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(f\cdot\eta_{k}\right)\left(x\right)\sqrt{\det\left(g\left(x\right)\right)}\dd^{n}x\\
+ & \quad\quad=\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(\left(\sum_{m\in\mathbb{N}}\varphi_{m}\right)\cdot f\cdot\eta_{k}\right)\left(x\right)\sqrt{\det\left(g\left(x\right)\right)}\dd^{n}x=\\
+ & \quad\quad=\sum_{m\in\mathbb{N}}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(f\cdot\eta_{k}\cdot\varphi_{m}\right)\left(x\right)\sqrt{\det\left(g\left(x\right)\right)}\dd^{n}x
 \end{align*}
 
 \end_inset
@@ -14053,7 +14064,7 @@ Man kann die letzte Gleichheit auf zwei Weisen begründen:
 \end_layout
 
 \begin_layout Enumerate
-Monotoner Konvergenzsatz, falls das Lebesgue-Integral bekannt ist.
+Mit dem monotonen Konvergenzsatz, falls das Lebesgue-Integral bekannt ist.
 \end_layout
 
 \begin_layout Enumerate
@@ -14061,7 +14072,7 @@ Wähle
 \begin_inset Formula $\text{supp}\left(\eta_{k}\right)$
 \end_inset
 
- kompakt, dies geht zum Beispiel so wie wir die Zerlegung der Eins kontrahiert
+ kompakt, dies geht zum Beispiel so wie wir die Zerlegung der Eins konstruiert
  haben.
 \begin_inset Newline newline
 \end_inset
@@ -14080,8 +14091,9 @@ Man hat also eine endliche Summe und kann die Summe mit dem Integral vertauschen
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\sum_{m\in\mathbb{N}}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(f\cdot\eta_{k}\cdot\varphi_{m}\right)\circ x_{n_{k}}^{-1}\sqrt{\det\left(g\left(x\right)\right)}\dd^{n}x & =\sum_{m\in\mathbb{N}}\int_{x_{n_{k}}\left(U_{n_{k}}\cap V_{l_{m}}\right)}\left(f\cdot\eta_{k}\cdot\varphi_{m}\right)\circ x_{n_{k}}^{-1}\sqrt{\det\left(g\left(x\right)\right)}\dd^{n}x=\\
- & =\sum_{m\in\mathbb{N}}\int_{y_{n_{k}}\left(U_{n_{k}}\cap V_{l_{m}}\right)}\left(f\cdot\eta_{k}\cdot\varphi_{m}\right)\circ y_{n_{k}}^{-1}\sqrt{\det\left(g\left(y\right)\right)}\dd^{n}y
+ & \sum_{m\in\mathbb{N}}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(f\cdot\eta_{k}\cdot\varphi_{m}\right)\left(x\right)\sqrt{\det\left(g\left(x\right)\right)}\dd^{n}x\\
+ & \quad\quad\stackrel{\text{supp}\left(\varphi_{m}\right)\subseteq V_{l_{m}}}{=}\sum_{m\in\mathbb{N}}\int_{x_{n_{k}}\left(U_{n_{k}}\cap V_{l_{m}}\right)}\left(f\cdot\eta_{k}\cdot\varphi_{m}\right)\left(x\right)\sqrt{\det\left(g\left(x\right)\right)}\dd^{n}x=\\
+ & \quad\quad=\sum_{m\in\mathbb{N}}\int_{y_{n_{k}}\left(U_{n_{k}}\cap V_{l_{m}}\right)}\left(f\cdot\eta_{k}\cdot\varphi_{m}\right)\left(y\right)\sqrt{\det\left(g\left(y\right)\right)}\dd^{n}y
 \end{align*}
 
 \end_inset
@@ -14093,8 +14105,8 @@ Summiere über
  und erhalte dann:
 \begin_inset Formula 
 \begin{align*}
-\int_{M}f\dd\mu & =\sum_{k\in\mathbb{N}}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(f\cdot\eta_{k}\right)\circ x_{n_{k}}^{-1}\sqrt{\det\left(g\left(x\right)\right)}\dd^{n}x=\\
- & =\sum_{k\in\mathbb{N}}\sum_{m\in\mathbb{N}}\underbrace{\int_{y_{l_{m}}\left(V_{l_{m}}\right)}\underbrace{\left(f\cdot\eta_{k}\varphi_{m}\right)\circ y_{l_{m}}^{-1}}_{\ge0}\underbrace{\sqrt{\det\left(g\left(y\right)\right)}}_{\ge0}\dd^{n}y}_{\ge0}
+\int_{M}f\dd\mu & =\sum_{k\in\mathbb{N}}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(f\cdot\eta_{k}\right)\left(x\right)\sqrt{\det\left(g\left(x\right)\right)}\dd^{n}x=\\
+ & =\sum_{k\in\mathbb{N}}\sum_{m\in\mathbb{N}}\underbrace{\int_{y_{l_{m}}\left(V_{l_{m}}\right)}\underbrace{\left(f\cdot\eta_{k}\cdot\varphi_{m}\right)\left(y\right)}_{\ge0}\underbrace{\sqrt{\det\left(g\left(y\right)\right)}}_{\ge0}\dd^{n}y}_{\ge0}
 \end{align*}
 
 \end_inset
@@ -14103,7 +14115,7 @@ Verwende den Umordnungssatz für Reihen mit nicht-negativen Gliedern und
  erhalte:
 \begin_inset Formula 
 \begin{align*}
-\int_{M}f\dd\mu & =\sum_{m\in\mathbb{N}}\int_{y_{l_{m}}\left(V_{l_{m}}\right)}\left(f\cdot\varphi_{m}\right)\circ y_{l_{m}}^{-1}\sqrt{\det\left(g\left(y\right)\right)}\dd^{n}y\sr ={\text{Definition}}{\text{mit }\left(\varphi_{m}\right)}\int_{M}f\dd\mu
+\int_{M}f\dd\mu & =\sum_{m\in\mathbb{N}}\int_{y_{l_{m}}\left(V_{l_{m}}\right)}\left(f\cdot\varphi_{m}\right)\left(y\right)\sqrt{\det\left(g\left(y\right)\right)}\dd^{n}y\sr ={\text{Definition}}{\text{mit }\left(\varphi_{m}\right)}\int_{M}f\dd\mu
 \end{align*}
 
 \end_inset
@@ -14125,7 +14137,9 @@ qqed
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(integrierbar)
 \end_layout
 
 \begin_layout Standard
@@ -14154,7 +14168,7 @@ reference "sub:Def-integrierbar-positiv"
 Definiere das Integral
 \begin_inset Formula 
 \begin{align*}
-\int_{M}f\dd\mu & :=\sum_{k}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(f\eta_{k}\right)\circ x_{n_{k}}^{-1}\sqrt{\det\left(g\left(x\right)\right)}\dd^{n}x
+\int_{M}f\dd\mu & :=\sum_{k}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(f\cdot\eta_{k}\right)\left(x\right)\sqrt{\det\left(g\left(x\right)\right)}\dd^{n}x
 \end{align*}
 
 \end_inset
@@ -14184,7 +14198,7 @@ Beweis
 \end_layout
 
 \begin_layout Standard
-Wähle wieder Atlas 
+Wähle wieder einen Atlas 
 \begin_inset Formula $\left(y_{l},V_{l}\right)$
 \end_inset
 
@@ -14192,7 +14206,8 @@ Wähle wieder Atlas
 \begin_inset Formula $\left(\varphi_{m}\right)$
 \end_inset
 
-.Die Doppelreihe
+.
+ Die Doppelreihe
 \begin_inset Formula 
 \begin{align*}
 D:=\sum_{k}\sum_{m}\int_{U_{n_{k}}\cap V_{l_{m}}}\left(f\cdot\eta_{k}\cdot\mu_{m}\right)\dd\mu
@@ -14247,7 +14262,7 @@ Im
 \begin_inset Formula $\mathbb{R}^{3}$
 \end_inset
 
- gilt für ein Vektorfeld
+ ist für ein Vektorfeld
 \begin_inset Formula 
 \begin{align*}
 \vec{v}:\mathbb{R}^{3} & \to\mathbb{R}^{3}\\
@@ -14260,10 +14275,10 @@ v_{3}\left(x\right)
 
 \end_inset
 
-ist die Divergenz:
+die Divergenz definiert als:
 \begin_inset Formula 
 \begin{align*}
-\text{div}\vec{v} & :=\partial_{1}v_{1}\left(x\right)+\partial_{2}v_{1}\left(x\right)+\partial_{3}v_{1}\left(x\right)
+\text{div}\left(\vec{v}\right) & :=\partial_{1}v_{1}\left(x\right)+\partial_{2}v_{1}\left(x\right)+\partial_{3}v_{1}\left(x\right)
 \end{align*}
 
 \end_inset
@@ -14271,7 +14286,7 @@ ist die Divergenz:
 Zum Beispiel gilt in der Physik im SI-Einheitensystem:
 \begin_inset Formula 
 \begin{align*}
-\text{div}\vec{E} & =\frac{\varrho}{\varepsilon_{0}}
+\text{div}\left(\vec{E}\right) & =\frac{\varrho}{\varepsilon_{0}}
 \end{align*}
 
 \end_inset
@@ -14284,7 +14299,8 @@ Frage
 \end_layout
 
 \begin_layout Standard
-Kann man und, wenn ja wie, die Divergenz auf einer Mannigfaltigkeit einführen.
+Kann man die Divergenz auf einer Mannigfaltigkeit einführen und wenn ja
+ wie?
 \end_layout
 
 \begin_layout Standard
@@ -14315,7 +14331,7 @@ v & =v^{i}\left(x\right)\left.\frac{\partial}{\partial x^{i}}\right|_{p}=\tilde{
 
 \begin_inset Formula 
 \begin{align*}
-\text{div}v & :=\left.\frac{\partial}{\partial x^{i}}\right|_{p}v^{i}\left(x\right)
+\text{div}\left(v\right) & :=\left.\frac{\partial}{\partial x^{i}}\right|_{p}v^{i}\left(x\right)
 \end{align*}
 
 \end_inset
@@ -14350,7 +14366,7 @@ Definition
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\text{div}\left(v\right) & :=\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det g}v^{j}\right)
+\text{div}\left(v\right) & :=\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det g}\cdot v^{j}\right)
 \end{align*}
 
 \end_inset
@@ -14376,6 +14392,12 @@ dann gilt:
 
 \begin_layout Subsection
 Bemerkung
+\end_layout
+
+\begin_layout Standard
+
+\color green
+TODO: Rest überarbeiten
 \end_layout
 
 \begin_layout Standard
@@ -18729,7 +18751,7 @@ Da
  zu bestimmen, betrachte:
 \begin_inset Formula 
 \begin{align*}
-\omega\left(e_{1},\ldots,e_{n}\right) & =c\cdot\mathcal{E}\left(e_{1},\ldots,e_{n}\right)=c\cdot\det\left(\mathbb{1}\right)\\
+\omega\left(e_{1},\ldots,e_{n}\right) & =c\cdot\mathcal{E}\left(e_{1},\ldots,e_{n}\right)=c\cdot\det\left(\mathbbm{1}\right)\\
 \Rightarrow\quad c & =\omega\left(e_{1},\ldots,e_{n}\right)
 \end{align*}
 
@@ -22280,9 +22302,9 @@ Satz
 Es gilt:
 \begin_inset Formula 
 \begin{align*}
-*^{2} & =\left(-1\right)^{k\left(n-k\right)}\mathbb{1}_{\Omega^{k}\left(M\right)}=\begin{cases}
-\mathbb{1}_{\Omega^{k}\left(M\right)} & \text{falls }n\text{ ungerade}\\
-\left(-1\right)^{k}\mathbb{1}_{\Omega^{k}\left(M\right)} & \text{falls }n\text{ gerade}
+*^{2} & =\left(-1\right)^{k\left(n-k\right)}\mathbbm{1}_{\Omega^{k}\left(M\right)}=\begin{cases}
+\mathbbm{1}_{\Omega^{k}\left(M\right)} & \text{falls }n\text{ ungerade}\\
+\left(-1\right)^{k}\mathbbm{1}_{\Omega^{k}\left(M\right)} & \text{falls }n\text{ gerade}
 \end{cases}
 \end{align*}
 
@@ -22408,7 +22430,7 @@ Beweis
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-*^{2}\big|_{\Omega^{n}\left(M\right)} & =\mathbb{1}
+*^{2}\big|_{\Omega^{n}\left(M\right)} & =\mathbbm{1}
 \end{align*}
 
 \end_inset
@@ -22557,7 +22579,7 @@ qqed
 
 \begin_layout Standard
 Mit diesen Vorbereitungen kann man schließlich Operatoren zweiter Ordnung
- einführen, den Laplace-Operator:
+ einführen, den Hodge-Laplace-Operator:
 \begin_inset Formula 
 \begin{align*}
 \Delta & :=-\left(\dd\dd^{*}+\dd^{*}\dd\right):\Omega^{k}\left(M\right)\to\Omega^{k}\left(M\right)
@@ -22651,7 +22673,7 @@ iii
 \begin_inset Formula $\left(-\Delta\right)$
 \end_inset
 
- ist positiv definit, also 
+ ist positiv, also 
 \begin_inset Formula $\left\langle -\Delta\varphi,\varphi\right\rangle \ge0$
 \end_inset
 
@@ -22976,6 +22998,717 @@ qqed
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%DATE: Fr 13.7.12
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Auf 1-Formen:
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\varphi\in\Omega^{1}$
+\end_inset
+
+ mit 
+\begin_inset Formula $\Delta\varphi=0$
+\end_inset
+
+, man sagt dazu 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ ist harmonisch.
+ Es folgt:
+\begin_inset Formula 
+\begin{align*}
+\dd\varphi & =0 & \dd^{*}\varphi & =0
+\end{align*}
+
+\end_inset
+
+Insbesondere ist 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ geschlossen.
+\end_layout
+
+\begin_layout Standard
+Frage: Ist 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ auch exakt?
+\end_layout
+
+\begin_layout Standard
+Bemerkung: Ist umgekehrt 
+\begin_inset Formula $\dd\varphi=0$
+\end_inset
+
+, so folgt 
+\emph on
+nicht
+\emph default
+, dass 
+\begin_inset Formula $\Delta\varphi=0$
+\end_inset
+
+ ist, denn:
+\begin_inset Formula 
+\begin{align*}
+\Delta\varphi & =-\dd\dd^{*}\varphi-\dd^{*}\underbrace{\dd\varphi}_{=0}=-\dd\dd^{*}\varphi\stackrel{\text{i.A.}}{\not=}0
+\end{align*}
+
+\end_inset
+
+Im allgemeinen kann 
+\begin_inset Formula $\dd^{*}\varphi\not=0$
+\end_inset
+
+ sein.
+\end_layout
+
+\begin_layout Standard
+Frage: Sei 
+\begin_inset Formula $\varphi\in\Omega^{1}$
+\end_inset
+
+ mit 
+\begin_inset Formula $\dd\varphi=0$
+\end_inset
+
+.
+ Kann man 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ um eine exakte Form 
+\begin_inset Formula $\dd\eta$
+\end_inset
+
+ abändern, sodass 
+\begin_inset Formula $\varphi+\dd\eta$
+\end_inset
+
+ harmonisch ist.
+\end_layout
+
+\begin_layout Standard
+Falls ja: In jeder Äquivalenzklasse in 
+\begin_inset Formula $H^{1}\left(M\right)$
+\end_inset
+
+ gibt es eine harmonische Form, oder äquivalent: Jede Vektor in 
+\begin_inset Formula $H^{1}\left(M\right)$
+\end_inset
+
+ kann durch eine harmonische Form repräsentiert werden.
+\end_layout
+
+\begin_layout Subsection
+Theorem 
+\series medium
+(Hodge-Theorem)
+\end_layout
+
+\begin_layout Standard
+Zu jeder Äquivalenzklasse der de-Rham-Kohomologie 
+\begin_inset Formula $H^{k}\left(M\right)$
+\end_inset
+
+ liegt genau eine harmonische Form.
+\end_layout
+
+\begin_layout Standard
+„Beweisidee“: Nehme an, 
+\begin_inset Formula $\varphi\in\Omega^{k}$
+\end_inset
+
+ und 
+\begin_inset Formula $\dd\varphi=0$
+\end_inset
+
+.
+ Sei 
+\begin_inset Formula $\eta\in\Omega^{k-1}$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+\Delta\left(\varphi+\dd\eta\right) & =-\left(\dd\dd^{*}+\dd^{*}\dd\right)\left(\varphi+\dd\eta\right)=\\
+ & =-\dd\dd^{*}\varphi-\dd^{*}\underbrace{\dd\varphi}_{=0}+\underbrace{\Delta\dd\eta}_{=\dd\left(\Delta\eta\right)}=\\
+ & =\dd\left(-\dd^{*}\varphi+\Delta\eta\right)\stackrel{\text{?!}}{=}0
+\end{align*}
+
+\end_inset
+
+Dies ist sicher erfüllt, wenn gilt:
+\begin_inset Formula 
+\begin{align*}
+\Delta\eta & =\dd^{*}\varphi &  & \text{Poisson-Gleichung}
+\end{align*}
+
+\end_inset
+
+In der Theorie der partiellen Differentialgleichungen (SoSe 2013) zeigt
+ man, dass die Poisson-Gleichung für jedes 
+\begin_inset Formula $\dd^{*}\varphi$
+\end_inset
+
+ eine glatte Lösung besitzt 
+\begin_inset Formula $\eta$
+\end_inset
+
+.
+ (elliptische Differentialgleichung)
+\end_layout
+
+\begin_layout Standard
+Eindeutigkeit:
+\end_layout
+
+\begin_layout Standard
+Seien 
+\begin_inset Formula $\alpha_{1}=\varphi+\dd\eta_{1}$
+\end_inset
+
+ und 
+\begin_inset Formula $\alpha_{2}=\varphi+\dd\eta_{2}$
+\end_inset
+
+ harmonisch.
+\begin_inset Formula 
+\begin{align*}
+\alpha_{1}-\alpha_{2} & =-\dd\underbrace{\left(\eta_{1}-\eta_{2}\right)}_{=:\beta}=-\dd\beta
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\left\langle \alpha_{1}-\alpha_{2},\dd\beta\right\rangle  & =\left\langle \dd^{*}\left(\alpha_{1}-\alpha_{2}\right),\beta\right\rangle =0
+\end{align*}
+
+\end_inset
+
+Denn 
+\begin_inset Formula $\alpha_{1}-\alpha_{2}$
+\end_inset
+
+ ist harmonisch und nach Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "d"
+
+\end_inset
+
+6.6.6 folgt:
+\begin_inset Formula 
+\begin{align*}
+\dd\left(\alpha_{1}-\alpha_{2}\right) & =0 & \dd^{*}\left(\alpha_{1}-\alpha_{2}\right) & =0
+\end{align*}
+
+\end_inset
+
+Also:
+\begin_inset Formula 
+\begin{align*}
+-\left\langle \dd\beta,\dd\beta\right\rangle  & =0\\
+\Rightarrow\quad\dd\beta & =0
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Also ist 
+\begin_inset Formula $\alpha_{1}=\alpha_{2}$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Distributionen und Fouriertransformation
+\end_layout
+
+\begin_layout Standard
+Literatur:
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+J.
+ Rauch
+\noun default
+: 
+\emph on
+Partial Differential Equations
+\emph default
+, Anhang: 
+\emph on
+A crash course in distribution theory
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+L.
+ Schwartz
+\noun default
+: 
+\emph on
+Theory of Distributions
+\end_layout
+
+\begin_layout Standard
+Historisch: Dirac 
+\begin_inset Formula $\delta$
+\end_inset
+
+-Distribution
+\begin_inset Formula 
+\begin{align*}
+\delta\left(x\right) & =0\quad\text{für }x\not=0\\
+\int_{-\infty}^{\infty}\delta\left(x\right)\dd x & =1
+\end{align*}
+
+\end_inset
+
+TODO: Abb1
+\begin_inset Formula 
+\begin{align*}
+\eta_{\varepsilon} & \xrightarrow{\varepsilon\to0}\delta
+\end{align*}
+
+\end_inset
+
+Rechenregel:
+\begin_inset Formula 
+\begin{align*}
+\int_{-\infty}^{\infty}f\left(x\right)\delta\left(x\right)\dd x & =f\left(0\right)
+\end{align*}
+
+\end_inset
+
+Eine Möglichkeit, dies mathematisch einzufüren ist das Dirac-Maß.
+\end_layout
+
+\begin_layout Standard
+Aber wir möchten außerdem Distributionen und nicht-glatte Funktionen differenzie
+ren können.
+ 
+\begin_inset Formula $\delta'\left(x\right)$
+\end_inset
+
+ ist nicht als Maß einführbar.
+ Für 
+\begin_inset Formula $x\in\mathbb{R}^{n}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\Delta\frac{1}{\norm x}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Idee: Werte im schwachen Sinn aus, rechne formal:
+\begin_inset Formula 
+\begin{align*}
+\int_{\mathbb{R}}\eta\left(x\right)\delta'\left(x\right)\dd x & \stackrel{\text{formal}}{=}-\int_{\mathbb{R}}\eta'\left(x\right)\delta\left(x\right)\dd x=-\eta'\left(0\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Allgemein: 
+\begin_inset Formula $\eta\in S\left(\mathbb{R}^{n}\right)$
+\end_inset
+
+ Schwartz-Raum.
+ 
+\begin_inset Formula $S^{*}\left(\mathbb{R}^{n}\right)$
+\end_inset
+
+ ist der Dualraum von 
+\begin_inset Formula $S\left(\mathbb{R}^{n}\right)$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+S^{*}\ni\phi:S & \to\mathbb{R}\\
+\left(\Delta\phi\right):S & \to\mathbb{R}\\
+\left(\Delta\phi\right)\left(\eta\right) & :=\phi\underbrace{\left(\Delta\eta\right)}_{\in S}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula $S\left(\mathbb{R}^{n}\right)$
+\end_inset
+
+ ist unendlich-dimensional.
+ Hier ist unklar, was 
+\emph on
+Stetigkeit
+\emph default
+ von 
+\begin_inset Formula $\phi\in S^{*}$
+\end_inset
+
+ heißt.
+\end_layout
+
+\begin_layout Section
+Definition
+\end_layout
+
+\begin_layout Standard
+Für 
+\begin_inset Formula $i_{1},\ldots,i_{k}\in\left\{ 1,\ldots,n\right\} $
+\end_inset
+
+ ist der 
+\emph on
+Multiindex
+\emph default
+ 
+\begin_inset Formula $\alpha:=\left(i_{1},\ldots,i_{k}\right)$
+\end_inset
+
+ ein geordnete Tupel von Indizes und 
+\begin_inset Formula $\abs{\alpha}:=k$
+\end_inset
+
+ die 
+\emph on
+Stufe des Multiindex
+\emph default
+.
+\begin_inset Newline newline
+\end_inset
+
+Der Differentialoperator der Ordnung 
+\begin_inset Formula $k$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+\DD^{\alpha} & =\frac{\partial}{\partial x^{i_{1}}}\ldots\frac{\partial}{\partial x^{i_{k}}} &  & \text{Differentialoperator der Ordnung }k\\
+x^{\alpha} & =x^{i_{1}}\ldots x^{i_{k}} &  & \text{Monom der Ordnung }k
+\end{align*}
+
+\end_inset
+
+Sei 
+\begin_inset Formula $f\in C^{\infty}\left(\mathbb{R}^{n}\right)$
+\end_inset
+
+ und 
+\begin_inset Formula $r,s\in\mathbb{N}$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+\norm f_{r,s} & :=\sum_{\sr{}{\alpha\text{ mit}}{\abs{\alpha}\le r}}\sum_{\sr{}{\beta\text{ mit}}{\abs{\beta}\le s}}\sup_{x\in\mathbb{R}^{n}}\abs{x^{\alpha}\DD^{\beta}f\left(x\right)} &  & \text{Schwartz-Norm}\\
+ & =\sup_{x}\abs{f\left(x\right)}+\sup\abs{\frac{\partial}{\partial x^{1}}f}+\sup\abs{x^{1}f}+\ldots
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Definition
+\end_layout
+
+\begin_layout Standard
+Der 
+\emph on
+Schwartz-Raum
+\emph default
+ 
+\begin_inset Formula $\mathscr{S}\left(\mathbb{R}^{n}\right)$
+\end_inset
+
+ besteht aus allen 
+\begin_inset Formula $C^{\infty}$
+\end_inset
+
+-Funktionen 
+\begin_inset Formula $f$
+\end_inset
+
+, sodass 
+\begin_inset Formula $\norm f_{r,s}<\infty$
+\end_inset
+
+ für alle 
+\begin_inset Formula $r,s\in\mathbb{N}$
+\end_inset
+
+ ist.
+\end_layout
+
+\begin_layout Subsubsection*
+Beispiel
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $f\left(x\right)=1$
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\norm f_{1,0} & =\underbrace{\sup_{x}\abs{f\left(x\right)}}_{=1}+\sum_{i=1}^{n}\underbrace{\sup_{x}\abs{x^{i}f\left(x\right)}}_{=\infty}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula $f\left(x\right)=e^{-\norm x^{2}}$
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\norm f_{r,0} & =\sum_{\abs{\alpha}\le r}\sup_{x}\abs{x^{\alpha}e^{-\norm x^{2}}}<\infty\\
+\norm f_{r,s} & =\sum_{\abs{\alpha}\le r}\sum_{\abs{\beta}\le s}\sup\abs{\underbrace{x^{\alpha}\DD^{\beta}e^{-\norm x^{2}}}_{=P\left(x\right)e^{-\norm x^{2}}}}\stackrel{P\left(x\right)\text{ Polynom}}{=}\infty
+\end{align*}
+
+\end_inset
+
+Es ist 
+\begin_inset Formula $C_{0}^{\infty}\subseteq\mathscr{S}\left(\mathbb{R}^{n}\right)$
+\end_inset
+
+.
+ Man sagt auch, 
+\begin_inset Formula $\mathscr{S}\left(\mathbb{R}^{n}\right)$
+\end_inset
+
+ sind die glatten Funktionen mit 
+\emph on
+schnellem Abfall
+\emph default
+ (engl.: rapid decay).
+\end_layout
+
+\begin_layout Subsubsection*
+Topologie auf 
+\begin_inset Formula $\mathscr{S}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Eine Teilmenge 
+\begin_inset Formula $A\subseteq\mathscr{S}\left(\mathbb{R}^{n}\right)$
+\end_inset
+
+ ist 
+\emph on
+offen
+\emph default
+, falls es zu jedem 
+\begin_inset Formula $f\in A$
+\end_inset
+
+ ein 
+\begin_inset Formula $\varepsilon>0$
+\end_inset
+
+ und 
+\begin_inset Formula $r,s\in\mathbb{N}$
+\end_inset
+
+ gibt, sodass
+\begin_inset Formula 
+\begin{align*}
+\left\{ g\big|\norm{g-f}_{r,s}<\varepsilon\right\}  & \subseteq A
+\end{align*}
+
+\end_inset
+
+Dies ist ähnlich wie in einem Banachraum, aber man hat jetzt eine ganze
+ Familie von Normen 
+\begin_inset Formula $\norm ._{r,s}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Allgemeiner: topologischer Vektorraum, uniformer Raum, 
+\begin_inset Formula $\ldots$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Konvergenzbegriff:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $f_{n}\to f$
+\end_inset
+
+ in 
+\begin_inset Formula $\mathscr{S}$
+\end_inset
+
+, falls in jeder offenen Umgebung von 
+\begin_inset Formula $f$
+\end_inset
+
+ fast alle 
+\begin_inset Formula $f_{n}$
+\end_inset
+
+ liegen.
+\end_layout
+
+\begin_layout Section
+Satz
+\end_layout
+
+\begin_layout Standard
+Eine Folge 
+\begin_inset Formula $\left(f_{n}\right)_{n\in\mathbb{N}}$
+\end_inset
+
+ mit 
+\begin_inset Formula $f_{n}\in\mathscr{S}$
+\end_inset
+
+ konvergiert gegen 
+\begin_inset Formula $f\in\mathscr{S}$
+\end_inset
+
+ genau dann, wenn für alle 
+\begin_inset Formula $r,s\in\mathbb{N}$
+\end_inset
+
+ schon 
+\begin_inset Formula $\norm{f-f_{n}}_{r,s}\xrightarrow{n\to\infty}0$
+\end_inset
+
+ gilt.
+\end_layout
+
+\begin_layout Subsubsection*
+Bemerkung
+\end_layout
+
+\begin_layout Standard
+Es gelte 
+\begin_inset Formula $f_{n}\to f$
+\end_inset
+
+.
+ Das heißt insbesondere gilt 
+\begin_inset Formula $\norm{f-f_{n}}_{0,0}\to0$
+\end_inset
+
+, also 
+\begin_inset Formula $\sup_{x\in\mathbb{R}^{n}}\abs{f_{n}\left(x\right)-f\left(x\right)}\to0$
+\end_inset
+
+, also 
+\begin_inset Formula $f_{n}\rightrightarrows f$
+\end_inset
+
+.
+ Außerdem gilt:
+\begin_inset Formula 
+\begin{align*}
+\norm{f-f_{n}}_{r,0} & \to0
+\end{align*}
+
+\end_inset
+
+Also gilt 
+\begin_inset Formula $\sup_{x}\abs{\DD^{\alpha}f_{n}\left(x\right)-\DD^{\alpha}f\left(x\right)}\to0$
+\end_inset
+
+ für alle 
+\begin_inset Formula $\alpha$
+\end_inset
+
+, das heißt 
+\begin_inset Formula $\DD^{\alpha}f_{n}\rightrightarrows f$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+\norm{f-f_{n}}_{r,s} & \to0
+\end{align*}
+
+\end_inset
+
+Also konvergiert 
+\begin_inset Formula $x^{\alpha}\DD^{\beta}f_{n}\rightrightarrows x^{\alpha}\DD^{\beta}f$
+\end_inset
+
+ gleichmäßig.
+\end_layout
+
+\begin_layout Standard
+Dies führt dazu, dass 
+\begin_inset Formula $\mathscr{S}$
+\end_inset
+
+ vollständig ist.
 \end_layout
 
 \begin_layout Part*
