@@ -4350,7 +4350,7 @@ Der \emph{Rand von $M$} ist:
 \end{align*}
 Dies ist eine $\left(n-1\right)$-dimensionale differenzierbare Mannigfaltigkeit,
 denn für $p\in\partial M$ ist für jede Karte $\left(x,U\right)$
-um $p$ schon $x\left(p\right)=0$.
+um $p$ schon $x^{1}\left(p\right)=0$.
 
 TODO: Abb1
 
@@ -6061,7 +6061,7 @@ Summiere über $k$:
 Nun zum Fall mit Rand: Sei $M$ eine kompakte Mannigfaltigkeit mit
 Rand $\partial M$. (Dieser ist auch kompakt.)
 \begin{align*}
-x:U & \to\mathbb{R}_{-}^{n}:=\left\{ x\in\mathbb{R}^{n}\big|x^{1}<0\right\} 
+x:U & \to\mathbb{R}_{-}^{n}:=\left\{ x\in\mathbb{R}^{n}\big|x^{1}\le0\right\} 
 \end{align*}
 \begin{align*}
 x:U\cap\partial M & \to\mathbb{R}_{0}^{n}:=\left\{ x\in\mathbb{R}^{n}\big|x^{1}=0\right\} 
@@ -6657,9 +6657,9 @@ glatten Funktionen mit \emph{schnellem Abfall} (engl.: rapid decay).
 
 Eine Teilmenge $A\subseteq\mathscr{S}\left(\mathbb{R}^{n}\right)$
 ist \emph{offen}, falls es zu jedem $f\in A$ ein $\varepsilon>0$
-und $r,s\in\mathbb{N}$ gibt, sodass
+und $r,s\in\mathbb{N}$ gibt, sodass gilt:
 \begin{align*}
-\left\{ g\big|\norm{g-f}_{r,s}<\varepsilon\right\}  & \subseteq A
+B_{\varepsilon}^{r,s}\left(f\right) & :=\left\{ g\big|\norm{g-f}_{r,s}<\varepsilon\right\} \subseteq A
 \end{align*}
 Dies ist ähnlich wie in einem Banachraum, aber man hat jetzt eine
 ganze Familie von Normen $\norm ._{r,s}$.
@@ -6696,6 +6696,241 @@ Also konvergiert $x^{\alpha}\DD^{\beta}f_{n}\rightrightarrows x^{\alpha}\DD^{\be
 gleichmäßig.
 
 Dies führt dazu, dass $\mathscr{S}$ vollständig ist.
+
+%DATE: Di 17.7.12
+
+
+\subsubsection*{Beweis}
+
+\quotedblbase{}$\Rightarrow$\textquotedblleft{}: Die Konvergenz $f_{n}\xrightarrow{n\to\infty}f$
+heißt nach Definition, dass in jeder offenen Umgebung von $f$ fast
+alle $f_{n}$ liegen.
+
+Also liegen für alle $r,s\in\mathbb{N}$ und jedes $\varepsilon\in\mathbb{R}_{>0}$
+fast alle $f_{n}$ in $B_{\varepsilon}^{r,s}\left(f\right)$. Daher
+konvergiert $\norm{f-f_{n}}_{r,s}\to0$.
+
+\quotedblbase{}$\Leftarrow$\textquotedblleft{}: Nehme an, dass für
+alle $r,s\in\mathbb{N}$ gilt:
+\begin{align*}
+\norm{f-f_{n}}_{r,s} & \xrightarrow{n\to\infty}0
+\end{align*}
+Sei $A$ eine offene Umgebung von $f$. Nach Definition der Topologie
+auf $\mathscr{S}$ gibt es also $r,s\in\mathbb{N}$ und ein $\varepsilon\in\mathbb{R}_{>0}$
+mit $B_{\varepsilon}^{r,s}\left(f\right)\subseteq A$.
+
+Wegen $\norm{f_{n}-f}_{r,s}\to0$ folgt, dass fast alle $f_{n}$ in
+$B_{\varepsilon}^{r,s}\left(f\right)$ liegen, und somit auch in $A$.\qqed
+
+
+\section{Definition \textmd{(Distribution)}}
+
+Sei $\mathscr{S}^{*}:=\left\{ T:\mathscr{S}\to\mathbb{R}\text{ linear und stetig}\right\} $
+der Dualraum. $\mathscr{S}^{*}$ heißt der Raum der \emph{temperierten
+Distributionen}.
+
+
+\section{Satz\label{sec:Satz-StetigkeitDistribution}}
+
+Ein lineares Funktional $T:\mathscr{S}\to\mathbb{R}$ ist genau dann
+stetig, wenn es $r,s\in\mathbb{N}$ und ein $c\in\mathbb{R}_{>0}$
+gibt, sodass gilt:
+\begin{align}
+\abs{Tf} & \le C\norm f_{r,s}\label{eq:Beschraenkt}
+\end{align}
+
+
+
+\subsubsection*{Beweis}
+
+\quotedblbase{}$\Leftarrow$\textquotedblleft{}: Angenommen \eqref{eq:Beschraenkt}
+gilt und $f_{n}\to f$ konvergiert in $\mathscr{S}$. Für die Stetigkeit
+ist $Tf_{n}\to Tf$ zu zeigen. Es gilt:
+\begin{align*}
+\abs{Tf_{n}-Tf} & \stackrel{T\text{ linear}}{=}\abs{T\left(f_{n}-f\right)}\le C\norm{f_{n}-f}_{r,s}\xrightarrow{n\to\infty}0
+\end{align*}
+Denn sogar für alle $p,q\in\mathbb{N}$ konvergiert $\norm{f_{n}-f}_{p,q}\to0$.
+
+Also bildet $T$ konvergente Folgen auf konvergente Folgen ab und
+ist somit stetig.
+
+\quotedblbase{}$\Rightarrow$\textquotedblright{}: Sei $T$ stetig.
+Dann ist das Urbild offener Mengen offen. Also insbesondere für die
+offene Menge $B_{1}\left(0\right)\subseteq\mathbb{R}$:
+\begin{align*}
+T^{-1}\left(B_{1}\left(0\right)\right) & \stackrel{\text{offen}}{\subseteq}\mathscr{S}
+\end{align*}
+Also gibt es $r,s\in\mathbb{N}$ und ein $\varepsilon\in\mathbb{R}_{>0}$
+mit $B_{\varepsilon}^{r,s}\left(0\right)\subseteq T^{-1}\left(B_{1}\left(0\right)\right)$
+oder äquivalent:
+\begin{align*}
+\norm f_{r,s}<\varepsilon & \quad\Rightarrow\quad\abs{Tf}<1
+\end{align*}
+Betrachte diese Ungleichung für $\tilde{f}=\lambda f$ mit $\lambda\in\mathbb{R}_{>0}$:
+\begin{align*}
+\norm f_{r,s}<\frac{\varepsilon}{\lambda} & \quad\Rightarrow\quad\abs{Tf}<\frac{1}{\lambda}
+\end{align*}
+Wähle nun zu gegebenem $f$ mit $\norm f_{r,s}\not=0$ (Sonst ist
+die Behauptung klar, da $f=0$ folgt.) den Skalierungsfaktor ${\displaystyle \lambda:=\frac{\varepsilon}{\norm f_{r,s}}}$:
+Aus
+\begin{align*}
+\norm f_{r,s} & <\frac{2\varepsilon}{\varepsilon}\norm f_{r,s}
+\end{align*}
+folgt dann:
+\begin{align*}
+\abs{Tf} & <\frac{2}{\varepsilon}\norm f_{r,s}
+\end{align*}
+Also gilt für alle $f\in\mathscr{S}$:
+\begin{align*}
+\abs{Tf} & \le\frac{2}{\varepsilon}\norm f_{r,s}
+\end{align*}
+\qqed
+
+
+\section{Beispiele \textmd{($\delta$-Distribution)}}
+
+$\delta\in\mathscr{S}^{*}\left(\mathbb{R}^{n}\right)$ soll eingeführt
+werden. Die Abbildung
+\begin{align*}
+\delta:\mathscr{S} & \to\mathbb{R}\\
+f & \mapsto f\left(0\right)
+\end{align*}
+ist linear. Um zu zeigen, dass $\delta$ stetig ist, müssen wir zeigen,
+dass es geeignete $r,s\in\mathbb{N}$ und $C\in\mathbb{R}_{>0}$ mit
+$\abs{\delta\left(f\right)}\le C\abs f_{r,s}$ gibt:
+\begin{align*}
+\abs{\delta\left(f\right)} & =\abs{f\left(0\right)}\le\sup_{x\in\mathbb{R}^{n}}\abs{f\left(x\right)}=\norm f_{0,0}
+\end{align*}
+Nützliche Notation:
+\begin{align*}
+\delta\left(f\right) & =:\int_{\mathbb{R}^{n}}f\left(x\right)\delta\left(x\right)\dd^{n}x
+\end{align*}
+
+
+
+\section{Beispiel \textmd{(Integraloperator)}}
+
+\begin{abclist}
+
+\abc Sei $g\in C^{\infty}\left(\mathbb{R}^{n}\right)$ mit höchstens
+polynomialem Anstieg, das heißt, es gibt $r,C\in\mathbb{R}_{>0}$
+mit:
+\begin{align*}
+\abs{g\left(x\right)} & \le\left(1+\norm x^{r}\right)
+\end{align*}
+\begin{align*}
+T_{g}:\mathscr{S}\left(\mathbb{R}^{n}\right) & \to\mathbb{R}\\
+f & \mapsto\int_{\mathbb{R}^{n}}f\left(x\right)g\left(x\right)\dd^{n}x
+\end{align*}
+Dieses Integral ist endlich:
+\begin{align*}
+\abs{T_{g}f} & \le\int_{\mathbb{R}}\abs{f\left(x\right)}\cdot\underbrace{\abs{g\left(x\right)}}_{\le C\left(1+\norm x^{r}\right)}\dd^{n}x\le C\left(1+\norm x^{r}\right)
+\end{align*}
+Da $f\in\mathscr{S}$ gilt, folgt:
+\begin{align*}
+\infty> & \underbrace{\norm f_{0,0}+\norm f_{r+n+1,0}}_{=:K}=\sup_{x}\left(\abs{f\left(x\right)}\right)+\sup_{x}\abs{\norm x^{r+n++1}f\left(x\right)}\ge\sup\left(\left(1+\norm x^{r+n+1}\right)f\left(x\right)\right)
+\end{align*}
+\begin{align*}
+\Rightarrow\quad\abs{f\left(x\right)}\left(1+\norm x^{r+n+1}\right) & \le K\\
+\abs{f\left(x\right)} & \le\frac{K}{1+\norm x^{r+n+1}}\\
+\Rightarrow\quad\abs{T_{g}f} & \le\int_{\mathbb{R}^{n}}\frac{a\left(1+\norm x^{r}\right)}{1+\norm x^{r+n+1}}\dd^{n}x\le\int_{\mathbb{R}^{n}}\frac{\tilde{a}}{1+\norm x^{n+1}}<b
+\end{align*}
+$T_{g}f$ ist stetig:
+\begin{align*}
+\abs{T_{g}f} & \le\int_{\mathbb{R}^{n}}\frac{C}{1+\norm x^{n+1}}\left(\norm f_{0,0}+\norm f_{r+n+1,0}\right)\le\tilde{a}\norm f_{r+n+1,0}
+\end{align*}
+Denn $\norm f_{p,q}\le\norm f_{r,s}$ für alle $p\le r$ und $g\le s$.
+
+Auf diese Weise kann man $g$ eine Distribution $T_{g}$ zuordnen.
+Oft wird $g$ mit $T_{g}$ identifiziert. Damit werden Distributionen
+zu verallgemeinern.
+
+\abc $g=e^{x}$:
+\begin{align*}
+T_{g}f:\mathscr{S}\left(\mathbb{R}\right) & \to\mathbb{R}\\
+f & \mapsto\int_{\mathbb{R}^{n}}f\cdot g\dd^{n}x
+\end{align*}
+ist \emph{nicht} wohldefiniert, denn zum Beispiel ${\displaystyle f=\frac{1}{\cosh\left(x\right)}}$
+fällt exponentiell im Unendlichen ab und somit ist $f\in\mathscr{S}$,
+aber es gilt:
+\begin{align*}
+\int_{\mathbb{R}}\frac{e^{x}}{\cosh\left(x\right)}\dd x & =+\infty
+\end{align*}
+\begin{align*}
+\lim_{x\to\infty}\frac{e^{x}}{\cosh\left(x\right)} & =2
+\end{align*}
+Also ist $T_{g}$ keine temperierte Distribution.
+
+\end{abclist}
+
+
+\section{Beispiel \textmd{(Ableitung der $\delta$-Distribution)}}
+
+Was ist die Ableitung $\delta'$?
+
+Rechne erst formal für ein $f\in\mathscr{S}$:
+\begin{align*}
+\int_{\mathbb{R}}\delta'\left(x\right)f\left(x\right)\dd x & \stackrel{\text{part.Int.}}{=}-\int_{\mathbb{R}}\delta\left(x\right)f'\left(x\right)\dd x=-f'\left(0\right)
+\end{align*}
+Das Ergebnis dieser formalen Rechnung verwenden wir jetzt als Definition:
+\begin{align*}
+\delta':\mathscr{S} & \to\mathbb{R}\\
+f & \mapsto-f^{'}\left(0\right)
+\end{align*}
+ist eine lineare Abbildung, also ist $\delta'$ stetig und somit $\delta'\in\mathscr{S}^{*}$.
+\begin{align*}
+\abs{\delta'\left(f\right)} & \le\sup_{x\in\mathbb{R}}\abs{f'\left(x\right)}\le\sup_{x\in\mathbb{R}}\abs{f\left(x\right)}+\sup_{x\in\mathbb{R}}\abs{f'\left(x\right)}=\norm f_{0,1}
+\end{align*}
+
+
+
+\section{Definition \textmd{(Distributionsableitung)}}
+
+Sei $T\in\mathscr{S}^{*}\left(\mathbb{R}^{n}\right)$ und $\alpha$
+ein Multi-Index. Definiere die Distributionsabbildung $\DD^{\alpha}T$
+durch:
+\begin{align*}
+\left(\DD^{\alpha}T\right)\left(f\right) & :=\left(-1\right)^{\abs{\alpha}}T\left(\DD^{\alpha}f\right)
+\end{align*}
+
+
+
+\subsubsection*{Behauptung}
+
+$\DD^{\alpha}T\in\mathscr{S}^{*}\left(\mathbb{R}^{n}\right)$ ist
+also eine temperiere Distribution.
+
+
+\subsubsection*{Beweis}
+
+Aus $T\in\mathscr{S}^{*}\left(\mathbb{R}^{n}\right)$ folgt für alle
+$f\in\mathscr{S}$:
+\begin{align*}
+\norm{Tf} & \le C\norm f_{r,s}
+\end{align*}
+\begin{align*}
+\abs{\left(\DD^{\alpha}T\right)\left(f\right)} & =\abs{T\left(\DD^{\alpha}f\right)}\le C\norm{\DD^{\alpha}f}_{r,s}\le C\norm f_{r,s+\abs{\alpha}}
+\end{align*}
+Also ist $\DD^{\alpha}T$ stetig nach Satz \eqref{sec:Satz-StetigkeitDistribution}.\qqed
+
+Es gilt noch Folgendes (ohne Beweis):
+
+
+\section{Satz}
+
+Für $g\in C^{\infty}$ mit höchstens polynomialem Anstieg ist die
+Abbildung $g\mapsto T_{g}\in\mathscr{S}^{*}$ ist injektiv.
+
+Allgemeiner $g\in\hat{L}_{\text{loc}}$.
+
+
+\section{Lemma}
+
+Es gilt
+\begin{align*}
+\norm{f\cdot g}_{r,s} & \le\norm f_{r,s}\cdot\norm g_{r,s}
+\end{align*}
+und sogar noch bessere Ungleichungen.
 
 
 \part*{Anhang\thispagestyle{empty}\addcontentsline{toc}{part}{Anhang}}

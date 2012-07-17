@@ -16136,7 +16136,7 @@ Dies ist eine
 \end_inset
 
  schon 
-\begin_inset Formula $x\left(p\right)=0$
+\begin_inset Formula $x^{1}\left(p\right)=0$
 \end_inset
 
 .
@@ -21589,7 +21589,7 @@ Nun zum Fall mit Rand: Sei
  (Dieser ist auch kompakt.)
 \begin_inset Formula 
 \begin{align*}
-x:U & \to\mathbb{R}_{-}^{n}:=\left\{ x\in\mathbb{R}^{n}\big|x^{1}<0\right\} 
+x:U & \to\mathbb{R}_{-}^{n}:=\left\{ x\in\mathbb{R}^{n}\big|x^{1}\le0\right\} 
 \end{align*}
 
 \end_inset
@@ -23570,10 +23570,10 @@ offen
 \begin_inset Formula $r,s\in\mathbb{N}$
 \end_inset
 
- gibt, sodass
+ gibt, sodass gilt:
 \begin_inset Formula 
 \begin{align*}
-\left\{ g\big|\norm{g-f}_{r,s}<\varepsilon\right\}  & \subseteq A
+B_{\varepsilon}^{r,s}\left(f\right) & :=\left\{ g\big|\norm{g-f}_{r,s}<\varepsilon\right\} \subseteq A
 \end{align*}
 
 \end_inset
@@ -23709,6 +23709,858 @@ Dies führt dazu, dass
 \end_inset
 
  vollständig ist.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%DATE: Di 17.7.12
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis
+\end_layout
+
+\begin_layout Standard
+„
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+“: Die Konvergenz 
+\begin_inset Formula $f_{n}\xrightarrow{n\to\infty}f$
+\end_inset
+
+ heißt nach Definition, dass in jeder offenen Umgebung von 
+\begin_inset Formula $f$
+\end_inset
+
+ fast alle 
+\begin_inset Formula $f_{n}$
+\end_inset
+
+ liegen.
+\end_layout
+
+\begin_layout Standard
+Also liegen für alle 
+\begin_inset Formula $r,s\in\mathbb{N}$
+\end_inset
+
+ und jedes 
+\begin_inset Formula $\varepsilon\in\mathbb{R}_{>0}$
+\end_inset
+
+ fast alle 
+\begin_inset Formula $f_{n}$
+\end_inset
+
+ in 
+\begin_inset Formula $B_{\varepsilon}^{r,s}\left(f\right)$
+\end_inset
+
+.
+ Daher konvergiert 
+\begin_inset Formula $\norm{f-f_{n}}_{r,s}\to0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+„
+\begin_inset Formula $\Leftarrow$
+\end_inset
+
+“: Nehme an, dass für alle 
+\begin_inset Formula $r,s\in\mathbb{N}$
+\end_inset
+
+ gilt:
+\begin_inset Formula 
+\begin{align*}
+\norm{f-f_{n}}_{r,s} & \xrightarrow{n\to\infty}0
+\end{align*}
+
+\end_inset
+
+Sei 
+\begin_inset Formula $A$
+\end_inset
+
+ eine offene Umgebung von 
+\begin_inset Formula $f$
+\end_inset
+
+.
+ Nach Definition der Topologie auf 
+\begin_inset Formula $\mathscr{S}$
+\end_inset
+
+ gibt es also 
+\begin_inset Formula $r,s\in\mathbb{N}$
+\end_inset
+
+ und ein 
+\begin_inset Formula $\varepsilon\in\mathbb{R}_{>0}$
+\end_inset
+
+ mit 
+\begin_inset Formula $B_{\varepsilon}^{r,s}\left(f\right)\subseteq A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Wegen 
+\begin_inset Formula $\norm{f_{n}-f}_{r,s}\to0$
+\end_inset
+
+ folgt, dass fast alle 
+\begin_inset Formula $f_{n}$
+\end_inset
+
+ in 
+\begin_inset Formula $B_{\varepsilon}^{r,s}\left(f\right)$
+\end_inset
+
+ liegen, und somit auch in 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Definition 
+\series medium
+(Distribution)
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\mathscr{S}^{*}:=\left\{ T:\mathscr{S}\to\mathbb{R}\text{ linear und stetig}\right\} $
+\end_inset
+
+ der Dualraum.
+ 
+\begin_inset Formula $\mathscr{S}^{*}$
+\end_inset
+
+ heißt der Raum der 
+\emph on
+temperierten Distributionen
+\emph default
+.
+\end_layout
+
+\begin_layout Section
+Satz
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Satz-StetigkeitDistribution"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ein lineares Funktional 
+\begin_inset Formula $T:\mathscr{S}\to\mathbb{R}$
+\end_inset
+
+ ist genau dann stetig, wenn es 
+\begin_inset Formula $r,s\in\mathbb{N}$
+\end_inset
+
+ und ein 
+\begin_inset Formula $c\in\mathbb{R}_{>0}$
+\end_inset
+
+ gibt, sodass gilt:
+\begin_inset Formula 
+\begin{align}
+\abs{Tf} & \le C\norm f_{r,s}\label{eq:Beschraenkt}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis
+\end_layout
+
+\begin_layout Standard
+„
+\begin_inset Formula $\Leftarrow$
+\end_inset
+
+“: Angenommen 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Beschraenkt"
+
+\end_inset
+
+ gilt und 
+\begin_inset Formula $f_{n}\to f$
+\end_inset
+
+ konvergiert in 
+\begin_inset Formula $\mathscr{S}$
+\end_inset
+
+.
+ Für die Stetigkeit ist 
+\begin_inset Formula $Tf_{n}\to Tf$
+\end_inset
+
+ zu zeigen.
+ Es gilt:
+\begin_inset Formula 
+\begin{align*}
+\abs{Tf_{n}-Tf} & \stackrel{T\text{ linear}}{=}\abs{T\left(f_{n}-f\right)}\le C\norm{f_{n}-f}_{r,s}\xrightarrow{n\to\infty}0
+\end{align*}
+
+\end_inset
+
+Denn sogar für alle 
+\begin_inset Formula $p,q\in\mathbb{N}$
+\end_inset
+
+ konvergiert 
+\begin_inset Formula $\norm{f_{n}-f}_{p,q}\to0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Also bildet 
+\begin_inset Formula $T$
+\end_inset
+
+ konvergente Folgen auf konvergente Folgen ab und ist somit stetig.
+\end_layout
+
+\begin_layout Standard
+„
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+”: Sei 
+\begin_inset Formula $T$
+\end_inset
+
+ stetig.
+ Dann ist das Urbild offener Mengen offen.
+ Also insbesondere für die offene Menge 
+\begin_inset Formula $B_{1}\left(0\right)\subseteq\mathbb{R}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+T^{-1}\left(B_{1}\left(0\right)\right) & \stackrel{\text{offen}}{\subseteq}\mathscr{S}
+\end{align*}
+
+\end_inset
+
+Also gibt es 
+\begin_inset Formula $r,s\in\mathbb{N}$
+\end_inset
+
+ und ein 
+\begin_inset Formula $\varepsilon\in\mathbb{R}_{>0}$
+\end_inset
+
+ mit 
+\begin_inset Formula $B_{\varepsilon}^{r,s}\left(0\right)\subseteq T^{-1}\left(B_{1}\left(0\right)\right)$
+\end_inset
+
+ oder äquivalent:
+\begin_inset Formula 
+\begin{align*}
+\norm f_{r,s}<\varepsilon & \quad\Rightarrow\quad\abs{Tf}<1
+\end{align*}
+
+\end_inset
+
+Betrachte diese Ungleichung für 
+\begin_inset Formula $\tilde{f}=\lambda f$
+\end_inset
+
+ mit 
+\begin_inset Formula $\lambda\in\mathbb{R}_{>0}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\norm f_{r,s}<\frac{\varepsilon}{\lambda} & \quad\Rightarrow\quad\abs{Tf}<\frac{1}{\lambda}
+\end{align*}
+
+\end_inset
+
+Wähle nun zu gegebenem 
+\begin_inset Formula $f$
+\end_inset
+
+ mit 
+\begin_inset Formula $\norm f_{r,s}\not=0$
+\end_inset
+
+ (Sonst ist die Behauptung klar, da 
+\begin_inset Formula $f=0$
+\end_inset
+
+ folgt.) den Skalierungsfaktor 
+\begin_inset Formula ${\displaystyle \lambda:=\frac{\varepsilon}{\norm f_{r,s}}}$
+\end_inset
+
+: Aus
+\begin_inset Formula 
+\begin{align*}
+\norm f_{r,s} & <\frac{2\varepsilon}{\varepsilon}\norm f_{r,s}
+\end{align*}
+
+\end_inset
+
+folgt dann:
+\begin_inset Formula 
+\begin{align*}
+\abs{Tf} & <\frac{2}{\varepsilon}\norm f_{r,s}
+\end{align*}
+
+\end_inset
+
+Also gilt für alle 
+\begin_inset Formula $f\in\mathscr{S}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\abs{Tf} & \le\frac{2}{\varepsilon}\norm f_{r,s}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Beispiele 
+\series medium
+(
+\begin_inset Formula $\delta$
+\end_inset
+
+-Distribution)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\delta\in\mathscr{S}^{*}\left(\mathbb{R}^{n}\right)$
+\end_inset
+
+ soll eingeführt werden.
+ Die Abbildung
+\begin_inset Formula 
+\begin{align*}
+\delta:\mathscr{S} & \to\mathbb{R}\\
+f & \mapsto f\left(0\right)
+\end{align*}
+
+\end_inset
+
+ist linear.
+ Um zu zeigen, dass 
+\begin_inset Formula $\delta$
+\end_inset
+
+ stetig ist, müssen wir zeigen, dass es geeignete 
+\begin_inset Formula $r,s\in\mathbb{N}$
+\end_inset
+
+ und 
+\begin_inset Formula $C\in\mathbb{R}_{>0}$
+\end_inset
+
+ mit 
+\begin_inset Formula $\abs{\delta\left(f\right)}\le C\abs f_{r,s}$
+\end_inset
+
+ gibt:
+\begin_inset Formula 
+\begin{align*}
+\abs{\delta\left(f\right)} & =\abs{f\left(0\right)}\le\sup_{x\in\mathbb{R}^{n}}\abs{f\left(x\right)}=\norm f_{0,0}
+\end{align*}
+
+\end_inset
+
+Nützliche Notation:
+\begin_inset Formula 
+\begin{align*}
+\delta\left(f\right) & =:\int_{\mathbb{R}^{n}}f\left(x\right)\delta\left(x\right)\dd^{n}x
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Beispiel 
+\series medium
+(Integraloperator)
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{abclist}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+abc
+\end_layout
+
+\end_inset
+
+ Sei 
+\begin_inset Formula $g\in C^{\infty}\left(\mathbb{R}^{n}\right)$
+\end_inset
+
+ mit höchstens polynomialem Anstieg, das heißt, es gibt 
+\begin_inset Formula $r,C\in\mathbb{R}_{>0}$
+\end_inset
+
+ mit:
+\begin_inset Formula 
+\begin{align*}
+\abs{g\left(x\right)} & \le\left(1+\norm x^{r}\right)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+T_{g}:\mathscr{S}\left(\mathbb{R}^{n}\right) & \to\mathbb{R}\\
+f & \mapsto\int_{\mathbb{R}^{n}}f\left(x\right)g\left(x\right)\dd^{n}x
+\end{align*}
+
+\end_inset
+
+Dieses Integral ist endlich:
+\begin_inset Formula 
+\begin{align*}
+\abs{T_{g}f} & \le\int_{\mathbb{R}}\abs{f\left(x\right)}\cdot\underbrace{\abs{g\left(x\right)}}_{\le C\left(1+\norm x^{r}\right)}\dd^{n}x\le C\left(1+\norm x^{r}\right)
+\end{align*}
+
+\end_inset
+
+Da 
+\begin_inset Formula $f\in\mathscr{S}$
+\end_inset
+
+ gilt, folgt:
+\begin_inset Formula 
+\begin{align*}
+\infty> & \underbrace{\norm f_{0,0}+\norm f_{r+n+1,0}}_{=:K}=\sup_{x}\left(\abs{f\left(x\right)}\right)+\sup_{x}\abs{\norm x^{r+n++1}f\left(x\right)}\ge\sup\left(\left(1+\norm x^{r+n+1}\right)f\left(x\right)\right)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\Rightarrow\quad\abs{f\left(x\right)}\left(1+\norm x^{r+n+1}\right) & \le K\\
+\abs{f\left(x\right)} & \le\frac{K}{1+\norm x^{r+n+1}}\\
+\Rightarrow\quad\abs{T_{g}f} & \le\int_{\mathbb{R}^{n}}\frac{a\left(1+\norm x^{r}\right)}{1+\norm x^{r+n+1}}\dd^{n}x\le\int_{\mathbb{R}^{n}}\frac{\tilde{a}}{1+\norm x^{n+1}}<b
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula $T_{g}f$
+\end_inset
+
+ ist stetig:
+\begin_inset Formula 
+\begin{align*}
+\abs{T_{g}f} & \le\int_{\mathbb{R}^{n}}\frac{C}{1+\norm x^{n+1}}\left(\norm f_{0,0}+\norm f_{r+n+1,0}\right)\le\tilde{a}\norm f_{r+n+1,0}
+\end{align*}
+
+\end_inset
+
+Denn 
+\begin_inset Formula $\norm f_{p,q}\le\norm f_{r,s}$
+\end_inset
+
+ für alle 
+\begin_inset Formula $p\le r$
+\end_inset
+
+ und 
+\begin_inset Formula $g\le s$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Auf diese Weise kann man 
+\begin_inset Formula $g$
+\end_inset
+
+ eine Distribution 
+\begin_inset Formula $T_{g}$
+\end_inset
+
+ zuordnen.
+ Oft wird 
+\begin_inset Formula $g$
+\end_inset
+
+ mit 
+\begin_inset Formula $T_{g}$
+\end_inset
+
+ identifiziert.
+ Damit werden Distributionen zu verallgemeinern.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+abc
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $g=e^{x}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+T_{g}f:\mathscr{S}\left(\mathbb{R}\right) & \to\mathbb{R}\\
+f & \mapsto\int_{\mathbb{R}^{n}}f\cdot g\dd^{n}x
+\end{align*}
+
+\end_inset
+
+ist 
+\emph on
+nicht
+\emph default
+ wohldefiniert, denn zum Beispiel 
+\begin_inset Formula ${\displaystyle f=\frac{1}{\cosh\left(x\right)}}$
+\end_inset
+
+ fällt exponentiell im Unendlichen ab und somit ist 
+\begin_inset Formula $f\in\mathscr{S}$
+\end_inset
+
+, aber es gilt:
+\begin_inset Formula 
+\begin{align*}
+\int_{\mathbb{R}}\frac{e^{x}}{\cosh\left(x\right)}\dd x & =+\infty
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\lim_{x\to\infty}\frac{e^{x}}{\cosh\left(x\right)} & =2
+\end{align*}
+
+\end_inset
+
+Also ist 
+\begin_inset Formula $T_{g}$
+\end_inset
+
+ keine temperierte Distribution.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{abclist}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Beispiel 
+\series medium
+(Ableitung der 
+\begin_inset Formula $\delta$
+\end_inset
+
+-Distribution)
+\end_layout
+
+\begin_layout Standard
+Was ist die Ableitung 
+\begin_inset Formula $\delta'$
+\end_inset
+
+?
+\end_layout
+
+\begin_layout Standard
+Rechne erst formal für ein 
+\begin_inset Formula $f\in\mathscr{S}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\int_{\mathbb{R}}\delta'\left(x\right)f\left(x\right)\dd x & \stackrel{\text{part.Int.}}{=}-\int_{\mathbb{R}}\delta\left(x\right)f'\left(x\right)\dd x=-f'\left(0\right)
+\end{align*}
+
+\end_inset
+
+Das Ergebnis dieser formalen Rechnung verwenden wir jetzt als Definition:
+\begin_inset Formula 
+\begin{align*}
+\delta':\mathscr{S} & \to\mathbb{R}\\
+f & \mapsto-f^{'}\left(0\right)
+\end{align*}
+
+\end_inset
+
+ist eine lineare Abbildung, also ist 
+\begin_inset Formula $\delta'$
+\end_inset
+
+ stetig und somit 
+\begin_inset Formula $\delta'\in\mathscr{S}^{*}$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+\abs{\delta'\left(f\right)} & \le\sup_{x\in\mathbb{R}}\abs{f'\left(x\right)}\le\sup_{x\in\mathbb{R}}\abs{f\left(x\right)}+\sup_{x\in\mathbb{R}}\abs{f'\left(x\right)}=\norm f_{0,1}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Definition 
+\series medium
+(Distributionsableitung)
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $T\in\mathscr{S}^{*}\left(\mathbb{R}^{n}\right)$
+\end_inset
+
+ und 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ ein Multi-Index.
+ Definiere die Distributionsabbildung 
+\begin_inset Formula $\DD^{\alpha}T$
+\end_inset
+
+ durch:
+\begin_inset Formula 
+\begin{align*}
+\left(\DD^{\alpha}T\right)\left(f\right) & :=\left(-1\right)^{\abs{\alpha}}T\left(\DD^{\alpha}f\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Behauptung
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\DD^{\alpha}T\in\mathscr{S}^{*}\left(\mathbb{R}^{n}\right)$
+\end_inset
+
+ ist also eine temperiere Distribution.
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis
+\end_layout
+
+\begin_layout Standard
+Aus 
+\begin_inset Formula $T\in\mathscr{S}^{*}\left(\mathbb{R}^{n}\right)$
+\end_inset
+
+ folgt für alle 
+\begin_inset Formula $f\in\mathscr{S}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\norm{Tf} & \le C\norm f_{r,s}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\abs{\left(\DD^{\alpha}T\right)\left(f\right)} & =\abs{T\left(\DD^{\alpha}f\right)}\le C\norm{\DD^{\alpha}f}_{r,s}\le C\norm f_{r,s+\abs{\alpha}}
+\end{align*}
+
+\end_inset
+
+Also ist 
+\begin_inset Formula $\DD^{\alpha}T$
+\end_inset
+
+ stetig nach Satz 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "sec:Satz-StetigkeitDistribution"
+
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Es gilt noch Folgendes (ohne Beweis):
+\end_layout
+
+\begin_layout Section
+Satz
+\end_layout
+
+\begin_layout Standard
+Für 
+\begin_inset Formula $g\in C^{\infty}$
+\end_inset
+
+ mit höchstens polynomialem Anstieg ist die Abbildung 
+\begin_inset Formula $g\mapsto T_{g}\in\mathscr{S}^{*}$
+\end_inset
+
+ ist injektiv.
+\end_layout
+
+\begin_layout Standard
+Allgemeiner 
+\begin_inset Formula $g\in\hat{L}_{\text{loc}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Lemma
+\end_layout
+
+\begin_layout Standard
+Es gilt
+\begin_inset Formula 
+\begin{align*}
+\norm{f\cdot g}_{r,s} & \le\norm f_{r,s}\cdot\norm g_{r,s}
+\end{align*}
+
+\end_inset
+
+und sogar noch bessere Ungleichungen.
 \end_layout
 
 \begin_layout Part*
