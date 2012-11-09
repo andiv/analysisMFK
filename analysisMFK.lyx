@@ -5,9 +5,9 @@
 \textclass report
 \begin_preamble
 \usepackage{tikz}
-%\usepackage{tikz-3dplot}
+%\usepackage{tikz-3dplot,cancel,polynom}
 \usetikzlibrary{matrix,arrows,calc,decorations}
-\usepackage{latexsym,stmaryrd,stackrel,array,tabularx,multirow,icomma,braket,polynom,cancel,bbm}
+\usepackage{latexsym,stmaryrd,stackrel,icomma,braket,bbm}
 \usepackage[explicit]{titlesec}
 
 % Inhaltsverzeichnis
@@ -33,6 +33,9 @@
 \DeclareMathOperator*{\bcupdop}{\dot{\bigcup}}
 \DeclareMathOperator*{\bcapdop}{\dot{\bigcap}}
 
+%Operatornorm
+\newcommand{\opnor}[1]{\abs{\hspace*{-1.1pt}\norm{#1}\hspace*{-1.1pt}}}
+
 % Rotieren
 \newcommand{\Rotate}[1]{
 \begin{tikzpicture}
@@ -42,7 +45,7 @@
 
 %QED-Zeichen (Box)
 \newcommand{\qed}{\ensuremath{\Box}}
-\newcommand{\qqed}[1][\arabic{chapter}.\arabic{section}\ifnum\arabic{subsection}>0{.\arabic{subsection}}\fi]{\hfill\qed\ensuremath{_{\text{#1}}}}
+\newcommand{\qqed}[1][\arabic{chapter}.\arabic{section}\ifnum\arabic{subsection}>0{.\arabic{subsection}}\fi]{\hspace*{1mm}\hfill\qed\ensuremath{_{\text{#1}}}}
 
 % Mengen Modulo
 \newcommand{\moduloT}[2]{
@@ -60,6 +63,16 @@
 
 % Für Z/2Z, um nicht soviel schreiben zu müssen
 \newcommand{\modloT}[2]{\moduloT{ \mathbb{#1}}{#2\mathbb{#1}}}
+
+%Laplace-Beltrami-Operator
+\newcommand{\LBO}{
+\begin{minipage}{6mm}
+ \begin{tikzpicture}
+   \node at (0,0){$\Delta$};
+   \draw[line width=0.75] (0.25,-0.13) -- (0.1,0.15);
+ \end{tikzpicture}
+\end{minipage}
+}
 
 %Die Modulo-Kommandos in klein, für die Darstellungen unter Quantoren.
 \newcommand{\moduloScriptT}[2]{
@@ -204,39 +217,6 @@
 status collapsed
 
 \begin_layout Plain Layout
-Lyx:
-\end_layout
-
-\begin_layout Plain Layout
-$
-\backslash
-root{3}{2}$ entspricht $
-\backslash
-sqrt[3]{2}$
-\end_layout
-
-\begin_layout Plain Layout
-$
-\backslash
-unittwo{864}{
-\backslash
-frac{km}{h}}$ entspricht $
-\backslash
-unit[864]{
-\backslash
-frac{km}{h}}$
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
 Vorlage: Kommutatives Diagramm
 \end_layout
 
@@ -287,6 +267,116 @@ Phi $} (m-2-2);
 
 \backslash
 end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Vorlage: Plot mit pgfplots
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+ 
+\backslash
+begin{axis}[width=13cm, axis x line=middle, axis y line=middle, xtick={0},
+ ytick={0}, xlabel=$q$,domain=-6:6,samples=300]
+\end_layout
+
+\begin_layout Plain Layout
+
+%  
+\backslash
+addplot[green,mark=none] {(8*x^3-12*x)*exp(-x^2/2)*0.5};
+\end_layout
+
+\begin_layout Plain Layout
+
+%  
+\backslash
+addlegendentry{$
+\backslash
+psi_3 (q)$}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+addplot[red,mark=none] {x^2*0.08};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+addlegendentry{$V(q)$}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+addplot[blue,mark=none] {(0.256*x^8-3.584*x^6+13.440*x^4-13.440*x^2+1.680)*exp(-x^2/2
+)};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+addlegendentry{$
+\backslash
+psi_8 (q)$}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+addplot[orange,mark=none] {((0.256*x^8-3.584*x^6+13.440*x^4-13.440*x^2+1.680)*exp(-x^
+2/2))^2*0.5};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+addlegendentry{$
+\backslash
+abs{
+\backslash
+psi_8 (q)}^2$}
+\end_layout
+
+\begin_layout Plain Layout
+
+ 
+\backslash
+end{axis}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture} 
 \end_layout
 
 \end_inset
@@ -530,7 +620,8 @@ begin{iiilist} als LyX-Kommandos einbauen.
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\mins}{\text{-}}
+\newcommand{\opnorm}[1]{\opnor{#1}}
+{\abs{\norm{#1}}}
 \end_inset
 
 
@@ -538,18 +629,42 @@ begin{iiilist} als LyX-Kommandos einbauen.
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\LB}{\Delta\backslash}
+\newcommand{\mins}{-}
 \end_inset
 
 
-\begin_inset ERT
+\begin_inset Note Note
 status open
 
 \begin_layout Plain Layout
 
-%TODO: Symbol
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\lang english
+\begin_inset Formula $\text{-}$
+\end_inset
+
+
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\LB}{\LBO}
+{\Delta\backslash}
 \end_inset
 
 
@@ -1205,6 +1320,40 @@ Jänich
 : 
 \emph on
 Vektoranalysis
+\end_layout
+
+\begin_layout Standard
+Distributionen:
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+J.
+ Rauch
+\noun default
+: 
+\emph on
+\lang english
+Partial Differential Equations
+\emph default
+\lang ngerman
+, Anhang: 
+\emph on
+\lang english
+A crash course in distribution theory
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+L.
+ Schwartz
+\noun default
+: 
+\emph on
+\lang english
+Theory of Distributions
 \end_layout
 
 \begin_layout Standard
@@ -14355,12 +14504,9 @@ Man sieht, dass man auf einer topologischen Mannigfaltigkeiten die Divergenz
 Auf Riemannschen Mannigfaltigkeiten kann man hoffen, dass man mit Hilfe
  der Metrik die Formel so modifizieren kann, dass der störende Zusatzterm
  herausfällt.
-\end_layout
 
-\begin_layout Subsection
-Definition 
 \series medium
-(Divergenz)
+ Dies erreicht man mit folgender Definition für die Divergenz:
 \end_layout
 
 \begin_layout Standard
@@ -14390,26 +14536,19 @@ dann gilt:
 
 \end_layout
 
-\begin_layout Subsection
-Bemerkung
+\begin_layout Subsubsection*
+Frage
 \end_layout
 
 \begin_layout Standard
-
-\color green
-TODO: Rest überarbeiten
-\end_layout
-
-\begin_layout Standard
-Frage:
 \begin_inset Formula 
 \begin{align*}
-\frac{\partial}{\partial x^{i}}\det g\left(x\right) & =?
+\frac{\partial}{\partial x^{i}}\det\left(g\left(x\right)\right) & =?
 \end{align*}
 
 \end_inset
 
-Einfacher ist es, eine glatte 1-Parameter-Familie von Matrizen 
+Einfacher ist es, eine glatte Ein-Parameter-Familie von Matrizen 
 \begin_inset Formula $A\left(t\right)\in\text{GL}_{n}\left(\mathbb{C}\right)$
 \end_inset
 
@@ -14425,11 +14564,18 @@ Dann ist
 \begin_inset Formula $t$
 \end_inset
 
-, weil polynomial in den Matrixelementen.
+, denn es ist ein polynomialer Ausdruck der Matrixelemente.
 \end_layout
 
 \begin_layout Subsection
 Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Lem-AbleitungDeterminante"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -14443,7 +14589,7 @@ Sei
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\frac{\dd}{\dd t}\det\left(A\left(t\right)\right) & =\det A\left(t\right)\cdot\text{Tr}\left(A^{-1}\left(t\right)\frac{\dd}{\dd t}A\left(t\right)\right)
+\frac{\dd}{\dd t}\det\left(A\left(t\right)\right) & =\det\left(A\left(t\right)\right)\cdot\text{Tr}\left(A^{-1}\left(t\right)\frac{\dd}{\dd t}A\left(t\right)\right)
 \end{align*}
 
 \end_inset
@@ -14485,7 +14631,15 @@ Adjunkte
 \begin_inset Formula $\text{Adj}_{ij}\left(A\right)$
 \end_inset
 
- die Determinante der Matrix ist, bei der man die 
+ das Produkt von 
+\begin_inset Formula $\left(-1\right)^{i+j}$
+\end_inset
+
+ und der Determinante der Matrix, die man erhält, wenn man bei 
+\begin_inset Formula $A$
+\end_inset
+
+ die 
 \begin_inset Formula $i$
 \end_inset
 
@@ -14493,11 +14647,7 @@ Adjunkte
 \begin_inset Formula $j$
 \end_inset
 
--te Spalte streicht mal 
-\begin_inset Formula $\left(-1\right)^{i+j}$
-\end_inset
-
-.
+-te Spalte streicht.
 \end_layout
 
 \begin_layout Standard
@@ -14510,7 +14660,7 @@ Wähle
 \end_inset
 
 .
- Dann ist:
+ Dann folgt, da zwei Zeilen der Matrix in der Determinante identisch sind:
 \begin_inset Formula 
 \begin{align*}
 \sum_{j=1}^{n}a_{ij}\text{Adj}_{kj}\left(A\right) & =\det\left(\begin{array}{ccc}
@@ -14538,7 +14688,7 @@ Zusammenhang zur Inversen
 :
 \begin_inset Formula 
 \begin{align*}
-A\cdot B & =E_{n}\\
+A\cdot B & =\mathbbm{1}\\
 \sum_{j}a_{ij}\cdot b_{jk} & =\delta_{ik}
 \end{align*}
 
@@ -14568,8 +14718,8 @@ Betrachte eine
 \begin_inset Formula 
 \begin{align*}
 A^{-1} & =\frac{1}{\det\left(A\right)}\left(\begin{array}{cc}
-\text{Adj}_{11}\left(A\right) & -\text{Adj}_{21}\left(A\right)\\
--\text{Adj}_{12}\left(A\right) & \text{Adj}_{22}\left(A\right)
+\text{Adj}_{11}\left(A\right) & \text{Adj}_{21}\left(A\right)\\
+\text{Adj}_{12}\left(A\right) & \text{Adj}_{22}\left(A\right)
 \end{array}\right)=\frac{1}{\det\left(A\right)}\left(\begin{array}{cc}
 a_{22} & -a_{12}\\
 -a_{21} & a_{11}
@@ -14588,7 +14738,7 @@ a_{22} & -a_{12}\\
 a_{11} & a_{12}\\
 a_{21} & a_{22}
 \end{array}\right)=\\
- & =\frac{1}{\det\left(A\right)}\left(\begin{array}{cc}
+ & =\frac{1}{a_{11}a_{22}-a_{12}a_{21}}\left(\begin{array}{cc}
 a_{22}a_{11}-a_{12}a_{21} & a_{22}a_{12}-a_{12}a_{22}\\
 -a_{21}a_{11}+a_{11}a_{21} & -a_{21}a_{11}+a_{11}a_{22}
 \end{array}\right)=\left(\begin{array}{cc}
@@ -14627,7 +14777,7 @@ Mit der Kettenregel folgt:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\frac{\dd}{\dd t}\det\left(A\left(t\right)\right) & =\sum_{i,j=1}^{n}\frac{\partial}{\partial a_{ij}}\det A\cdot\dot{a}_{ij}
+\frac{\dd}{\dd t}\det\left(A\left(t\right)\right) & =\sum_{i,j=1}^{n}\frac{\partial}{\partial a_{ij}}\det\left(A\right)\cdot\dot{a}_{ij}
 \end{align*}
 
 \end_inset
@@ -14636,7 +14786,7 @@ Sei
 \begin_inset Formula $i,j$
 \end_inset
 
- fest, so gilt:
+ fest gewählt, so gilt:
 \begin_inset Formula 
 \begin{align*}
 \det\left(A\right) & =\sum_{k=1}^{n}a_{ik}\text{Adj}_{ik}\left(A\right)
@@ -14663,7 +14813,8 @@ Nun ist
 Also gilt:
 \begin_inset Formula 
 \begin{align*}
-\frac{\dd}{\dd t}\det\left(A\left(t\right)\right) & =\sum_{i,j=1}^{n}\text{Adj}_{ij}\cdot\dot{a}_{ij}=\det\left(A\right)\sum_{i,j}b_{ji}\cdot\dot{a}_{ij}=\det\left(A\right)\sum_{j}\left(B\cdot\dot{A}\right)_{jj}=\det\left(A\right)\text{Tr}\left(B\cdot\dot{A}\right)
+\frac{\dd}{\dd t}\det\left(A\left(t\right)\right) & =\sum_{i,j=1}^{n}\text{Adj}_{ij}\left(A\right)\cdot\dot{a}_{ij}=\det\left(A\right)\sum_{i,j}b_{ji}\cdot\dot{a}_{ij}=\\
+ & =\det\left(A\right)\sum_{j}\left(B\cdot\dot{A}\right)_{jj}=\det\left(A\right)\text{Tr}\left(B\cdot\dot{A}\right)
 \end{align*}
 
 \end_inset
@@ -14686,104 +14837,6 @@ status open
 \backslash
 qqed
 \end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Bemerkung
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align*}
-\tilde{g}_{lm}\left(y\right) & =g_{ij}\left(x\right)\frac{\partial x^{i}}{\partial y^{l}}\frac{\partial x^{j}}{\partial y^{m}}=\frac{\partial x^{i}}{\partial y^{l}}g_{ij}\left(x\right)\frac{\partial x^{j}}{\partial y^{m}}\\
-\tilde{g}\left(y\right) & =\left(\frac{\partial x}{\partial y}\right)^{T}g\left(x\right)\left(\frac{\partial x}{\partial y}\right)
-\end{align*}
-
-\end_inset
-
-
-\begin_inset Formula 
-\begin{align*}
-\det\tilde{g} & =\det g\cdot\det\left(\frac{\partial x}{\partial y}\right)^{T}\det\left(\frac{\partial x}{\partial y}\right)=\det g\left(\det\left(\frac{\partial x}{\partial y}\right)\right)^{2}
-\end{align*}
-
-\end_inset
-
-
-\begin_inset Formula 
-\begin{align*}
-\sqrt{\det\tilde{g}} & =\pm\sqrt{\det g\left(x\right)}\det\left(\frac{\partial x}{\partial y}\right)
-\end{align*}
-
-\end_inset
-
-Dabei ist 
-\begin_inset Formula $+$
-\end_inset
-
-, falls 
-\begin_inset Formula $\det\left(\frac{\partial x}{\partial y}\right)>0$
-\end_inset
-
- und 
-\begin_inset Formula $-$
-\end_inset
-
-, falls 
-\begin_inset Formula $\det\left(\frac{\partial x}{\partial y}\right)<0$
-\end_inset
-
-.
-\begin_inset Formula 
-\begin{align*}
-\frac{1}{\sqrt{\det\tilde{g}}}\frac{\partial}{\partial y^{k}}\sqrt{\det\tilde{g}} & =\frac{1}{\sqrt{\det\tilde{g}}}\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\sqrt{\det\tilde{g}}=\\
- & =\frac{\partial}{y^{k}}\left(\ln\sqrt{\det\tilde{g}}\right)=\frac{\partial}{\partial y^{k}}\left(\ln\left(\sqrt{\det g}\right)+\ln\left(\det\left(\frac{\partial x}{\partial y}\right)\right)\right)=\\
- & =\frac{1}{\sqrt{\det g}}\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\sqrt{\det g}+\left(\det\left(\frac{\partial x}{\partial y}\right)\right)^{-1}\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\det\left(\frac{\partial x}{\partial y}\right)
-\end{align*}
-
-\end_inset
-
-Mit
-\begin_inset Formula 
-\begin{align*}
-\det\left(\frac{\partial x}{\partial y}\right) & =\left(\det\left(\frac{\partial y}{\partial x}\right)\right)^{-1}
-\end{align*}
-
-\end_inset
-
-folgt:
-\begin_inset Formula 
-\begin{align*}
-\det\left(\frac{\partial x}{\partial y}\right)^{-1}\cdot\frac{\partial}{\partial x^{i}}\det\left(\frac{\partial x}{\partial y}\right) & =\det\left(\frac{\partial y}{\partial x}\right)\cdot\frac{\partial}{\partial x^{i}}\left(\det\left(\frac{\partial y}{\partial x}\right)\right)^{-1}=\\
- & =-\left(\det\left(\frac{\partial y}{\partial x}\right)\right)^{-1}\cdot\frac{\partial}{\partial x^{i}}\det\left(\frac{\partial y}{\partial x}\right)=\\
- & =-\left(\det\left(\frac{\partial y}{\partial x}\right)\right)^{-1}\cdot\det\left(\frac{\partial y}{\partial x}\right)\cdot\text{Tr}\left(\left(\frac{\partial y}{\partial x}\right)^{-1}\cdot\frac{\partial}{\partial x^{i}}\left(\frac{\partial y}{\partial x}\right)\right)=\\
- & =-\text{Tr}\left(\left(\frac{\partial y}{\partial x}\right)^{-1}\cdot\frac{\partial}{\partial x^{i}}\left(\frac{\partial y}{\partial x}\right)\right)=-\frac{\partial x^{l}}{\partial y^{k}}\cdot\frac{\partial^{2}y^{k}}{\partial x^{i}\partial x^{l}}
-\end{align*}
-
-\end_inset
-
-Also gilt:
-\begin_inset Formula 
-\begin{align*}
-\frac{1}{\sqrt{\det\tilde{g}}}\left(\frac{\partial}{\partial y^{k}}\sqrt{\det\tilde{g}}\right)\tilde{v}^{k} & =\frac{1}{\sqrt{\det g}}\frac{\partial x^{l}}{\partial y^{k}}\left(\frac{\partial}{\partial x^{l}}\sqrt{\det g}\right)\tilde{v}^{k}-\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial x^{l}}{\partial y^{m}}\frac{\partial^{2}y^{m}}{\partial x^{l}\partial x^{i}}\tilde{v}^{k}=\\
- & \stackrel{v^{l}=\frac{\partial x^{l}}{\partial y^{k}}\tilde{v}^{k}}{=}\frac{1}{\sqrt{\det g}}\left(\frac{\partial}{\partial x^{l}}\sqrt{\det g}\right)v^{l}-\frac{\partial x^{l}}{\partial y^{m}}\frac{\partial^{2}y^{m}}{\partial x^{l}\partial x^{i}}v^{i}
-\end{align*}
-
-\end_inset
-
-Es folgt:
-\begin_inset Formula 
-\begin{align*}
-\frac{1}{\sqrt{\det\tilde{g}}}\left(\frac{\partial}{\partial y^{j}}\sqrt{\det\tilde{g}}\tilde{v}^{j}\right) & =\frac{1}{\sqrt{\det\tilde{g}}}\left(\frac{\partial}{\partial y^{j}}\sqrt{\det\tilde{g}}\right)\tilde{v}^{j}+\frac{\partial}{\partial y^{j}}\tilde{v}^{j}=\\
- & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}\right)v^{i}-\frac{\partial x^{l}}{\partial y^{m}}\left(\frac{\partial^{2}}{\partial x^{l}\partial x^{i}}\right)v^{i}\\
- & \quad+\underbrace{\frac{\partial x^{l}}{\partial y^{j}}\frac{\partial y^{j}}{\partial x^{i}}}_{=\partial_{i}^{l}}\frac{\partial}{\partial x^{l}}v^{i}+\frac{\partial x^{l}}{\partial y^{j}}\left(\frac{\partial^{2}y^{j}}{\partial x^{i}\partial x^{l}}\right)v^{i}=\\
- & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}\right)v^{i}+\frac{\partial}{\partial x^{i}}\left(v^{i}\left(x\right)\right)=\\
- & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}v^{i}\left(x\right)\right)
-\end{align*}
 
 \end_inset
 
@@ -14845,7 +14898,91 @@ Beweis
 
 \begin_layout Standard
 Dies ergibt sich durch explizite Rechnung, indem man das Transformationsverhalte
-n betrachtet.
+n in eine andere Karte 
+\begin_inset Formula $\left(y,V\right)$
+\end_inset
+
+ betrachtet:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\tilde{g}_{lm}\left(y\right) & =g_{ij}\left(x\right)\frac{\partial x^{i}}{\partial y^{l}}\frac{\partial x^{j}}{\partial y^{m}}=\frac{\partial x^{i}}{\partial y^{l}}g_{ij}\left(x\right)\frac{\partial x^{j}}{\partial y^{m}}\\
+\tilde{g}\left(y\right) & =\left(\frac{\partial x}{\partial y}\right)^{T}g\left(x\right)\left(\frac{\partial x}{\partial y}\right)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\Rightarrow\quad\det\tilde{g} & =\det g\cdot\det\left(\frac{\partial x}{\partial y}\right)^{T}\det\left(\frac{\partial x}{\partial y}\right)=\det g\left(\det\left(\frac{\partial x}{\partial y}\right)\right)^{2}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\sqrt{\det\tilde{g}} & =\sqrt{\det g\left(x\right)}\abs{\det\left(\frac{\partial x}{\partial y}\right)}
+\end{align*}
+
+\end_inset
+
+Es folgt:
+\begin_inset Formula 
+\begin{align*}
+\frac{1}{\sqrt{\det\tilde{g}}}\frac{\partial}{\partial y^{k}}\sqrt{\det\tilde{g}} & =\frac{\partial}{\partial y^{k}}\left(\ln\sqrt{\det\tilde{g}}\right)=\frac{\partial}{\partial y^{k}}\left(\ln\left(\sqrt{\det g}\right)+\ln\left(\abs{\det\left(\frac{\partial x}{\partial y}\right)}\right)\right)=\\
+ & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial y^{k}}\sqrt{\det g}+\left(\abs{\det\left(\frac{\partial x}{\partial y}\right)}\right)^{-1}\frac{\partial}{\partial y^{k}}\abs{\det\left(\frac{\partial x}{\partial y}\right)}=\\
+ & =\frac{1}{\sqrt{\det g}}\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\sqrt{\det g}+\left(\abs{\det\left(\frac{\partial x}{\partial y}\right)}\right)^{-1}\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\abs{\det\left(\frac{\partial x}{\partial y}\right)}
+\end{align*}
+
+\end_inset
+
+Mit
+\begin_inset Formula 
+\begin{align*}
+\frac{\partial x}{\partial y} & =\left(\frac{\partial y}{\partial x}\right)^{-1} & \det\left(\frac{\partial x}{\partial y}\right) & =\left(\det\left(\frac{\partial y}{\partial x}\right)\right)^{-1}
+\end{align*}
+
+\end_inset
+
+folgt für den zweiten Term:
+\begin_inset Formula 
+\begin{align*}
+ & \left(\abs{\det\left(\frac{\partial x}{\partial y}\right)}\right)^{-1}\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\abs{\det\left(\frac{\partial x}{\partial y}\right)}=\\
+ & \qquad\qquad\stackrel{\det\left(\frac{\partial y}{\partial x}\right)\not=0}{=}\abs{\det\left(\frac{\partial y}{\partial x}\right)}\text{sgn}\left(\det\left(\frac{\partial y}{\partial x}\right)\right)\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\left(\det\left(\frac{\partial y}{\partial x}\right)\right)^{-1}=\\
+ & \qquad\qquad=-\det\left(\frac{\partial y}{\partial x}\right)\left(\det\left(\frac{\partial y}{\partial x}\right)\right)^{-2}\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\det\left(\frac{\partial y}{\partial x}\right)=\\
+ & \qquad\qquad\stackrel{\ref{sub:Lem-AbleitungDeterminante}}{=}-\left(\det\left(\frac{\partial y}{\partial x}\right)\right)^{-1}\det\left(\frac{\partial y}{\partial x}\right)\frac{\partial x^{i}}{\partial y^{k}}\cdot\text{Tr}\left(\left(\frac{\partial y}{\partial x}\right)^{-1}\cdot\frac{\partial}{\partial x^{i}}\frac{\partial y}{\partial x}\right)=\\
+ & \qquad\qquad=-\frac{\partial x^{i}}{\partial y^{k}}\cdot\text{Tr}\left(\frac{\partial x}{\partial y}\cdot\frac{\partial}{\partial x^{i}}\frac{\partial y}{\partial x}\right)=-\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial x^{l}}{\partial y^{m}}\cdot\frac{\partial^{2}y^{m}}{\partial x^{i}\partial x^{l}}
+\end{align*}
+
+\end_inset
+
+Also gilt:
+\begin_inset Formula 
+\begin{align*}
+\frac{1}{\sqrt{\det\tilde{g}}}\frac{\partial}{\partial y^{k}}\left(\sqrt{\det\tilde{g}}\right)\tilde{v}^{k} & =\frac{1}{\sqrt{\det g}}\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}\right)\tilde{v}^{k}-\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial x^{l}}{\partial y^{m}}\cdot\frac{\partial^{2}y^{m}}{\partial x^{i}\partial x^{l}}\tilde{v}^{k}=\\
+ & \stackrel{v^{i}=\frac{\partial x^{i}}{\partial y^{k}}\tilde{v}^{k}}{=}\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}\right)v^{i}-\frac{\partial x^{l}}{\partial y^{m}}\frac{\partial^{2}y^{m}}{\partial x^{i}\partial x^{l}}v^{i}
+\end{align*}
+
+\end_inset
+
+Es folgt:
+\begin_inset Formula 
+\begin{align*}
+\frac{1}{\sqrt{\det\tilde{g}}}\left(\frac{\partial}{\partial y^{k}}\sqrt{\det\tilde{g}}\tilde{v}^{k}\right) & =\frac{1}{\sqrt{\det\tilde{g}}}\left(\frac{\partial}{\partial y^{k}}\sqrt{\det\tilde{g}}\right)\tilde{v}^{k}+\frac{\sqrt{\det\tilde{g}}}{\sqrt{\det\tilde{g}}}\frac{\partial}{\partial y^{k}}\tilde{v}^{k}=\\
+ & =\frac{1}{\sqrt{\det\tilde{g}}}\left(\frac{\partial}{\partial y^{k}}\sqrt{\det\tilde{g}}\right)\tilde{v}^{k}+\frac{\partial x^{j}}{\partial y^{k}}\frac{\partial}{\partial x^{j}}\left(\frac{\partial y^{k}}{\partial x^{i}}v^{i}\right)=\\
+ & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}\right)v^{i}-\frac{\partial x^{l}}{\partial y^{m}}\left(\frac{\partial^{2}y^{m}}{\partial x^{i}\partial x^{l}}\right)v^{i}\\
+ & \quad+\frac{\partial x^{j}}{\partial y^{k}}\frac{\partial^{2}y^{k}}{\partial x^{j}\partial x^{i}}v^{i}+\underbrace{\frac{\partial x^{j}}{\partial y^{k}}\frac{\partial y^{k}}{\partial x^{i}}}_{=\delta_{i}^{j}}\frac{\partial}{\partial x^{j}}v^{i}=\\
+ & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}\right)v^{i}+\frac{\partial}{\partial x^{i}}v^{i}\left(x\right)=\\
+ & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}v^{i}\left(x\right)\right)
+\end{align*}
+
+\end_inset
+
+
 \begin_inset ERT
 status open
 
@@ -14893,8 +15030,8 @@ Dies geht auch für allgemeine Tensorfelder:
 Der Satz von Gauß auf kompakten Mannigfaltigkeiten
 \end_layout
 
-\begin_layout Standard
-Motivation:
+\begin_layout Subsubsection*
+Motivation
 \end_layout
 
 \begin_layout Standard
@@ -14906,7 +15043,7 @@ Der Hauptsatz der Differential- und Integralrechnung ist:
 
 \end_inset
 
-Versuche dies auf höhere Dimensionen zu verallgemeinern.
+Versuche nun, dies auf höhere Dimensionen zu verallgemeinern.
 \end_layout
 
 \begin_layout Standard
@@ -14914,18 +15051,22 @@ Sei
 \begin_inset Formula $\Omega\subseteq\mathbb{R}^{n}$
 \end_inset
 
- und 
+, 
 \begin_inset Formula $v$
 \end_inset
 
- ein Vektorfeld und die Normale sei 
+ ein Vektorfeld und die äußere Normale von 
+\begin_inset Formula $\Omega$
+\end_inset
+
+ sei 
 \begin_inset Formula $\nu$
 \end_inset
 
 .
 \begin_inset Formula 
 \begin{align*}
-\int_{\Omega}\text{div}\left(v\right)\dd\mu_{\Omega} & =\int_{\partial\Omega}\left\langle v,\nu\right\rangle \dd\mu_{\Omega}
+\int_{\Omega}\text{div}\left(v\right)\dd\mu_{\Omega} & =\int_{\partial\Omega}\left\langle v,\nu\right\rangle \dd\mu_{\partial\Omega}
 \end{align*}
 
 \end_inset
@@ -14947,7 +15088,7 @@ Bei uns ist
 
 \end_inset
 
-
+Dabei gilt:
 \begin_inset Formula 
 \begin{align*}
 \text{div}\left(v\right) & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det g}v^{j}\right)\\
@@ -15003,7 +15144,7 @@ Wähle einen Atlas
 \end_inset
 
 .
- Dann ist nach Definition des Integrals
+ Dann gilt nach Definition des Integrals:
 \begin_inset Formula 
 \begin{align*}
 \int_{M}\text{div}\left(v\right)\dd\mu_{M} & =\sum_{k}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(\eta_{k}\cdot\text{div}\left(v\right)\right)\circ x_{n_{k}}^{-1}\cdot\sqrt{\det\left(g\circ x_{n_{k}}^{-1}\right)}\dd^{n}x
@@ -15025,7 +15166,7 @@ Es ist
 \end_inset
 
  für 
-\begin_inset Formula $f\circ x^{-1}$
+\begin_inset Formula $f\circ x_{n_{k}}^{-1}$
 \end_inset
 
 :
@@ -15040,31 +15181,33 @@ Es ist
 
 \begin_inset Formula 
 \begin{align*}
-\int_{\mathbb{R}^{n}}\eta_{k}\left(x\right)\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g\left(x\right)}v^{i}\left(x\right)\right)\dd^{n}x & =\int_{-\infty}^{\infty}\dd x_{1}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\eta_{k}\sum_{i=1}^{n}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g\left(x\right)}v^{i}\left(x\right)\right)=\\
- & =\sum_{i=1}^{n}\int_{-\infty}^{\infty}\dd x_{1}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\eta_{k}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g\left(x\right)}v^{i}\left(x\right)\right)
+ & \int_{\mathbb{R}^{n}}\eta_{k}\left(x\right)\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g\left(x\right)}v^{i}\left(x\right)\right)\dd^{n}x=\\
+ & \qquad\qquad=\int_{-\infty}^{\infty}\dd x_{1}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\eta_{k}\sum_{i=1}^{n}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g\left(x\right)}v^{i}\left(x\right)\right)=\\
+ & \qquad\qquad=\sum_{i=1}^{n}\int_{-\infty}^{\infty}\dd x_{1}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\eta_{k}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g\left(x\right)}v^{i}\left(x\right)\right)
 \end{align*}
 
 \end_inset
 
-Gehe jetzt alle Summanden durch und wende den Satz von Fubini an:
+Gehe jetzt alle Summanden durch und wende den Satz von Fubini an, beispielsweise
+ beim ersten Summanden:
 \begin_inset Formula 
 \begin{align*}
  & \int_{-\infty}^{\infty}\dd x_{1}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\eta_{k}\frac{\partial}{\partial x^{1}}\left(\sqrt{\det g\left(x\right)}v^{1}\left(x\right)\right)\\
- & =\int_{-\infty}^{\infty}\dd x_{2}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\int_{-\infty}^{\infty}\dd x_{1}\eta_{k}\frac{\partial}{\partial x^{1}}\left(\sqrt{\det g\left(x\right)}v^{1}\left(x\right)\right)=\\
+ & =\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\int_{-\infty}^{\infty}\dd x_{1}\eta_{k}\frac{\partial}{\partial x^{1}}\left(\sqrt{\det g\left(x\right)}v^{1}\left(x\right)\right)=\\
  & \stackrel{\text{part.Int.}}{=}\int_{-\infty}^{\infty}\dd x_{2}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\int_{-\infty}^{\infty}\dd x_{1}\left(-\frac{\partial}{\partial x^{1}}\eta_{k}\right)\sqrt{\det g\left(x\right)}v^{1}\left(x\right)
 \end{align*}
 
 \end_inset
 
 Der Randterm der partiellen Integration verschwindet, da 
-\begin_inset Formula $M$
+\begin_inset Formula $\eta_{k}$
 \end_inset
 
- kompakt ist.
+ einen kompakten Träger hat.
  Also folgt:
 \begin_inset Formula 
 \begin{align*}
-\int_{\mathbb{R}^{n}}\eta_{k}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}v^{i}\right)\dd^{n}x & =-\int_{-\infty}^{\infty}\left(\frac{\partial}{\partial x^{i}}\eta_{k}\right)\cdot v^{i}\sqrt{\det g}\dd^{n}x=-\int_{M}v\left(\eta_{k}\right)\dd\mu_{M}
+\int_{\mathbb{R}^{n}}\eta_{k}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}v^{i}\right)\dd^{n}x & =-\int_{\mathbb{R}^{n}}\left(\frac{\partial}{\partial x^{i}}\eta_{k}\right)\cdot v^{i}\sqrt{\det g}\dd^{n}x=-\int_{M}v\left(\eta_{k}\right)\dd\mu_{M}
 \end{align*}
 
 \end_inset
@@ -15098,28 +15241,34 @@ qqed
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(Gradient, Laplace-Beltrami-Operator)
 \end_layout
 
 \begin_layout Standard
-Sei 
+Für 
 \begin_inset Formula $u\in C^{\infty}\left(M,\mathbb{R}\right)$
 \end_inset
 
-.
+ definiere 
 \begin_inset Formula 
 \begin{align*}
-\DD u & =\left(\frac{\partial}{\partial x^{i}}u\right)\cdot\dd x^{i}\in\TT^{0,1}M\\
-\text{grad}\left(u\right) & =\left(\text{grad}\left(u\right)\right)^{i}\frac{\partial}{\partial x^{i}}\in\TT^{1,0}M\\
-\left(\text{grad}\left(u\right)\right)^{i} & =g^{ij}\cdot\frac{\partial}{\partial x^{j}}u
+\DD u & :=\frac{\partial}{\partial x^{i}}\left(u\right)\cdot\dd x^{i}\in\TT^{0,1}M\\
+\text{grad}\left(u\right) & :=\left(\text{grad}\left(u\right)\right)^{i}\frac{\partial}{\partial x^{i}}\in\TT^{1,0}M\\
+\left(\text{grad}\left(u\right)\right)^{i} & :=g^{ij}\cdot\frac{\partial}{\partial x^{j}}u
 \end{align*}
 
 \end_inset
 
-Laplace-Beltrami-Operator: TODO: Symbol
+und den 
+\emph on
+Laplace-Beltrami-Operator
+\emph default
+:
 \begin_inset Formula 
 \begin{align*}
-\Delta\backslash u & :=\text{div}\left(\text{grad}\left(u\right)\right)=\frac{1}{\sqrt{\det\left(g\right)}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det\left(g\right)}g^{jk}\frac{\partial}{\partial x^{k}}u\right)
+\LB u & :=\text{div}\left(\text{grad}\left(u\right)\right)=\frac{1}{\sqrt{\det\left(g\right)}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det\left(g\right)}g^{jk}\frac{\partial}{\partial x^{k}}u\right)
 \end{align*}
 
 \end_inset
@@ -15162,11 +15311,11 @@ Wähle
 \begin_inset Formula $\left(x,U\right)$
 \end_inset
 
- eine Karte, so gewählt, dass 
+ eine Karte mit 
 \begin_inset Formula $\text{supp}\left(h\right)\subseteq U$
 \end_inset
 
- ist.
+.
  Dann ist
 \begin_inset Formula 
 \begin{align*}
@@ -15193,15 +15342,19 @@ Dies ist für alle
 \end_layout
 
 \begin_layout Standard
-Diracfolge, konvergiert im Limes 
-\begin_inset Formula $n\to\infty$
+Wähle eine Diracfolge 
+\begin_inset Formula $h_{m}$
 \end_inset
 
- gegen 
-\begin_inset Formula $\left(\text{div}\left(v\right)\right)\left(x\right)$
+, die im Limes 
+\begin_inset Formula $m\to\infty$
 \end_inset
 
-.
+ gegen die Delta-Distribution (mal eine Konstante 
+\begin_inset Formula $c$
+\end_inset
+
+) konvergiert.
 \end_layout
 
 \begin_layout Standard
@@ -15221,6 +15374,8 @@ Sei
 \end_layout
 
 \begin_layout Standard
+
+\color green
 TODO: Abb1-Plot von 
 \begin_inset Formula $e^{-\frac{1}{\left(x-1\right)^{2}}}$
 \end_inset
@@ -15237,28 +15392,30 @@ Sei
  
 \begin_inset Formula 
 \begin{align*}
-h_{m}\left(x\right) & =m^{n}\eta\left(m\norm{x-x_{0}}\right)
+h_{m}\left(x\right) & :=m^{n}\eta\left(m\norm{x-x_{0}}\right)
 \end{align*}
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+
+\color green
+TODO: Abb2 einfügen
+\end_layout
+
+\begin_layout Standard
+Um das Integral
 \begin_inset Formula 
 \begin{align*}
-\int_{\mathbb{R}^{n}}h_{m}\left(x\right)\dd^{n}x
+\int_{\mathbb{R}^{n}}h_{m}\left(x\right)\dd^{n}x & =\int_{\mathbb{R}^{n}}m^{n}\eta\left(m\norm{x-x_{0}}\right)\dd^{n}x
 \end{align*}
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-TODO: Abb2
-\end_layout
-
-\begin_layout Standard
-Substitution
+zu berechnen, führe die Substitution
 \begin_inset Formula 
 \begin{align*}
 u & =m\left(x-x_{0}\right) & \dd^{n}u & =m^{n}\cdot\dd^{n}x
@@ -15266,10 +15423,10 @@ u & =m\left(x-x_{0}\right) & \dd^{n}u & =m^{n}\cdot\dd^{n}x
 
 \end_inset
 
-liefert:
+durch:
 \begin_inset Formula 
 \begin{align*}
-\int_{\mathbb{R}^{n}}h_{m}\left(x\right)\dd^{n}x & =\int_{\mathbb{R}^{n}}\frac{1}{m^{n}}\cdot m^{n}\cdot\eta\left(\norm u\right)\dd^{n}u=c>0
+\int_{\mathbb{R}^{n}}h_{m}\left(x\right)\dd^{n}x & =\int_{\mathbb{R}^{n}}m^{n}\eta\left(\norm u\right)\frac{\dd^{n}u}{m^{n}}=\int_{\mathbb{R}^{n}}\eta\left(\norm u\right)\dd^{n}u=c\in\mathbb{R}_{>0}
 \end{align*}
 
 \end_inset
@@ -15279,14 +15436,15 @@ Dies ist unabhängig von
 \end_inset
 
 .
+ Mit
 \begin_inset Formula 
 \begin{align*}
-\int_{M}h_{m}\underbrace{\left(\text{div}\left(v\right)\cdot\sqrt{\det g}\right)}_{\text{stetig}}\dd^{n}x & \xrightarrow{m\to\infty}\text{div}\left(v\left(x_{0}\right)\right)\sqrt{\det\left(g\left(x_{0}\right)\right)}\cdot c
+\int_{M}v\left(h_{m}\right)\dd\mu_{M}=\int_{M}h_{m}\cdot\underbrace{\text{div}\left(v\right)\cdot\sqrt{\det g}}_{\text{stetig}}\dd^{n}x & \xrightarrow{m\to\infty}c\cdot\text{div}\left(v\right)\left(x_{0}\right)\sqrt{\det\left(g\left(x_{0}\right)\right)}
 \end{align*}
 
 \end_inset
 
-
+ist also auch die Divergenz unabhängig von der Wahl der Karte.
 \begin_inset ERT
 status open
 
@@ -15305,7 +15463,16 @@ ref{sub:LuD-Divergenz}]
 \end_layout
 
 \begin_layout Subsection
-Korollar und Definition
+Korollar und Definition 
+\series medium
+(Laplace-Gleichung, harmonisch)
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:KuD-Laplace-Gleichung_harmonisch"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -15313,16 +15480,23 @@ Sei
 \begin_inset Formula $\left(M,g\right)$
 \end_inset
 
- eine kompakte Riemannsche Mannigfaltigkeit und 
+ eine zusammenhängende, kompakte Riemannsche Mannigfaltigkeit, 
 \begin_inset Formula $u\in C^{\infty}\left(M\right)$
 \end_inset
 
- und 
-\begin_inset Formula $\Delta\backslash u=0$
+ und es gelte die 
+\emph on
+Laplace-Gleichung
+\emph default
+
+\begin_inset Formula $\LB u=0$
 \end_inset
 
 .
- Dann nennt man 
+\end_layout
+
+\begin_layout Standard
+Dann nennt man 
 \begin_inset Formula $u$
 \end_inset
 
@@ -15337,41 +15511,30 @@ harmonisch
  ist konstant.
 \end_layout
 
-\begin_layout Standard
-Die Gleichung heißt Laplace-Gleichung.
-\end_layout
-
-\begin_layout Standard
-TODO: Symbol
-\end_layout
-
 \begin_layout Subsubsection*
 Beweis
 \end_layout
 
 \begin_layout Standard
-Es gilt
+Es gilt:
 \begin_inset Formula 
 \begin{align*}
-0 & =\left(\LB u\right)\cdot u=\text{div}\left(\text{grad}\left(u\right)\cdot u\right)-g\left(\text{grad}u,\text{grad}u\right)
+0 & =\underbrace{\left(\LB u\right)}_{=0}\cdot u=\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det g}\cdot\text{grad}^{j}\left(u\right)\right)\cdot u=\\
+ & =\underbrace{\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det g}\left(\left(\text{grad}^{j}u\right)\cdot u\right)\right)}_{\text{div}\left(\text{grad}\left(u\right)\cdot u\right)}-\frac{1}{\sqrt{\det g}}\sqrt{\det g}\underbrace{\text{grad}^{j}\left(u\right)\left(\partial_{j}u\right)}_{=g^{ij}\left(\partial_{i}u\right)\left(\partial_{j}u\right)}=\\
+ & =\text{div}\left(\text{grad}\left(u\right)\cdot u\right)-g\left(\text{grad}\left(u\right)\!,\,\text{grad}\left(u\right)\right)
 \end{align*}
 
 \end_inset
 
-wegen:
-\begin_inset Formula 
-\begin{align*}
-\left(\LB u\right)\cdot u & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det g}\text{grad}^{j}\left(u\right)\right)\cdot u=\\
- & =\underbrace{\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det g}\left(\left(\text{grad}^{j}u\right)\cdot u\right)\right)}_{\text{div}\left(u\cdot\text{grad}\left(u\right)\right)}-\frac{1}{\sqrt{\det g}}\sqrt{\det g}\underbrace{\text{grad}^{j}\left(u\right)\left(\partial_{j}u\right)}_{=g^{ij}\left(\partial_{i}u\right)\left(\partial_{j}u\right)}
-\end{align*}
-
+Denn mit 
+\begin_inset Formula $g_{jk}g^{kl}=\delta_{j}^{l}$
 \end_inset
 
-
+ folgt: 
 \begin_inset Formula 
 \begin{align*}
-g_{jk}g^{kl} & =\delta_{j}^{l}\\
-g^{ij}\partial_{i}u\partial_{j}u & =g^{ij}\partial_{i}u\partial_{l}u=g_{ik}\left(g^{ji}\partial_{i}u\right)\left(g^{kl}\partial_{l}u\right)=g_{ij}\partial^{i}u\partial^{j}u=g\left(\text{grad}\left(u\right),\text{grad}\left(u\right)\right)
+g^{ij}\left(\partial_{i}u\right)\left(\partial_{j}u\right) & =g^{ij}\left(\partial_{i}u\right)\left(g_{jk}g^{kl}\partial_{l}u\right)=g_{jk}\left(g^{ji}\partial_{i}u\right)\left(g^{kl}\partial_{l}u\right)=\\
+ & =g_{jk}\left(\partial^{j}u\right)\left(\partial^{k}u\right)=g\left(\text{grad}\left(u\right)\!,\,\text{grad}\left(u\right)\right)
 \end{align*}
 
 \end_inset
@@ -15383,15 +15546,15 @@ Integriere jetzt über
 :
 \begin_inset Formula 
 \begin{align*}
-0 & =\int_{M}\left(\text{div}\left(u\cdot\text{grad}\left(u\right)\right)-g\left(\text{grad}\left(u\right),\text{grad}\left(u\right)\right)\right)\dd\mu_{M}=\\
- & =\underbrace{\int_{M}\text{div}\left(u\cdot\text{grad}\left(u\right)\right)\dd\mu_{M}}_{=0}-\int_{M}g\left(\text{grad}\left(u\right),\text{grad}\left(u\right)\right)\dd\mu_{M}=\\
- & =-\int_{M}\underbrace{g\left(\text{grad}\left(u\right),\text{grad}\left(u\right)\right)}_{\ge0}\dd\mu_{M}
+0 & =\int_{M}\left(\text{div}\left(u\cdot\text{grad}\left(u\right)\right)-g\left(\text{grad}\left(u\right)\!,\,\text{grad}\left(u\right)\right)\right)\dd\mu_{M}=\\
+ & =\underbrace{\int_{M}\text{div}\left(u\cdot\text{grad}\left(u\right)\right)\dd\mu_{M}}_{=0}-\int_{M}g\left(\text{grad}\left(u\right)\!,\,\text{grad}\left(u\right)\right)\dd\mu_{M}=\\
+ & =-\int_{M}\underbrace{g\left(\text{grad}\left(u\right)\!,\,\text{grad}\left(u\right)\right)}_{\ge0}\dd\mu_{M}
 \end{align*}
 
 \end_inset
 
 Also ist 
-\begin_inset Formula $g\left(\text{grad}\left(u\right),\text{grad}\left(u\right)\right)=0$
+\begin_inset Formula $g\left(\text{grad}\left(u\right)\!,\,\text{grad}\left(u\right)\right)=0$
 \end_inset
 
 , das heißt 
@@ -15431,7 +15594,7 @@ Ist
 \begin_inset Formula $f$
 \end_inset
 
- eine holomorphe Funktion, dann ist:
+ eine holomorphe Funktion, dann gilt:
 \begin_inset Formula 
 \begin{align*}
 \Delta_{\mathbb{R}^{2}}\text{Re}\left(f\right) & =\Delta_{\mathbb{R}^{2}}\text{Im}\left(f\right)=0
@@ -15459,14 +15622,15 @@ Ist
 \end_layout
 
 \begin_layout Standard
-Hier haben wir das Analogon auf kompakten Riemannschen Mannigfaltigkeiten.
+Hier haben wir das Analogon auf zusammenhängenden, kompakten Riemannschen
+ Mannigfaltigkeiten.
 \end_layout
 
 \begin_layout Standard
 Vergleiche auch mit der Poisson-Gleichung aus der Physik:
 \begin_inset Formula 
 \begin{align*}
-\Delta\phi & =4\pi k\varrho &  & \text{Newtonsches Gravitationsgesetz}
+\Delta\phi & =4\pi G\varrho &  & \text{Newtonsches Gravitationsgesetz}
 \end{align*}
 
 \end_inset
@@ -15491,7 +15655,9 @@ Betrachte den Halbraum:
 \end_layout
 
 \begin_layout Standard
-TODO: Abb3
+
+\color green
+TODO: Abb3 einfügen
 \end_layout
 
 \begin_layout Standard
@@ -15523,11 +15689,12 @@ Zum Beispiel ist
 \begin_inset Formula $\Omega=B_{1}\left(0\right)\cap\mathbb{R}_{-}^{n}$
 \end_inset
 
- ist bezüglich der Relativtopologie offen, da 
+ bezüglich der Relativtopologie offen, da 
 \begin_inset Formula $B_{1}\left(0\right)\subseteq\mathbb{R}^{n}$
 \end_inset
 
- offen ist, aber 
+ offen ist.
+ Aber 
 \begin_inset Formula $\Omega$
 \end_inset
 
@@ -15539,7 +15706,9 @@ Zum Beispiel ist
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(differenzierbar)
 \end_layout
 
 \begin_layout Standard
@@ -15552,7 +15721,9 @@ Sei
 \begin_inset Formula $f:\Omega\to\mathbb{R}$
 \end_inset
 
- heißt (
+ heißt
+\emph on
+ (
 \begin_inset Formula $k$
 \end_inset
 
@@ -15560,6 +15731,8 @@ Sei
 \begin_inset Formula $x\in\Omega$
 \end_inset
 
+
+\emph default
 , falls es eine Umgebung 
 \begin_inset Formula $U$
 \end_inset
@@ -15599,7 +15772,9 @@ Sei
 \begin_inset Formula $f$
 \end_inset
 
- heißt (
+ heißt 
+\emph on
+(
 \begin_inset Formula $k$
 \end_inset
 
@@ -15607,6 +15782,8 @@ Sei
 \begin_inset Formula $\Omega$
 \end_inset
 
+
+\emph default
 , falls 
 \begin_inset Formula $f$
 \end_inset
@@ -15619,23 +15796,17 @@ Sei
 \end_layout
 
 \begin_layout Standard
-TODO: Abb4
-\end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status open
+\color green
+TODO: Abb4 einfügen
+\end_layout
 
 \begin_layout Subsubsection*
 Bemerkung
 \end_layout
 
-\begin_layout Plain Layout
-Es gibt 
-\begin_inset Formula $f$
-\end_inset
-
- genau dann eine Fortsetzung 
+\begin_layout Standard
+Es gibt genau dann eine Fortsetzung 
 \begin_inset Formula $\tilde{f}$
 \end_inset
 
@@ -15655,17 +15826,15 @@ Es gibt
 \begin_inset Formula $k$
 \end_inset
 
--mal stetig) differenzierbar ist und der Limes der partiellen Ableitungen
- von 
+-mal stetig) differenzierbar ist und der Limes der 
+\begin_inset Formula $k$
+\end_inset
+
+-ten partiellen Ableitungen von 
 \begin_inset Formula $f$
 \end_inset
 
  auf dem Rand existiert.
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsection
@@ -15690,7 +15859,7 @@ Sei
 \end_inset
 
  und eine Fortsetzung 
-\begin_inset Formula $\tilde{f}:U\to\mathbb{R}$
+\begin_inset Formula $\tilde{f}\in C^{k}\left(U,\mathbb{R}\right)$
 \end_inset
 
 .
@@ -15705,8 +15874,12 @@ Für jedes
 \begin_inset Formula $x\in\Omega$
 \end_inset
 
- gibt es ein 
+ gibt es nach Definition eine offene Umgebung 
 \begin_inset Formula $U^{x}$
+\end_inset
+
+ von 
+\begin_inset Formula $x$
 \end_inset
 
  und eine Fortsetzung 
@@ -15717,7 +15890,9 @@ Für jedes
 \end_layout
 
 \begin_layout Standard
-TODO: Abb5
+
+\color green
+TODO: Abb5 einfügen
 \end_layout
 
 \begin_layout Standard
@@ -15761,13 +15936,13 @@ reference "sub:Thm-Existenz-Partition-der-Eins"
 
 \begin_layout Standard
 Setze nun 
-\begin_inset Formula $\tilde{f}_{k}=\eta_{k}\cdot\tilde{f}^{x\left(k\right)}\left(x\right)$
+\begin_inset Formula $\tilde{f}_{k}=\eta_{k}\left(x\right)\cdot\tilde{f}^{x\left(k\right)}\left(x\right)$
 \end_inset
 
  und:
 \begin_inset Formula 
 \begin{align*}
-\tilde{f}\left(x\right) & =\sum_{k}\eta_{k}\left(x\right)\tilde{f}^{x\left(k\right)}\left(x\right)
+\tilde{f}\left(x\right) & :=\sum_{k}\tilde{f}_{k}=\sum_{k}\eta_{k}\left(x\right)\tilde{f}^{x\left(k\right)}\left(x\right)
 \end{align*}
 
 \end_inset
@@ -15805,7 +15980,11 @@ Außerdem ist
 \begin_inset Formula $\tilde{f}$
 \end_inset
 
- wieder glatt.
+ wieder 
+\begin_inset Formula $k$
+\end_inset
+
+-mal stetig differenzierbar.
 \end_layout
 
 \begin_layout Itemize
@@ -15822,6 +16001,9 @@ Sei
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status open
 
@@ -15873,11 +16055,7 @@ maximaler Atlas
 \end_layout
 
 \begin_layout Itemize
-differenzierbare Struktur (Kartenwechsel in 
-\begin_inset Formula $C^{p}$
-\end_inset
-
- sind)
+differenzierbare Struktur
 \end_layout
 
 \begin_layout Itemize
@@ -15888,7 +16066,9 @@ differenzierbare Struktur (Kartenwechsel in
 \end_layout
 
 \begin_layout Subsection
-Lemma und Definition
+Lemma und Definition 
+\series medium
+(Randpunkt, innerer Punkt)
 \end_layout
 
 \begin_layout Standard
@@ -15936,7 +16116,9 @@ innerer Punkt
 \end_layout
 
 \begin_layout Standard
-TODO: Abb6
+
+\color green
+TODO: Abb6 einfügen
 \end_layout
 
 \begin_layout Standard
@@ -16043,7 +16225,7 @@ Also hat
  Betrachte die Kurve:
 \begin_inset Formula 
 \begin{align*}
-c\left(\tau\right) & =x\left(p\right)+\tau\cdot\text{grad}\left(f\right)
+c\left(\tau\right) & =x\left(p\right)+\tau\cdot\text{grad}\left(f\right)\left(p\right)
 \end{align*}
 
 \end_inset
@@ -16098,8 +16280,24 @@ qqed
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%DATE: Di 12.6.12
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(Rand, Inneres)
 \end_layout
 
 \begin_layout Standard
@@ -16143,7 +16341,9 @@ Dies ist eine
 \end_layout
 
 \begin_layout Standard
-TODO: Abb1
+
+\color green
+TODO: Abb1 einfügen
 \end_layout
 
 \begin_layout Standard
@@ -16187,11 +16387,11 @@ Beispiel
 \end_layout
 
 \begin_layout Standard
-Sei 
+Seien 
 \begin_inset Formula $N^{n}$
 \end_inset
 
- eine glatte Mannigfaltigkeit (ohne Rand) und sei 
+ eine glatte Mannigfaltigkeit (ohne Rand), 
 \begin_inset Formula $\varphi:N^{n}\to\mathbb{R}$
 \end_inset
 
@@ -16203,7 +16403,7 @@ Sei
 \begin_inset Formula $a$
 \end_inset
 
- sei ein regulärer Wert von 
+ ein regulärer Wert von 
 \begin_inset Formula $\varphi$
 \end_inset
 
@@ -16223,7 +16423,9 @@ ist dann eine Mannigfaltigkeit mit Rand
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(Tangentialraum)
 \end_layout
 
 \begin_layout Standard
@@ -16237,10 +16439,6 @@ Für innere Punkte geht dies wie bisher.
 \end_inset
 
  ein Randpunkt.
-\end_layout
-
-\begin_layout Standard
-TODO: Abb2
 \end_layout
 
 \begin_layout Standard
@@ -16341,15 +16539,18 @@ Bemerkung
 \end_layout
 
 \begin_layout Standard
+
+\color green
+TODO: Abb2 einfügen
+\end_layout
+
+\begin_layout Standard
 Sei 
 \begin_inset Formula $p\in\partial M$
 \end_inset
 
 .
  
-\end_layout
-
-\begin_layout Standard
 \begin_inset Formula $\TT_{p}M$
 \end_inset
 
@@ -16372,7 +16573,9 @@ Sei
 \end_layout
 
 \begin_layout Standard
-TODO: Abb3
+
+\color green
+TODO: Abb3 einfügen
 \end_layout
 
 \begin_layout Standard
@@ -16381,15 +16584,19 @@ Sei
 \end_inset
 
  mit 
-\begin_inset Formula $\hat{V}:=V\cap\mathbb{R}_{-}^{n}$
+\begin_inset Formula $\hat{V}=V\cap\mathbb{R}_{-}^{n}$
 \end_inset
 
-.
+ und 
+\begin_inset Formula $V\subseteq\mathbb{R}^{n}$
+\end_inset
+
+ offen.
  Dann kann 
 \begin_inset Formula $\hat{g}$
 \end_inset
 
- ausgedehnt werden zu 
+ fortgesetzt werden zu 
 \begin_inset Formula $g\in C^{\infty}\left(V,\mathbb{R}_{-}^{n}\right)$
 \end_inset
 
@@ -16534,7 +16741,9 @@ Wir betrachten also eine orthogonale Zerlegung von
 \end_layout
 
 \begin_layout Standard
-TODO: Abb4
+
+\color green
+TODO: Abb4 einfügen
 \end_layout
 
 \begin_layout Standard
@@ -16610,7 +16819,9 @@ Der allgemeine Gaußsche Divergenzsatz
 \end_layout
 
 \begin_layout Subsection
-Theorem
+Theorem 
+\series medium
+(Satz von Gauß)
 \end_layout
 
 \begin_layout Standard
@@ -16647,7 +16858,7 @@ Dabei ist
 \begin_inset Formula $\dd\mu_{\partial M}$
 \end_inset
 
- bezüglich der induzierten Metrik und 
+ das Maß bezüglich der induzierten Metrik und 
 \begin_inset Formula $\left\langle \nu,u\right\rangle $
 \end_inset
 
@@ -16655,7 +16866,7 @@ Dabei ist
 \begin_inset Formula $\TT_{p}M$
 \end_inset
 
-, das heißt die Riemannsche Metrik.
+, das heißt die induzierte Riemannsche Metrik.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -16701,11 +16912,7 @@ Falls das Kartengebiet
 \begin_inset Formula $U_{n_{k}}\cap\partial M=\emptyset$
 \end_inset
 
-, können wir genau wie früher partiell integrieren.
-\end_layout
-
-\begin_layout Standard
-Es genügt also, eine Karte am Rand zu betrachten:
+, können wir genau wie früher partiell integrieren:
 \begin_inset Formula 
 \begin{align*}
 \int_{\mathbb{R}^{n}}\eta_{k}\text{div}\left(u\right)\sqrt{\det g}\dd^{n}x & =\int_{\mathbb{R}^{n}}\eta_{k}\partial_{j}\left(\sqrt{\det g}u^{j}\right)\dd^{n}x\stackrel{\text{part.Int.}}{=}-\int_{M}u\left(\eta_{n_{k}}\right)\dd\mu_{M}
@@ -16713,42 +16920,40 @@ Es genügt also, eine Karte am Rand zu betrachten:
 
 \end_inset
 
-
+Es genügt also, eine Karte am Rand zu betrachten:
 \end_layout
 
 \begin_layout Standard
-TODO: Abb5
+
+\color green
+TODO: Abb5 einfügen
+\color inherit
+
 \begin_inset Formula 
 \begin{align*}
-\int_{\mathbb{R}_{-}^{n}}\eta\cdot\left(\text{div}v\right)\sqrt{\det g}\dd^{n}x & =\int_{\mathbb{R}_{-}^{n}}\eta\cdot\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}v^{i}\right)\sqrt{\det g}\dd^{n}x=\\
- & =\int_{-\infty}^{0}\dd x_{1}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\eta\cdot\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}v^{i}\right)\sqrt{\det g}=\\
- & =-\int_{\mathbb{R}_{-}^{n}}\left(\frac{\partial}{\partial x^{i}}\eta\right)\cdot\sqrt{\det g}v^{i}\dd^{n}x+\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\eta\sqrt{\det g}v^{1}\big|_{x^{1}=0}=\\
- & =-\int_{M}u\left(\eta\right)\cdot\dd\mu_{M}+\int_{\mathbb{R}_{0}^{n}}\eta\sqrt{\det g}u^{1}\big|_{x_{1}=0}\dd^{n-1}x
+\int_{\mathbb{R}_{-}^{n}}\eta\cdot\left(\text{div}\left(u\right)\right)\sqrt{\det g}\dd^{n}x & =\int_{\mathbb{R}_{-}^{n}}\eta\cdot\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}u^{i}\right)\sqrt{\det g}\dd^{n}x=\\
+ & =\int_{-\infty}^{0}\dd x_{1}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\eta\cdot\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}u^{i}\right)=\\
+ & =-\int_{\mathbb{R}_{-}^{n}}\left(\frac{\partial}{\partial x^{i}}\eta\right)\cdot\sqrt{\det g}u^{i}\dd^{n}x+\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\eta\sqrt{\det g}u^{1}\bigg|_{x^{1}=0}=\\
+ & =-\int_{M}u\left(\eta\right)\cdot\dd\mu_{M}+\int_{\mathbb{R}_{0}^{n}}\eta\sqrt{\det g}u^{1}\bigg|_{x_{1}=0}\dd^{n-1}x
 \end{align*}
 
 \end_inset
 
-Dabei ist:
-\begin_inset Formula 
-\begin{align*}
-\int_{-\infty}^{0}\dd x_{1}f\left(x_{1}\right) & =\lim_{\varepsilon\searrow0}\int_{-\infty}^{\infty}f_{\varepsilon}\left(x_{1}\right)\dd x_{1}
-\end{align*}
 
-\end_inset
-
-TODO: Abb6
+\color green
+TODO: Abb6 einfügen
 \end_layout
 
 \begin_layout Standard
-Summand mit 
+Für den Summand mit 
 \begin_inset Formula $i=1$
 \end_inset
 
- genauer:
+ gilt genauer:
 \begin_inset Formula 
 \begin{align*}
- & \int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\left(\int_{-\infty}^{0}\dd x_{1}\eta\frac{\partial}{\partial x^{1}}\left(\sqrt{\det g}v^{1}\right)\right)=\\
-= & \int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\left(\eta\sqrt{\det g}v^{1}\big|_{x^{1}=0}-\int_{-\infty}^{0}\dd x_{1}\frac{\partial}{\partial x^{1}}\left(\eta\right)\cdot\sqrt{\det g}v^{1}\right)
+ & \int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\left(\int_{-\infty}^{0}\dd x_{1}\eta\frac{\partial}{\partial x^{1}}\left(\sqrt{\det g}u^{1}\right)\right)=\\
+= & \int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\left(\eta\sqrt{\det g}u^{1}\big|_{x^{1}=0}-\int_{-\infty}^{0}\dd x_{1}\frac{\partial}{\partial x^{1}}\left(\eta\right)\cdot\sqrt{\det g}u^{1}\right)
 \end{align*}
 
 \end_inset
@@ -16890,6 +17095,7 @@ Verwende dabei, dass
 \end_inset
 
 .
+ Dann folgt die Behauptung.
 \begin_inset ERT
 status open
 
@@ -16917,13 +17123,13 @@ Sei
 \end_inset
 
  kompakte Mannigfaltigkeiten mit Rand und 
-\begin_inset Formula $f,g\in C^{\infty}\left(M,\mathbb{R}\right)$
+\begin_inset Formula $f,h\in C^{\infty}\left(M,\mathbb{R}\right)$
 \end_inset
 
 .
 \begin_inset Formula 
 \begin{align*}
-\int_{M}f\cdot\LB g\dd\mu_{M} & =-\int_{M}\left\langle \DD f,\DD g\right\rangle \dd\mu_{M}+\int_{\partial M}f\cdot\nu\left(g\right)\dd\mu_{\partial M}
+\int_{M}f\cdot\LB h\dd\mu_{M} & =-\int_{M}\left\langle \DD f,\DD h\right\rangle \dd\mu_{M}+\int_{\partial M}f\cdot\nu\left(h\right)\dd\mu_{\partial M}
 \end{align*}
 
 \end_inset
@@ -16931,7 +17137,7 @@ Sei
 
 \begin_inset Formula 
 \begin{align*}
-\int_{M}\left(f\cdot\LB g-g\cdot\LB f\right)\dd\mu_{M} & =\int_{\partial M}f\cdot\nu\left(g\right)\dd\mu_{\partial M}+\int_{\partial M}\left(f\nu\left(g\right)-\nu\left(f\right)g\right)\dd\mu_{\partial M}
+\int_{M}\left(f\cdot\LB h-h\cdot\LB f\right)\dd\mu_{M} & =\int_{\partial M}\left(f\nu\left(h\right)-\nu\left(f\right)h\right)\dd\mu_{\partial M}
 \end{align*}
 
 \end_inset
@@ -16947,7 +17153,7 @@ Beweis
 Es gilt:
 \begin_inset Formula 
 \begin{align*}
-\left\langle \DD f,\DD g\right\rangle  & =g\left(\text{grad}f,\text{grad}g\right)
+\left\langle \DD f,\DD h\right\rangle  & =g\left(\text{grad}\left(f\right),\text{grad}\left(h\right)\right)=\left(\partial_{j}f\right)\left(\partial^{j}h\right)
 \end{align*}
 
 \end_inset
@@ -16955,16 +17161,8 @@ Es gilt:
 
 \begin_inset Formula 
 \begin{align*}
-f\cdot\LB g & =\text{div}\left(f\cdot\text{grad}\left(g\right)\right)-\left\langle \DD f,\DD g\right\rangle 
-\end{align*}
-
-\end_inset
-
-Denn es gilt:
-\begin_inset Formula 
-\begin{align*}
-f\cdot\LB g & =f\cdot\frac{1}{\sqrt{\det g}}\partial_{j}\left(\sqrt{\det g}\partial^{j}g\right)=\frac{1}{\sqrt{\det g}}\partial_{j}\left(\sqrt{\det g}f\cdot\partial^{j}g\right)-\left(\partial_{j}f\right)\left(\partial^{j}g\right)=\\
- & =\text{div}\left(f\cdot\text{grad}\left(g\right)\right)-\left\langle \DD f,\DD g\right\rangle 
+f\cdot\LB h & =f\cdot\frac{1}{\sqrt{\det g}}\partial_{j}\left(\sqrt{\det g}\partial^{j}h\right)=\frac{1}{\sqrt{\det g}}\partial_{j}\left(\sqrt{\det g}f\cdot\partial^{j}h\right)-\left(\partial_{j}f\right)\left(\partial^{j}h\right)=\\
+ & =\text{div}\left(f\cdot\text{grad}\left(h\right)\right)-\left\langle \DD f,\DD h\right\rangle 
 \end{align*}
 
 \end_inset
@@ -16972,9 +17170,9 @@ f\cdot\LB g & =f\cdot\frac{1}{\sqrt{\det g}}\partial_{j}\left(\sqrt{\det g}\part
 Integriere auf beiden Seiten:
 \begin_inset Formula 
 \begin{align*}
-\int_{M}f\cdot\LB g\dd\mu_{M} & =-\int_{M}\left\langle \DD f,\DD g\right\rangle \dd\mu_{M}+\int_{M}\text{div}\left(f\cdot\text{grad}\left(g\right)\right)\dd\mu_{M}=\\
- & =-\int_{M}\left\langle \DD f,\DD g\right\rangle \dd\mu_{M}+\int_{\partial M}\left\langle f\cdot\text{grad}\left(g\right),\nu\right\rangle \dd\mu_{\partial M}=\\
- & =-\int_{M}\left\langle \DD f,\DD g\right\rangle \dd\mu_{M}+\int_{\partial M}f\cdot\nu\left(g\right)\dd\mu_{\partial M}
+\int_{M}f\cdot\LB h\dd\mu_{M} & =-\int_{M}\left\langle \DD f,\DD h\right\rangle \dd\mu_{M}+\int_{M}\text{div}\left(f\cdot\text{grad}\left(h\right)\right)\dd\mu_{M}=\\
+ & =-\int_{M}\left\langle \DD f,\DD h\right\rangle \dd\mu_{M}+\int_{\partial M}\left\langle f\cdot\text{grad}\left(h\right),\nu\right\rangle \dd\mu_{\partial M}=\\
+ & =-\int_{M}\left\langle \DD f,\DD h\right\rangle \dd\mu_{M}+\int_{\partial M}f\cdot\nu\left(h\right)\dd\mu_{\partial M}
 \end{align*}
 
 \end_inset
@@ -16987,7 +17185,17 @@ Für die zweite Gleichung betrachte die erste Gleichung, vertauscht
 \begin_inset Formula $g$
 \end_inset
 
-, und subtrahiert dies von der ersten Gleichung.
+, und subtrahiert dies von der ursprünglichen ersten Gleichung:
+\begin_inset Formula 
+\begin{align*}
+\int_{M}\left(f\cdot\LB h-h\cdot\LB f\right)\dd\mu_{M} & =-\int_{M}\left\langle \DD f,\DD h\right\rangle \dd\mu_{M}+\int_{\partial M}f\cdot\nu\left(h\right)\dd\mu_{\partial M}+\\
+ & \quad+\int_{M}\left\langle \DD h,\DD f\right\rangle \dd\mu_{M}-\int_{\partial M}h\cdot\nu\left(f\right)\dd\mu_{\partial M}=\\
+ & =\int_{\partial M}\left(f\nu\left(h\right)-\nu\left(f\right)h\right)\dd\mu_{\partial M}
+\end{align*}
+
+\end_inset
+
+
 \begin_inset ERT
 status open
 
@@ -17093,13 +17301,13 @@ f\big|_{\partial M} & =0 & \text{bzw.}\quad\nu\left(f\right) & =0
 \end_inset
 
 Nach der ersten Greenschen Formel für 
-\begin_inset Formula $g=f$
+\begin_inset Formula $h=f$
 \end_inset
 
  gilt dann:
 \begin_inset Formula 
 \begin{align*}
-0=\int_{M}f\cdot\LB f\dd\mu_{M} & =-\int_{M}\left\langle \DD f,\DD g\right\rangle \dd\mu_{M}+\int_{\partial M}\underbrace{f}_{=0\ \text{(Dirichlet)}}\cdot\underbrace{\nu\left(f\right)}_{=0\ \text{(Neumann)}}\dd\mu_{\partial M}
+0=\int_{M}f\cdot\LB f\dd\mu_{M} & =-\int_{M}\left\langle \DD f,\DD f\right\rangle \dd\mu_{M}+\int_{\partial M}\underbrace{f}_{=0\ \text{(Dirichlet)}}\cdot\underbrace{\nu\left(f\right)}_{=0\ \text{(Neumann)}}\dd\mu_{\partial M}
 \end{align*}
 
 \end_inset
@@ -17107,7 +17315,7 @@ Nach der ersten Greenschen Formel für
 Also folgt:
 \begin_inset Formula 
 \begin{align*}
-\int_{M}\underbrace{\left\langle \DD f,\DD g\right\rangle }_{\ge0}\dd\mu_{M} & =0
+\int_{M}\underbrace{\left\langle \DD f,\DD f\right\rangle }_{\ge0}\dd\mu_{M} & =0
 \end{align*}
 
 \end_inset
@@ -17121,6 +17329,11 @@ Also gilt
 \end_inset
 
  konstant.
+ Beim Dirichlet-Problem folgt 
+\begin_inset Formula $f=0$
+\end_inset
+
+, da dies auf dem Rand gilt.
 \begin_inset ERT
 status open
 
@@ -17143,23 +17356,19 @@ Theorem
 \end_layout
 
 \begin_layout Standard
-Sei 
+Seien 
 \begin_inset Formula $f$
 \end_inset
 
- harmonisch, 
+ harmonisch, also 
 \begin_inset Formula $\Delta f=0$
 \end_inset
 
  in 
-\begin_inset Formula $\Omega\subseteq\mathbb{R}^{n}$
+\begin_inset Formula $\Omega\stackrel{\text{offen}}{\subseteq}\mathbb{R}^{n}$
 \end_inset
 
- offen.
-\end_layout
-
-\begin_layout Standard
-Sei 
+, 
 \begin_inset Formula $p\in\Omega$
 \end_inset
 
@@ -17171,8 +17380,8 @@ Sei
 \begin_inset Formula $B_{r}\left(p\right)\subseteq\Omega$
 \end_inset
 
-.
- Es folgt:
+ gilt.
+ Dann gilt:
 \begin_inset Formula 
 \begin{align*}
 f\left(p\right) & =\frac{1}{\text{vol}\left(S_{r}^{\left(p\right)}\right)}\int_{S_{r}^{\left(p\right)}}f\dd\mu
@@ -17231,10 +17440,7 @@ Setze zur Einfachheit
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-Die äußere Normale ist:
+ Die äußere Normale ist:
 \begin_inset Formula 
 \begin{align*}
 \nu\left(x\right) & =\frac{x}{\norm x}
@@ -17246,19 +17452,15 @@ Die äußere Normale ist:
 \end_layout
 
 \begin_layout Standard
-TODO: Abb1
+
+\color green
+TODO: Abb1 einfügen
+\color inherit
+
 \begin_inset Formula 
 \begin{align*}
 0 & =\int_{B_{r}\left(0\right)}\Delta f\dd\mu_{M}=\int_{B_{r}\left(0\right)}\text{div}\left(\text{grad}\left(f\right)\right)\dd\mu_{M}=\\
- & =\int_{S_{r}}\left\langle \text{grad}\left(f\right),\nu\right\rangle \dd\mu_{S_{r}}
-\end{align*}
-
-\end_inset
-
-Also gilt:
-\begin_inset Formula 
-\begin{align*}
-0 & =\int_{S_{r}}\nu\left(f\right)\dd\mu_{S_{r}}
+ & =\int_{S_{r}}\left\langle \text{grad}\left(f\right),\nu\right\rangle \dd\mu_{S_{r}}=\int_{S_{r}}\nu\left(f\right)\dd\mu_{S_{r}}
 \end{align*}
 
 \end_inset
@@ -17274,7 +17476,7 @@ Skaliere nun um:
 Weiterer Trick:
 \begin_inset Formula 
 \begin{align*}
-\frac{\dd}{\dd r}f\left(ry\right) & =\DD f\big|_{ry}\cdot y=\left(\nu f\right)\left(ry\right)
+\frac{\dd}{\dd r}f\left(ry\right) & =\DD f\big|_{ry}\cdot y=\nu\left(f\right)\big|_{ry}
 \end{align*}
 
 \end_inset
@@ -17318,7 +17520,7 @@ c=\lim_{r\to0}F\left(r\right) & \sr ={\text{glm. Konvergenz}}{S_{1}\text{ kompak
 Also gilt:
 \begin_inset Formula 
 \begin{align*}
-f\left(0\right) & =\frac{c}{\text{vol}\left(S_{1}\right)}=\frac{1}{\text{vol}\left(S_{1}\right)}\int_{S_{1}}f\left(ry\right)\dd\mu_{S_{1}}y=\\
+f\left(0\right) & =\frac{c}{\text{vol}\left(S_{1}\right)}=\frac{1}{\text{vol}\left(S_{1}\right)}\int_{S_{1}}f\left(ry\right)\dd\mu_{S_{1}}\left(y\right)=\\
  & \stackrel{x=ry}{=}\frac{1}{r^{n-1}\text{vol}\left(S_{1}\right)}\int_{S_{r}}f\left(x\right)\dd\mu_{S_{r}}\left(x\right)=\frac{1}{\text{vol}\left(S_{r}\right)}\int_{S_{r}}f\left(x\right)\dd\mu_{S_{r}}\left(x\right)
 \end{align*}
 
@@ -17351,7 +17553,7 @@ Sei
 \begin_inset Formula $\left(M,g\right)$
 \end_inset
 
- eine Riemannsche Mannigfaltigkeit mit Rand mit kompaktem Rand 
+ eine Riemannsche Mannigfaltigkeit mit kompaktem Rand 
 \begin_inset Formula $\partial M$
 \end_inset
 
@@ -17363,11 +17565,11 @@ Sei
 \begin_inset Formula $u$
 \end_inset
 
- ein glattes Vektorfeld, sodass 
+ ein glattes Vektorfeld, und 
 \begin_inset Formula $\text{div}\left(u\right)$
 \end_inset
 
- integrierbar ist.
+ integrierbar.
 \end_layout
 
 \begin_layout Standard
@@ -17468,7 +17670,7 @@ Sei
  und:
 \begin_inset Formula 
 \begin{align*}
-\text{lim}_{x\to\infty}\abs x^{2}\abs{u\left(x\right)} & =0
+\text{lim}_{\norm x\to\infty}\norm x^{2}\abs{u\left(x\right)} & =0
 \end{align*}
 
 \end_inset
@@ -17504,12 +17706,12 @@ Mit Rand, also für ein offenes
 Die Bedingung
 \begin_inset Formula 
 \begin{align*}
-\text{lim}_{x\to\infty}\abs x^{2}\abs{u\left(x\right)} & =0
+\text{lim}_{\norm x\to\infty}\norm x^{2}\abs{u\left(x\right)} & =0
 \end{align*}
 
 \end_inset
 
-kann abgeschwächt werden, am bestem mit Lebesgue-Integral.
+kann abgeschwächt werden, am bestem mit dem Lebesgue-Integral.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -17537,7 +17739,9 @@ Wähle
 \end_layout
 
 \begin_layout Standard
-TODO: ABb1
+
+\color green
+TODO: Abb1 einfügen
 \end_layout
 
 \begin_layout Standard
@@ -17548,7 +17752,7 @@ Nach dem Satz von Gauß gilt, da
  einen kompakten Träger hat:
 \begin_inset Formula 
 \begin{align*}
-\int_{\mathbb{R}^{3}}\text{div}\left(\eta_{R}\left(\abs x\right)\cdot u\left(x\right)\right)\dd x & =0
+\int_{\mathbb{R}^{3}}\text{div}\left(\eta_{R}\left(\norm x\right)\cdot u\left(x\right)\right)\dd x & =0
 \end{align*}
 
 \end_inset
@@ -17558,13 +17762,13 @@ Nach dem Satz von Gauß gilt, da
 
 \begin_layout Standard
 Also folgt, wenn man 
-\begin_inset Formula $\tilde{\eta}_{R}:=\eta_{R}\left(\abs x\right):\mathbb{R}^{3}\to\mathbb{R}$
+\begin_inset Formula $\tilde{\eta}_{R}:=\eta_{R}\left(\norm .\right):\mathbb{R}^{3}\to\mathbb{R}$
 \end_inset
 
  betrachtet:
 \begin_inset Formula 
 \begin{align*}
-\int_{\mathbb{R}^{3}}\eta_{R}\left(\abs x\right)\text{div}\left(u\right)\dd^{3}x & =-\int_{\mathbb{R}^{3}}u\left(\tilde{\eta}_{R}\right)\dd^{3}x
+\int_{\mathbb{R}^{3}}\tilde{\eta}_{R}\text{div}\left(u\right)\dd^{3}x & =-\int_{\mathbb{R}^{3}}u\left(\tilde{\eta}_{R}\right)\dd^{3}x
 \end{align*}
 
 \end_inset
@@ -17573,21 +17777,14 @@ Mit
 \begin_inset Formula $R\to\infty$
 \end_inset
 
- folgt aus Dominierter Konvergenz:
-\begin_inset Formula 
-\begin{align*}
-\int_{\mathbb{R}^{3}}\text{div}\left(u\right)\dd^{3}x & =0
-\end{align*}
-
+ folgt aus Dominierter Konvergenz 
+\begin_inset Formula $\lim_{R\to\infty}u\left(\tilde{\eta}_{R}\right)=u\left(1\right)=0$
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
+ und somit:
 \begin_inset Formula 
 \begin{align*}
-\abs{\int_{\mathbb{R}^{3}}u\left(\tilde{\eta}_{R}\right)\dd^{3}x} & \le\int_{\mathbb{R}^{3}}\abs{u\left(\tilde{\eta}_{R}\right)}\dd^{3}x
+\abs{\int_{\mathbb{R}^{3}}\text{div}\left(u\right)\dd^{3}x}=\abs{\int_{\mathbb{R}^{3}}u\left(\tilde{\eta}_{R}\right)\dd^{3}x} & \le\int_{\mathbb{R}^{3}}\abs{u\left(\tilde{\eta}_{R}\right)}\dd^{3}x
 \end{align*}
 
 \end_inset
@@ -17615,7 +17812,7 @@ Dabei ist
  die charakteristische Funktion der Menge:
 \begin_inset Formula 
 \begin{align*}
-\left\{ x\in\mathbb{R}^{3}|R\le\abs x\le R+1\right\} 
+\left\{ x\in\mathbb{R}^{3}|R\le\norm x\le R+1\right\} 
 \end{align*}
 
 \end_inset
@@ -17623,7 +17820,7 @@ Dabei ist
 Denn:
 \begin_inset Formula 
 \begin{align*}
-\DD\eta_{R}\left(\abs x\right) & =\DD\eta\left(\sqrt{\abs x^{2}}\right)
+\DD\eta_{R}\left(\norm x\right) & =\DD\eta_{R}\left(\sqrt{\norm x^{2}}\right)
 \end{align*}
 
 \end_inset
@@ -17631,7 +17828,7 @@ Denn:
 Es folgt:
 \begin_inset Formula 
 \begin{align*}
-\frac{\partial}{\partial x^{j}}\eta_{R} & =\eta_{R}'\left(\abs x\right)\frac{x^{j}}{\sqrt{\abs x^{2}}}
+\frac{\partial}{\partial x^{j}}\eta_{R} & =\eta_{R}'\left(\norm x\right)\frac{x^{j}}{\sqrt{\norm x^{2}}}
 \end{align*}
 
 \end_inset
@@ -17639,8 +17836,8 @@ Es folgt:
 
 \begin_inset Formula 
 \begin{align*}
-\text{grad}\left(\eta\right) & =\eta'\left(\abs x\right)\frac{x}{\abs x}\\
-\abs{\text{grad}\left(\eta\right)} & =\abs{\eta'\left(\abs x\right)}\le2
+\text{grad}\left(\eta\right) & =\eta'\left(\norm x\right)\frac{x}{\norm x}\\
+\abs{\text{grad}\left(\eta\right)} & =\abs{\eta'\left(\norm x\right)}\le2
 \end{align*}
 
 \end_inset
@@ -17648,7 +17845,15 @@ Es folgt:
 
 \begin_inset Formula 
 \begin{align*}
-2\int_{\mathbb{R}^{3}}\abs u\cdot\chi\dd^{3}x & \le2\sup_{R\le\abs x\le R+1}\abs{u\left(x\right)}\cdot4\pi\left(R+1\right)^{2}\le4\cdot4\pi\sup_{R\le\abs x\le R+1}\abs{u\left(x\right)}\abs x^{2}\stackrel{R\to\infty}{\longrightarrow}0
+2\int_{\mathbb{R}^{3}}\abs u\cdot\chi\dd^{3}x & \le2\sup_{R\le\norm x\le R+1}\abs{u\left(x\right)}\cdot4\pi\left(R+1\right)^{2}\le4\cdot4\pi\sup_{R\le\norm x\le R+1}\abs{u\left(x\right)}\norm x^{2}\stackrel{R\to\infty}{\longrightarrow}0
+\end{align*}
+
+\end_inset
+
+Also folgt:
+\begin_inset Formula 
+\begin{align*}
+\int_{\mathbb{R}^{3}}\text{div}\left(u\right)\dd^{3}x & =0
 \end{align*}
 
 \end_inset
@@ -17698,22 +17903,15 @@ Wie kann man eine Ableitung einführen?
 
 \begin_layout Standard
 Partielle Ableitungen liefern im Allgemeinen keine sinnvolle Ableitung,
- da sie von der Wahl der Koordinaten abhängen, zum Beispiel:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align*}
-v & \in\TT^{0,1}M
-\end{align*}
-
+ da sie von der Wahl der Koordinaten abhängen, zum Beispiel sei 
+\begin_inset Formula $v\in\TT^{0,1}M$
 \end_inset
 
-
+:
 \begin_inset Formula 
 \begin{align*}
 v & =v_{k}\left(x\right)\dd x^{k}=\tilde{v}_{l}\left(y\right)\dd y^{l}\\
-\tilde{v}_{l} & =\frac{\partial x^{k}}{\partial y^{l}}v_{k}\left(x\right)
+\tilde{v}_{l} & =\frac{\partial x^{k}}{\partial y^{l}}v_{k}
 \end{align*}
 
 \end_inset
@@ -17721,9 +17919,9 @@ v & =v_{k}\left(x\right)\dd x^{k}=\tilde{v}_{l}\left(y\right)\dd y^{l}\\
 
 \begin_inset Formula 
 \begin{align*}
-\frac{\partial\tilde{v}_{l}}{\partial y^{m}} & =\frac{\partial}{\partial y^{m}}\left(\frac{\partial x^{k}}{\partial y^{l}}v_{k}\left(x\right)\right)=\underbrace{\frac{\partial x^{n}}{\partial y^{m}}\cdot\frac{\partial}{\partial x^{n}}}_{=\frac{\partial}{\partial y^{m}}}\left(\frac{\partial x^{k}}{\partial y^{l}}v_{k}\left(x\right)\right)=\\
- & =\frac{\partial x^{n}}{\partial y^{m}}\frac{\partial x^{k}}{\partial y^{l}}\frac{\partial v_{k}}{\partial x^{n}}+\frac{\partial x^{n}}{\partial y^{m}}v_{k}\left(x\right)\frac{\partial^{2}x^{k}}{\partial x^{n}\partial y^{l}}=\\
- & =\underbrace{\frac{\partial x^{n}}{\partial y^{m}}\frac{\partial x^{k}}{\partial y^{l}}\frac{\partial v_{k}}{\partial x^{n}}}_{\text{entspricht Transformationsverhalten eines Tensors}}+\underbrace{v_{k}\left(x\right)\frac{\partial^{2}x^{k}}{\partial y^{m}\partial y^{l}}}_{\text{unerwünschter Zusatzterm}}
+\frac{\partial\tilde{v}_{l}}{\partial y^{m}} & =\frac{\partial}{\partial y^{m}}\left(\frac{\partial x^{k}}{\partial y^{l}}v_{k}\right)=\underbrace{\frac{\partial x^{n}}{\partial y^{m}}\cdot\frac{\partial}{\partial x^{n}}}_{=\frac{\partial}{\partial y^{m}}}\left(\frac{\partial x^{k}}{\partial y^{l}}v_{k}\right)=\\
+ & =\frac{\partial x^{n}}{\partial y^{m}}\frac{\partial x^{k}}{\partial y^{l}}\frac{\partial v_{k}}{\partial x^{n}}+\frac{\partial x^{n}}{\partial y^{m}}v_{k}\frac{\partial^{2}x^{k}}{\partial x^{n}\partial y^{l}}=\\
+ & =\underbrace{\frac{\partial x^{n}}{\partial y^{m}}\frac{\partial x^{k}}{\partial y^{l}}\frac{\partial v_{k}}{\partial x^{n}}}_{\text{Transformationsverhalten eines Tensors}}+\underbrace{v_{k}\frac{\partial^{2}x^{k}}{\partial y^{m}\partial y^{l}}}_{\text{unerwünschter Zusatzterm}}
 \end{align*}
 
 \end_inset
@@ -17735,7 +17933,7 @@ antisymmetrisiert
  man:
 \begin_inset Formula 
 \begin{align*}
-F_{jk}\left(x\right) & :=\frac{\partial v_{k}\left(x\right)}{\partial x^{j}}-\frac{\partial v_{j}\left(x\right)}{\partial x^{k}} & \tilde{F}_{lm}\left(x\right) & :=\frac{\partial\tilde{v}_{l}\left(x\right)}{\partial y^{l}}-\frac{\partial\tilde{v}_{j}\left(x\right)}{\partial y^{m}}
+F_{jk}\left(x\right) & :=\frac{\partial v_{k}\left(x\right)}{\partial x^{j}}-\frac{\partial v_{j}\left(x\right)}{\partial x^{k}} & \tilde{F}_{lm}\left(x\right) & :=\frac{\partial\tilde{v}_{m}\left(x\right)}{\partial y^{l}}-\frac{\partial\tilde{v}_{l}\left(x\right)}{\partial y^{m}}
 \end{align*}
 
 \end_inset
@@ -17743,8 +17941,8 @@ F_{jk}\left(x\right) & :=\frac{\partial v_{k}\left(x\right)}{\partial x^{j}}-\fr
 Es folgt:
 \begin_inset Formula 
 \begin{align*}
-\tilde{F}_{lm}\left(x\right) & =\frac{\partial x^{k}}{\partial y^{l}}\frac{\partial x^{n}}{\partial y^{m}}\frac{\partial v_{k}}{\partial x^{n}}+v_{k}\left(x\right)\frac{\partial^{2}x^{k}}{\partial y^{l}\partial y^{m}}-\frac{\partial x^{k}}{\partial y^{m}}\frac{\partial x^{n}}{\partial y^{l}}\frac{\partial v_{k}}{\partial x^{n}}-v_{k}\left(x\right)\frac{\partial^{2}x^{k}}{\partial y^{m}\partial y^{l}}=\\
- & =\frac{\partial x^{a}}{\partial y^{l}}\cdot\frac{\partial x^{b}}{\partial y^{m}}\left(\frac{\partial v_{a}}{\partial x^{b}}-\frac{\partial v_{b}}{\partial x^{a}}\right)=\frac{\partial x^{a}}{\partial y^{l}}\cdot\frac{\partial x^{b}}{\partial y^{m}}F_{ab}\left(x\right)
+\tilde{F}_{lm}\left(x\right) & =\frac{\partial x^{n}}{\partial y^{l}}\frac{\partial x^{k}}{\partial y^{m}}\frac{\partial v_{k}}{\partial x^{n}}+v_{k}\frac{\partial^{2}x^{k}}{\partial y^{l}\partial y^{m}}-\frac{\partial x^{n}}{\partial y^{m}}\frac{\partial x^{k}}{\partial y^{l}}\frac{\partial v_{k}}{\partial x^{n}}-v_{k}\frac{\partial^{2}x^{k}}{\partial y^{m}\partial y^{l}}=\\
+ & =\frac{\partial x^{a}}{\partial y^{l}}\cdot\frac{\partial x^{b}}{\partial y^{m}}\left(\frac{\partial v_{b}}{\partial x^{a}}-\frac{\partial v_{a}}{\partial x^{b}}\right)=\frac{\partial x^{a}}{\partial y^{l}}\cdot\frac{\partial x^{b}}{\partial y^{m}}F_{ab}\left(x\right)
 \end{align*}
 
 \end_inset
@@ -17794,16 +17992,12 @@ Betrachte das Vektorpotential
 \begin_inset Formula $\vec{B}=\text{rot}\left(\vec{A}\right)$
 \end_inset
 
- und 
+ und das elektrostatische Potential 
 \begin_inset Formula $\varphi$
 \end_inset
 
- das elektrostatische Potential.
-\end_layout
-
-\begin_layout Standard
-Betrachte im 4-dimensionalen Minkowskiraum das elektromagnetische Potential
- 
+.
+ Im 4-dimensionalen Minkowskiraum ist das elektromagnetische Potential 
 \begin_inset Formula $A=\left(\varphi,\vec{A}\right)$
 \end_inset
 
@@ -17825,10 +18019,6 @@ der Feldstärketensor.
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 Betrachte im Folgenden nur Tensorfelder der Stufe 
 \begin_inset Formula $\left(0,k\right)$
 \end_inset
@@ -17845,19 +18035,11 @@ A_{i_{1}\ldots i_{l}\ldots i_{m}\ldots i_{k}} & =-A_{i_{1}\ldots i_{m}\ldots i_{
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-Wir schreiben solche Tensorfelder als
-\begin_inset Formula 
-\begin{align*}
-\Lambda^{k}\left(M\right)
-\end{align*}
-
+Die Menge dieser Tensorfelder ist 
+\begin_inset Formula $\Lambda^{k}\left(M\right)$
 \end_inset
 
-und bezeichnen sie als 
+ und man bezeichnet sie als 
 \emph on
 Differentialformen
 \emph default
@@ -17869,7 +18051,7 @@ Die
 \emph on
 äußere Ableitung
 \emph default
- ist:
+ ist eine Abbildung:
 \begin_inset Formula 
 \begin{align*}
 \dd:\Lambda^{k}\left(M\right) & \to\Lambda^{k+1}\left(M\right)
@@ -17933,7 +18115,9 @@ E^{0,k} & :=\underbrace{E^{*}\otimes\ldots\otimes E^{*}}_{k\text{ Faktoren}}
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(multilinear, Tensorprodukt)
 \end_layout
 
 \begin_layout Standard
@@ -17941,7 +18125,11 @@ Eine Abbildung
 \begin_inset Formula $\varphi:E^{k}\to\mathbb{R}$
 \end_inset
 
- heißt multilinear, falls sie in jedem Argument linear ist.
+ heißt 
+\emph on
+multilinear
+\emph default
+, falls sie in jedem Argument linear ist.
 \end_layout
 
 \begin_layout Standard
@@ -17953,15 +18141,11 @@ Die multilinearen Abbildungen bilden einen Vektorraum
 \end_layout
 
 \begin_layout Standard
-Auf den multilinearen Abbildungen bilden einen Vektorraum 
-\begin_inset Formula $M^{k}\left(E\right)$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-Auf den multilinearen Abbildungen kann man ein Tensorprodukt einführen:
+Auf den multilinearen Abbildungen kann man ein 
+\emph on
+Tensorprodukt
+\emph default
+ einführen:
 \begin_inset Formula 
 \begin{align*}
 \otimes:M^{k}\left(E\right)\times M^{l}\left(E\right) & \to M^{k+l}\\
@@ -17978,7 +18162,9 @@ Auf den multilinearen Abbildungen kann man ein Tensorprodukt einführen:
 \end_layout
 
 \begin_layout Subsection
-Satz
+Satz 
+\series medium
+(Tensorprodukt-Basis)
 \end_layout
 
 \begin_layout Standard
@@ -17994,7 +18180,7 @@ Sei
  Dann bilden die Vektoren
 \begin_inset Formula 
 \begin{align*}
-\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}} & ;\ 1\le i_{1},\ldots,i_{k}\le n
+\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}} & ;\ \;1\le i_{1},\ldots,i_{k}\le n
 \end{align*}
 
 \end_inset
@@ -18016,18 +18202,7 @@ Beweis
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\begin{align*}
-\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)\left(e_{j_{1}},\ldots,e_{j_{k}}\right) & =\varphi^{i_{1}}\left(e_{j_{1}}\right)\cdots\varphi^{i_{k}}\left(e_{j_{k}}\right)=\delta_{j_{1}}^{i_{1}}\cdots\delta_{j_{k}}^{i_{k}}
-\end{align*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Dabei ist 
+Sei 
 \begin_inset Formula $\left(e_{k}\right)$
 \end_inset
 
@@ -18039,11 +18214,19 @@ Dabei ist
 \begin_inset Formula $\left(\varphi^{k}\right)$
 \end_inset
 
- sei die duale Basis, das heißt 
+ die duale Basis, das heißt 
 \begin_inset Formula $\varphi^{k}\left(e_{l}\right)=\delta_{l}^{k}$
 \end_inset
 
 .
+\begin_inset Formula 
+\begin{align*}
+\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)\left(e_{j_{1}},\ldots,e_{j_{k}}\right) & =\varphi^{i_{1}}\left(e_{j_{1}}\right)\cdots\varphi^{i_{k}}\left(e_{j_{k}}\right)=\delta_{j_{1}}^{i_{1}}\cdots\delta_{j_{k}}^{i_{k}}
+\end{align*}
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -18075,15 +18258,15 @@ abc
 
 \end_inset
 
- Die Vektoren 
-\begin_inset Formula $\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)_{1\le i_{1}\ldots i_{k}\le n}$
+ Zeige, dass die Vektoren 
+\begin_inset Formula $\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)_{1\le i_{1},\ldots,i_{k}\le n}$
 \end_inset
 
- spannen 
+ ein Erzeugendensystem von 
 \begin_inset Formula $M^{k}\left(E\right)$
 \end_inset
 
- auf.
+ sind:
 \end_layout
 
 \begin_layout Standard
@@ -18091,8 +18274,7 @@ Sei
 \begin_inset Formula $T\in M^{k}\left(E\right)$
 \end_inset
 
-.
- Setze 
+, so setze 
 \begin_inset Formula $t_{i_{1}\ldots i_{k}}=T\left(e_{i_{1}},\ldots,e_{i_{k}}\right)$
 \end_inset
 
@@ -18100,11 +18282,11 @@ Sei
 \end_layout
 
 \begin_layout Standard
-Sei 
+Seien 
 \begin_inset Formula $w_{i}\in E$
 \end_inset
 
-, so stelle es in der Basis dar:
+, so stelle diese in der Basis dar:
 \begin_inset Formula 
 \begin{align*}
 w_{i} & =\sum_{k=1}^{n}w_{i}^{k}e_{k}
@@ -18123,7 +18305,7 @@ T\left(w_{1},\ldots,w_{k}\right) & =w_{1}^{i_{1}}\cdots w_{k}^{i_{k}}T\left(e_{i
 
 \begin_inset Formula 
 \begin{align*}
-\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)\left(w_{1},\ldots,w_{k}\right) & =w_{1}^{j_{1}}\cdots w_{k}^{j_{k}}\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)\left(w_{i_{1}},\ldots,w_{i_{k}}\right)=w_{1}^{i_{1}}\cdots w_{k}^{i_{k}}
+\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)\left(w_{1},\ldots,w_{k}\right) & =w_{1}^{j_{1}}\cdots w_{k}^{j_{k}}\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)\left(e_{j_{1}},\ldots,e_{j_{k}}\right)=w_{1}^{i_{1}}\cdots w_{k}^{i_{k}}
 \end{align*}
 
 \end_inset
@@ -18160,26 +18342,26 @@ abc
 
 \end_inset
 
- Die Vektoren 
-\begin_inset Formula $\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)_{1\le i_{1}\ldots i_{k}\le n}$
+ Zeige, dass die Vektoren 
+\begin_inset Formula $\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)_{1\le i_{1},\ldots,i_{k}\le n}$
 \end_inset
 
- sind linear unabhängig, denn aus
+ linear unabhängig sind: Aus
 \begin_inset Formula 
 \begin{align*}
-\sum\lambda_{i_{1}\ldots i_{k}}\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}} & =0
+\lambda_{i_{1}\ldots i_{k}}\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}} & =0
 \end{align*}
 
 \end_inset
 
-folgt durch anwenden von 
-\begin_inset Formula $e_{j_{1}}\otimes\ldots\otimes e_{j_{k}}$
+folgt durch anwenden auf 
+\begin_inset Formula $\left(e_{j_{1}},\ldots,e_{j_{k}}\right)$
 \end_inset
 
 :
 \begin_inset Formula 
 \begin{align*}
-\lambda_{j_{1}\ldots j} & =0
+\lambda_{j_{1}\ldots j_{k}} & =0
 \end{align*}
 
 \end_inset
@@ -18204,7 +18386,27 @@ end{abclist}
 \end_layout
 
 \begin_layout Standard
-Zusammenhang zum Tensorprodukt: Sei 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Zusammenhang zum Tensorprodukt
+\end_layout
+
+\begin_layout Standard
+Sei 
 \begin_inset Formula $T\in M^{k}\left(E\right)$
 \end_inset
 
@@ -18241,7 +18443,9 @@ Also ist
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(Pullback)
 \end_layout
 
 \begin_layout Standard
@@ -18274,7 +18478,9 @@ f^{*}:M^{k}\left(F\right) & \to M^{k}\left(E\right)\\
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(alternierend)
 \end_layout
 
 \begin_layout Standard
@@ -18316,7 +18522,7 @@ Die alternierenden multilinearen Abbildungen werden mit
 \begin_inset Formula 
 \begin{align*}
 \text{Alt}:M^{k}\left(E\right) & \to\Omega^{k}\left(E\right)\\
-\left(\text{Alt}T\right)\left(v_{1},\ldots,v_{k}\right) & :=\frac{1}{k!}\sum_{\sigma\in S_{k}}\text{sgn}\left(\sigma\right)T\left(v_{\sigma\left(1\right)},\ldots,v_{\sigma\left(k\right)}\right)
+\text{Alt}\left(T\right)\left(v_{1},\ldots,v_{k}\right) & :=\frac{1}{k!}\sum_{\sigma\in S_{k}}\text{sgn}\left(\sigma\right)T\left(v_{\sigma\left(1\right)},\ldots,v_{\sigma\left(k\right)}\right)
 \end{align*}
 
 \end_inset
@@ -18408,7 +18614,9 @@ Daher kann man
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(Wedge-Produkt)
 \end_layout
 
 \begin_layout Standard
@@ -18420,7 +18628,7 @@ Wedge-Produkt
 \begin_inset Formula 
 \begin{align*}
 \wedge:\Omega^{k}\times\Omega^{l} & \to\Omega^{k+l}\\
-\left(\omega,\eta\right) & \mapsto\omega\wedge\eta:=\wedge\left(\omega,\eta\right):=\frac{\left(k+l\right)!}{k!\cdot l!}\text{Alt}\left(\omega\otimes\eta\right)
+\left(\omega,\eta\right) & \mapsto\omega\wedge\eta:=\frac{\left(k+l\right)!}{k!\cdot l!}\text{Alt}\left(\omega\otimes\eta\right)
 \end{align*}
 
 \end_inset
@@ -18429,7 +18637,9 @@ Dabei ist der Vorfaktor Konvention.
 \end_layout
 
 \begin_layout Subsection
-Satz
+Satz 
+\series medium
+(Eigenschaften des Wedge-Produkt)
 \end_layout
 
 \begin_layout Itemize
@@ -18487,6 +18697,19 @@ Beweis
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
+\text{Alt}\left(\Omega\right)\left(v_{1},\ldots,v_{k}\right) & =\frac{1}{k!}\sum_{\sigma\in S_{k}}\text{sgn}\left(\sigma\right)\Omega\left(v_{\sigma\left(1\right)},\ldots,v_{\sigma\left(k\right)}\right)=\\
+ & =\frac{1}{k!}\sum_{\sigma\in S_{k}}\left(\text{sgn}\left(\sigma\right)\right)^{2}\Omega\left(v_{1},\ldots,v_{k}\right)=\\
+ & =\frac{1}{k!}\cdot k!\Omega\left(v_{1},\ldots,v_{k}\right)=\Omega\left(v_{1},\ldots,v_{k}\right)
+\end{align*}
+
+\end_inset
+
+Die Bilinearität ist klar.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
 \text{Alt}\left(\omega\otimes\eta\right) & =\left(-1\right)^{kl}\text{Alt}\left(\eta\otimes\omega\right)
 \end{align*}
 
@@ -18495,7 +18718,10 @@ Beweis
 
 \begin_inset Formula 
 \begin{align*}
-\left(f^{*}\omega\right)\left(u_{1},\ldots,u_{k}\right) & =\omega\left(fu_{1},\ldots,fu_{k}\right)
+\left(f^{*}\omega\right)\left(u_{1},\ldots,u_{k}\right) & =\omega\left(f\left(u_{1}\right),\ldots,f\left(u_{k}\right)\right)\\
+\left(f^{*}\eta\right)\left(v_{1},\ldots,v_{l}\right) & =\eta\left(f\left(v_{1}\right),\ldots,f\left(v_{l}\right)\right)\\
+\left(f^{*}\omega\right)\wedge\left(f^{*}\eta\right)\left(u_{1},\ldots,u_{k},v_{1},\ldots,v_{l}\right) & =\left(\omega\wedge\eta\right)\left(f\left(u_{1}\right),\ldots,f\left(u_{k}\right),f\left(v_{1}\right),\ldots,f\left(v_{l}\right)\right)=\\
+ & =f^{*}\left(\omega\wedge\eta\right)\left(u_{1},\ldots,u_{k},v_{1},\ldots,v_{l}\right)
 \end{align*}
 
 \end_inset
@@ -18528,7 +18754,37 @@ qqed
 \end_layout
 
 \begin_layout Subsection
-Satz
+Satz 
+\series medium
+(Basis von 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+texorpdfstring{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\Omega^{k}\left(E\right)$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}{Omega^k(E)}
+\end_layout
+
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Standard
@@ -18548,7 +18804,7 @@ mit
 \begin_inset Formula $\Omega^{k}\left(E\right)$
 \end_inset
 
- und:
+ und somit gilt:
 \begin_inset Formula 
 \begin{align*}
 \dim\left(\Omega^{k}\left(E\right)\right) & =\frac{n!}{k!\left(n-k\right)!}
@@ -18588,7 +18844,7 @@ T & =t_{i_{1}\ldots i_{k}}\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}
 Es folgt:
 \begin_inset Formula 
 \begin{align*}
-\text{Alt}\left(T\right) & =t_{i_{1}\ldots i_{k}}\text{Alt}\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)=ct_{i_{1}\ldots i_{k}}\varphi^{i_{1}}\wedge\ldots\wedge\varphi^{i_{k}}
+\text{Alt}\left(T\right) & =t_{i_{1}\ldots i_{k}}\text{Alt}\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)=\frac{1}{k!}\cdot t_{i_{1}\ldots i_{k}}\varphi^{i_{1}}\wedge\ldots\wedge\varphi^{i_{k}}
 \end{align*}
 
 \end_inset
@@ -18602,6 +18858,7 @@ Daher ist
 \end_inset
 
 .
+ Es gilt
 \begin_inset Formula 
 \begin{align*}
 \varphi_{i_{1}}\wedge\varphi_{i_{2}} & =-\varphi_{i_{2}}\wedge\varphi_{i_{1}}
@@ -18609,16 +18866,16 @@ Daher ist
 
 \end_inset
 
-Allgemein ist 
+und allgemein ist 
 \begin_inset Formula $\varphi_{i_{1}}\wedge\ldots\wedge\varphi_{i_{k}}$
 \end_inset
 
- total antisymmetrisch und insbesondere verschwindet es, wenn zwei Indizes
- übereinstimmen.
+ total antisymmetrisch, das heißt insbesondere, dass es verschwindet, wenn
+ zwei Indizes übereinstimmen.
 \end_layout
 
 \begin_layout Standard
-Ordne die Indizes so um, dass sie aufsteigend sind und es gilt:
+Ordne die Indizes so um, dass sie aufsteigend sind und erhalte:
 \begin_inset Formula 
 \begin{align*}
 \text{Alt}\left(T\right) & =\sum_{1\le i_{1}<i_{2}<\ldots<i_{k}\le n}\tilde{t}_{i_{1}\ldots i_{k}}\varphi^{i_{k}}\wedge\ldots\wedge\varphi^{i_{k}}
@@ -18630,14 +18887,18 @@ Also sind die Vektoren
 \begin_inset Formula $\left(\varphi^{i_{1}}\wedge\ldots\wedge\varphi^{i_{k}}\right)_{1\le i_{1}<i_{2}<\ldots<i_{k}\le n}$
 \end_inset
 
- sind ein Erzeugendensystem.
+ ein Erzeugendensystem.
 \end_layout
 
 \begin_layout Standard
-Um die lineare Unabhängigkeit zu zeigen, betrachtet man:
+Um die lineare Unabhängigkeit zu zeigen, verwendet man für 
+\begin_inset Formula $j_{1}<j_{2}<\ldots<j_{k}$
+\end_inset
+
+:
 \begin_inset Formula 
 \begin{align*}
-\left(\varphi^{i_{!}}\wedge\ldots\wedge\varphi^{i_{k}}\right)\left(e_{j_{1}},\ldots,e_{j_{k}}\right) & =c\delta_{j_{1}}^{i_{1}}\ldots\delta_{j_{k}}^{i_{k}}
+\left(\varphi^{i_{1}}\wedge\ldots\wedge\varphi^{i_{k}}\right)\left(e_{j_{1}},\ldots,e_{j_{k}}\right) & =\delta_{j_{1}}^{i_{1}}\ldots\delta_{j_{k}}^{i_{k}}
 \end{align*}
 
 \end_inset
@@ -18684,6 +18945,10 @@ Sei
 \begin_inset Formula $\omega\in\Omega^{n}\left(E\right)$
 \end_inset
 
+ für 
+\begin_inset Formula $n=\dim\left(E\right)$
+\end_inset
+
 .
  Dann gilt:
 \begin_inset Formula 
@@ -18696,7 +18961,7 @@ Sei
 Dabei ist:
 \begin_inset Formula 
 \begin{align*}
-v_{j} & =a_{j}^{k}e_{k}
+v_{j} & =a_{j}^{i}e_{i}
 \end{align*}
 
 \end_inset
@@ -18705,10 +18970,10 @@ v_{j} & =a_{j}^{k}e_{k}
 \begin_inset Formula 
 \begin{align*}
 A & :=\left(a_{j}^{i}\right)_{ij}=\left(\begin{array}{cccc}
-v_{1}^{1} & v_{1}^{2} & \ldots & v_{1}^{n}\\
-v_{2}^{1} & v_{2}^{2} & \ldots & v_{2}^{n}\\
+a_{1}^{1} & a_{2}^{1} & \ldots & a_{n}^{1}\\
+a_{1}^{2} & a_{2}^{2} & \ldots & a_{n}^{2}\\
 \vdots & \vdots & \ddots & \vdots\\
-v_{n}^{1} & v_{n}^{2} & \ldots & v_{n}^{n}
+a_{1}^{n} & a_{2}^{n} & \ldots & a_{n}^{n}
 \end{array}\right)
 \end{align*}
 
@@ -18725,7 +18990,7 @@ Beweis
 Definiere:
 \begin_inset Formula 
 \begin{align*}
-\mathcal{E}\left(v_{1},\ldots,v_{n}\right) & :=\det\left(a_{j}^{i}\right)
+\mathcal{E}\left(v_{1},\ldots,v_{n}\right) & :=\det\left(A\right)
 \end{align*}
 
 \end_inset
@@ -18829,10 +19094,7 @@ total antisymmetrisches Symbol
 Levi-Civita-Symbol
 \emph default
 .
-\end_layout
-
-\begin_layout Standard
-Im 
+ Im 
 \begin_inset Formula $\mathbb{R}^{3}$
 \end_inset
 
@@ -18873,7 +19135,9 @@ Was heißt differenzierbar?
 \end_layout
 
 \begin_layout Standard
-TODO: ABb1
+
+\color green
+TODO: Abb1 einfügen
 \end_layout
 
 \begin_layout Standard
@@ -18890,7 +19154,7 @@ x:U & \to x\left(U\right)\subseteq\mathbb{R}^{n}
 \end_inset
 
 eine Karte.
- Dann ist
+ Dann ist der Pushforward
 \begin_inset Formula 
 \begin{align*}
 x_{*}\big|_{p}:\TT_{p}M & \to\TT_{x\left(p\right)}\mathbb{R}^{n}\stackrel{\sim}{=}\mathbb{R}^{n}
@@ -18899,10 +19163,11 @@ x_{*}\big|_{p}:\TT_{p}M & \to\TT_{x\left(p\right)}\mathbb{R}^{n}\stackrel{\sim}{
 \end_inset
 
 eine lineare Abbildung.
+ Der Pullback wird definiert als:
 \begin_inset Formula 
 \begin{align*}
 x^{*}\big|_{p}:\Omega^{k}\left(\TT_{x\left(p\right)}\mathbb{R}^{n}\right) & \to\Omega^{k}\left(\TT_{p}M\right)\\
-\left(x^{*}\big|_{p}\omega\right)\underbrace{\left(u_{1},\ldots,u_{k}\right)}_{\in\left(\TT_{p}M\right)^{k}} & :=\omega\left(\left(x_{*}\big|_{p}u_{1},\ldots,x_{*}\big|_{p}u_{k}\right)\right)
+\left(x^{*}\big|_{p}\omega\right)\underbrace{\left(u_{1},\ldots,u_{k}\right)}_{\in\left(\TT_{p}M\right)^{k}} & :=\omega\left(x_{*}\big|_{p}\left(u_{1}\right),\ldots,x_{*}\big|_{p}\left(u_{k}\right)\right)
 \end{align*}
 
 \end_inset
@@ -18927,7 +19192,9 @@ mit
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(Differentialform)
 \end_layout
 
 \begin_layout Standard
@@ -18971,7 +19238,9 @@ Differentialform
 \end_layout
 
 \begin_layout Standard
-TODO: ABb2
+
+\color green
+TODO: Abb2 einfügen
 \end_layout
 
 \begin_layout Subsubsection*
@@ -19028,7 +19297,7 @@ Wir wollen mit Hilfe von
 :
 \begin_inset Formula 
 \begin{align*}
-\omega\left(v_{1},\ldots,v_{n}\right) & =\det\left(a_{j}^{i}\right)\omega\left(e_{1},\ldots,e_{n}\right)
+\omega\left(v_{1},\ldots,v_{n}\right) & =\det\left(A\right)\omega\left(e_{1},\ldots,e_{n}\right)
 \end{align*}
 
 \end_inset
@@ -19037,7 +19306,9 @@ Wir wollen mit Hilfe von
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(orientierungserhaltend, orientierbar)
 \end_layout
 
 \begin_layout Standard
@@ -19059,7 +19330,7 @@ heißt
 orientierungserhaltend
 \emph default
 , falls 
-\begin_inset Formula $\omega\left(fv_{1},\ldots,fv_{n}\right)$
+\begin_inset Formula $\omega\left(f\left(v_{1}\right),\ldots,f\left(v_{n}\right)\right)$
 \end_inset
 
  das gleiche Vorzeichen hat, wie 
@@ -19083,7 +19354,7 @@ Diese Definition hängt nicht von der Wahl von
 
 \begin_layout Itemize
 Es genügt, eine feste Basis 
-\begin_inset Formula $\left(v_{1},\ldots,vn\right)$
+\begin_inset Formula $v_{1},\ldots,v_{n}$
 \end_inset
 
  von 
@@ -19094,7 +19365,9 @@ Es genügt, eine feste Basis
 \end_layout
 
 \begin_layout Standard
-TODO: Abb3
+
+\color green
+TODO: Abb3 einfügen
 \end_layout
 
 \begin_layout Standard
@@ -19102,7 +19375,11 @@ Die Kartenwechselabbildung
 \begin_inset Formula $y\circ x^{-1}$
 \end_inset
 
- heißt orientierungserhaltend, falls
+ heißt 
+\emph on
+orientierungserhaltend
+\emph default
+, falls
 \begin_inset Formula 
 \begin{align*}
 \left(y\circ x^{-1}\right)_{*}\big|_{p}:\TT_{x\left(p\right)}\mathbb{R}^{n}\stackrel{\sim}{=}\mathbb{R}^{n} & \to\TT_{y\left(p\right)}\mathbb{R}^{n}\stackrel{\sim}{=}\mathbb{R}^{n}
@@ -19201,7 +19478,9 @@ iii
 \end_layout
 
 \begin_layout Standard
-TODO: Abb4
+
+\color green
+TODO: Abb4 einfügen
 \end_layout
 
 \begin_layout Standard
@@ -19225,11 +19504,13 @@ nicht
 \end_layout
 
 \begin_layout Standard
-TODO: Abb5
+
+\color green
+TODO: Abb5 einfügen
 \end_layout
 
 \begin_layout Standard
-Kartenwechselabbildung 
+Die Kartenwechselabbildung ist 
 \emph on
 nicht orientierungserhaltend.
 \end_layout
@@ -19265,7 +19546,11 @@ status open
 \end_layout
 
 \begin_layout Subsection
-Theorem
+Theorem 
+\series medium
+(Charakterisierung Orientierbarkeit)
+\series default
+
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Thm-CharakterisierungOrientierbarkeit"
@@ -19282,7 +19567,7 @@ Eine differenzierbare Mannigfaltigkeit ist genau dann orientierbar, wenn
 \end_inset
 
 -Form auf 
-\begin_inset Formula $M$
+\begin_inset Formula $M^{n}$
 \end_inset
 
  gibt.
@@ -19297,19 +19582,190 @@ Beweis
 \begin_inset Formula $\Leftarrow$
 \end_inset
 
-“: TODO: Beweis als Übungsaufgabe einfügen
+“: Sei 
+\begin_inset Formula $\mathcal{A}:=\left\{ h_{i},U_{i}\big|i\in\mathbb{N}\right\} $
+\end_inset
+
+ ein Atlas von 
+\begin_inset Formula $M$
+\end_inset
+
+.
+ Dann ist 
+\begin_inset Formula $\left(h_{i}^{-1}\right)^{*}\omega$
+\end_inset
+
+ eine 
+\begin_inset Formula $n$
+\end_inset
+
+-Form auf 
+\begin_inset Formula $h_{i}\left(U_{i}\right)\subseteq\mathbb{R}^{n}$
+\end_inset
+
+ für alle 
+\begin_inset Formula $i\in\mathbb{N}$
+\end_inset
+
+.
+ Betrachte nun die Funktionen:
+\begin_inset Formula 
+\begin{align*}
+f_{i}\left(p\right) & :=\left(\left(h_{i}^{-1}\right)^{*}\omega\right)\bigg|_{h_{i}\left(p\right)}\left(e_{1},\ldots,e_{n}\right)
+\end{align*}
+
+\end_inset
+
+Dabei bezeichnet 
+\begin_inset Formula $e_{1},\ldots,e_{n}$
+\end_inset
+
+ die Standardbasis des 
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+.
+ Da 
+\begin_inset Formula $\omega$
+\end_inset
+
+ nirgends verschwindet, haben die 
+\begin_inset Formula $f_{i}$
+\end_inset
+
+ keine Nullstellen.
 \end_layout
 
 \begin_layout Standard
-Deswegen zeige jetzt nur die Hinrichtung:
+Falls 
+\begin_inset Formula $f_{i}<0$
+\end_inset
+
+ für ein 
+\begin_inset Formula $i\in\mathbb{N}$
+\end_inset
+
+ gilt, dann ersetze 
+\begin_inset Formula $h_{i}$
+\end_inset
+
+ durch 
+\begin_inset Formula $S\circ h_{i}$
+\end_inset
+
+, wobei 
+\begin_inset Formula $S:\mathbb{R}^{n}\to\mathbb{R}^{n}$
+\end_inset
+
+ die Spiegelung an der Hyperebene 
+\begin_inset Formula $\left(e_{1}\right)^{\perp}$
+\end_inset
+
+ bezeichnet.
+ Danach definieren die 
+\begin_inset Formula $n$
+\end_inset
+
+-Formen 
+\begin_inset Formula $\left(h_{i}^{-1}\right)^{*}\omega$
+\end_inset
+
+ alle die gleiche Orientierung auf dem Vektorraum 
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+, in dem die Standardbasis positiv orientiert ist.
+ Sei nun 
+\begin_inset Formula $U_{i}\cap U_{j}\not=\emptyset$
+\end_inset
+
+ und 
+\begin_inset Formula $h_{i}\circ h_{j}^{-1}$
+\end_inset
+
+ ein Kartenwechsel.
+ Dann gilt
+\begin_inset Formula 
+\begin{align*}
+\left(\left(h_{i}^{-1}\right)^{*}\omega\right)\left(e_{1},\ldots,e_{n}\right) & >0
+\end{align*}
+
+\end_inset
+
+und:
+\begin_inset Formula 
+\begin{align*}
+\left(\left(h_{i}^{-1}\right)^{*}\omega\right)\left(\left(h_{i}\circ h_{j}^{-1}\right)_{*}e_{1},\ldots,\left(h_{i}\circ h_{j}^{-1}\right)_{*}e_{n}\right) & =\left(\left(h_{i}\circ h_{j}^{-1}\right)^{*}\left(h_{i}^{-1}\right)^{*}\omega\right)\left(e_{1},\ldots,e_{n}\right)=\\
+ & =\left(\left(h_{i}^{-1}\circ h_{i}\circ h_{j}^{-1}\right)^{*}\omega\right)\left(e_{1},\ldots,e_{n}\right)=\\
+ & =\left(\left(h_{j}^{-1}\right)^{*}\omega\right)\left(e_{1},\ldots,e_{n}\right)>0
+\end{align*}
+
+\end_inset
+
+Also ist 
+\begin_inset Formula $\left(h_{i}\circ h_{j}^{-1}\right)_{*}$
+\end_inset
+
+ orientierungserhaltend für alle 
+\begin_inset Formula $i,j\in\mathbb{N}$
+\end_inset
+
+ mit 
+\begin_inset Formula $U_{i}\cap U_{j}\not=\emptyset$
+\end_inset
+
+.
+ Damit ist 
+\begin_inset Formula $M$
+\end_inset
+
+ nach Definition orientierbar und der Atlas 
+\begin_inset Formula $\left\{ h_{i},U_{i}\right\} $
+\end_inset
+
+ ist orientiert.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed[
+\backslash
+quotedblbase{}$
+\backslash
+Leftarrow$
+\backslash
+textquotedblleft{}]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+„
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+“: Dies folgt aus den folgenden Lemmata.
 \end_layout
 
 \begin_layout Subsection
 Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Lem-ExistenzVolumenform"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Auf iener orientierten Riemannschen Mannigfaltigkeiten 
+Auf einer orientierten Riemannschen Mannigfaltigkeiten 
 \begin_inset Formula $\left(M^{n},g\right)$
 \end_inset
 
@@ -19359,8 +19815,8 @@ Bei der Herleitung des Volumenmaßes haben wir bereits gesehen:
 \begin{align*}
 \sqrt{\det g}\epsilon_{i_{1}\ldots i_{n}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{n}} & =\sqrt{\det g}\epsilon_{i_{1}\ldots i_{n}}\left(\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\dd y^{a_{1}}\right)\wedge\ldots\wedge\left(\frac{\partial x^{i_{n}}}{\partial y^{a_{n}}}\dd y^{a_{n}}\right)=\\
  & =\sqrt{\det g}\epsilon_{i_{1}\ldots i_{n}}\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{n}}}{\partial y^{a_{n}}}\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{n}}=\\
- & =\sqrt{\det g}\det\left(\frac{\partial x^{i}}{\partial y^{a}}\right)\epsilon_{i_{1}\ldots i_{n}}\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{n}}=\\
- & \stackrel{\det\left(\frac{\partial x^{i}}{\partial y^{a}}\right)>0}{=}\sqrt{\det\tilde{g}}\epsilon_{i_{1}\ldots i_{n}}\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{n}}
+ & =\sqrt{\det g}\det\left(\frac{\partial x^{i}}{\partial y^{a}}\right)\epsilon_{a_{1}\ldots a_{n}}\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{n}}=\\
+ & \stackrel{\det\left(\frac{\partial x^{i}}{\partial y^{a}}\right)>0}{=}\sqrt{\det\tilde{g}}\epsilon_{a_{1}\ldots a_{n}}\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{n}}
 \end{align*}
 
 \end_inset
@@ -19405,7 +19861,8 @@ Auf jeder differenzierbaren Mannigfaltigkeit
 \begin_inset Formula $g$
 \end_inset
 
- einführen, die nicht eindeutig und nicht kanonisch ist.
+ einführen.
+ Diese ist aber im Allgemeinen weder eindeutig noch kanonisch.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -19430,19 +19887,17 @@ Sei
 \end_layout
 
 \begin_layout Standard
-TODO: Abb1
+
+\color green
+TODO: Abb1 einfügen
 \end_layout
 
 \begin_layout Standard
-Sei
-\begin_inset Formula 
-\begin{align*}
-g_{ij} & =\delta_{ij}
-\end{align*}
-
+Sei 
+\begin_inset Formula $g_{ij}=\delta_{ij}$
 \end_inset
 
-die Euklidische Metrik auf 
+ die Euklidische Metrik auf 
 \begin_inset Formula $\mathbb{R}^{n}$
 \end_inset
 
@@ -19450,13 +19905,20 @@ die Euklidische Metrik auf
  Mit dem Pullback definiere:
 \begin_inset Formula 
 \begin{align*}
-g^{\left(k\right)} & :=\eta_{k}\cdot x_{n_{k}}^{*}\left(\delta\right)\in\TT^{0,2}U\\
+g^{\left(k\right)} & :=\eta_{k}\cdot x_{n_{k}}^{*}\left(\delta\right)\in\TT^{0,2}U
+\end{align*}
+
+\end_inset
+
+Dann ist
+\begin_inset Formula 
+\begin{align*}
 g & :=\sum_{k\in\mathbb{N}}\eta_{k}x_{n_{k}}^{*}\left(\delta\right)
 \end{align*}
 
 \end_inset
 
-Ist dann eine Riemannsche Metrik auf 
+eine Riemannsche Metrik auf 
 \begin_inset Formula $M^{n}$
 \end_inset
 
@@ -19488,7 +19950,11 @@ reference "sub:Thm-CharakterisierungOrientierbarkeit"
 \end_layout
 
 \begin_layout Standard
-Wähle eine Orientierung und eine Riemannsche Metrik nach 
+„
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+“: Wähle eine Orientierung und eine Riemannsche Metrik nach 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:Lem-ExistenzRiemannscheMetrik"
@@ -19496,10 +19962,10 @@ reference "sub:Lem-ExistenzRiemannscheMetrik"
 \end_inset
 
 .
- Dann gibt es nach
+ Dann gibt es nach 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Thm-CharakterisierungOrientierbarkeit"
+reference "sub:Lem-ExistenzVolumenform"
 
 \end_inset
 
@@ -19529,28 +19995,30 @@ ref{sub:Thm-CharakterisierungOrientierbarkeit}]
 Die äußere Ableitung, der deRham-Komplex
 \end_layout
 
+\begin_layout Subsection
+Definition 
+\series medium
+(äußere Ableitung)
+\end_layout
+
 \begin_layout Standard
-Die äußere Ableitung ist eine Abbildung:
+
+\emph on
+Die äußere Ableitung
+\emph default
+ ist eine Abbildung:
 \begin_inset Formula 
 \begin{align*}
-\dd:\Omega^{k}\left(M\right) & \to\Omega^{k+1}M
+\dd:\Omega^{k}\left(M\right) & \to\Omega^{k+1}\left(M\right)
 \end{align*}
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Subsection
-Definition
-\end_layout
-
-\begin_layout Standard
-Sei 
+Für 
 \begin_inset Formula $\varphi\in\Omega^{0}\left(M\right):=C^{\infty}\left(M\right)$
 \end_inset
 
-.
+ sei:
 \begin_inset Formula 
 \begin{align*}
 \dd\varphi & :=\DD\varphi=\varphi_{*}=\left(\frac{\partial}{\partial x^{j}}\varphi\right)\dd x^{j}\in\Omega^{1}\left(M\right)
@@ -19558,11 +20026,11 @@ Sei
 
 \end_inset
 
-Sei 
+Für 
 \begin_inset Formula $\varphi\in\Omega^{k}\left(M\right)$
 \end_inset
 
-, dann ist:
+, also
 \begin_inset Formula 
 \begin{align*}
 \varphi & =\varphi_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
@@ -19570,7 +20038,7 @@ Sei
 
 \end_inset
 
-Definiere:
+definiere:
 \begin_inset Formula 
 \begin{align*}
 \dd\varphi & :=\left(\frac{\partial}{\partial x^{j}}\varphi_{i_{1}\ldots i_{k}}\right)\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
@@ -19585,6 +20053,13 @@ Definiere:
 Theorem 
 \series medium
 (Rechenregeln)
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Thm-Rechenregeln"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -19733,7 +20208,7 @@ iii
 
 \end_inset
 
- ist klar nach Definition.
+ Die Linearität ist klar nach Definition.
 \end_layout
 
 \begin_layout Standard
@@ -19798,9 +20273,8 @@ iii
 \begin{align*}
 \dd\omega & =\frac{\partial}{\partial x^{a}}\omega_{i_{1}\ldots i_{k}}\dd x^{a}\wedge\dd x^{i}\wedge\ldots\wedge\dd x^{i_{k}}\\
 \dd\left(\dd\omega\right) & =\frac{\partial}{\partial x^{b}}\left(\frac{\partial}{\partial x^{a}}\omega_{i_{1}\ldots i_{k}}\right)\dd x^{b}\wedge\dd x^{a}\wedge\dd x^{i}\wedge\ldots\wedge\dd x^{i_{k}}=\\
- & =\frac{\partial}{\partial x^{b}x^{a}}\omega_{i_{1}\ldots i_{k}}\dd x^{b}\wedge\dd x^{a}\wedge\dd x^{i}\wedge\ldots\wedge\dd x^{i_{k}}=\\
- & =-\frac{\partial}{\partial x^{a}\partial x^{b}}\omega_{i_{1}\ldots i_{k}}\dd x^{a}\wedge\dd x^{b}\wedge\dd x^{i}\wedge\ldots\wedge\dd x^{i_{k}}=\\
- & =-\frac{\partial}{\partial x^{b}\partial x^{a}}\omega_{i_{1}\ldots i_{k}}\dd x^{a}\wedge\dd x^{b}\wedge\dd x^{i}\wedge\ldots\wedge\dd x^{i_{k}}=-\dd\left(\dd\omega\right)
+ & =\frac{\partial^{2}}{\partial x^{b}\partial x^{a}}\omega_{i_{1}\ldots i_{k}}\dd x^{b}\wedge\dd x^{a}\wedge\dd x^{i}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =-\frac{\partial^{2}}{\partial x^{a}\partial x^{b}}\omega_{i_{1}\ldots i_{k}}\dd x^{a}\wedge\dd x^{b}\wedge\dd x^{i}\wedge\ldots\wedge\dd x^{i_{k}}=-\dd\left(\dd\omega\right)
 \end{align*}
 
 \end_inset
@@ -19861,7 +20335,7 @@ Beweis
 Beweis: Rechne das Transformationsverhalten nach:
 \begin_inset Formula 
 \begin{align*}
-\omega & =\omega_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\tilde{\omega}_{i_{1}\ldots i_{k}}\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}
+\omega & =\omega_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\tilde{\omega}_{a_{1}\ldots a_{k}}\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}
 \end{align*}
 
 \end_inset
@@ -19869,7 +20343,7 @@ Beweis: Rechne das Transformationsverhalten nach:
 
 \begin_inset Formula 
 \begin{align*}
-\tilde{\omega}_{i_{1}\ldots i_{k}} & =\omega_{i_{1}\ldots i_{k}}\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}
+\tilde{\omega}_{a_{1}\ldots a_{k}} & =\omega_{i_{1}\ldots i_{k}}\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}
 \end{align*}
 
 \end_inset
@@ -19881,12 +20355,14 @@ Berechne
  im Koordinatensystem:
 \begin_inset Formula 
 \begin{align*}
-\frac{\partial}{\partial y^{b}}\tilde{\omega}_{i_{1}\ldots i_{k}}\dd y^{b}\wedge\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}} & =\frac{\partial}{\partial y^{b}}\left(\omega_{i_{1}\ldots i_{k}}\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\right)\dd y^{b}\wedge\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}=\\
- & =\frac{\partial}{\partial y^{b}}\left(\omega_{i_{1}\ldots i_{k}}\right)\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\dd y^{b}\wedge\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}+\\
- & \quad+\omega_{i_{1}\ldots i_{k}}\underbrace{\frac{\partial x^{i_{1}}}{\partial y^{b}\partial y^{a_{1}}}}_{\text{symmetrisch in }a_{1}\leftrightarrow b}\frac{\partial x^{i_{2}}}{\partial y^{a_{2}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}+\underbrace{\dd y^{b}\wedge\dd y^{a_{1}}}_{\text{antisymmetrisch in }a_{1}\leftrightarrow b}\wedge\ldots\wedge\dd y^{a_{k}}+\ldots=\\
- & =\frac{\partial x^{j}}{\partial y^{b}}\frac{\partial}{\partial x^{j}}\left(\omega_{i_{1}\ldots i_{k}}\right)\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\dd y^{b}\wedge\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}=\\
- & =\frac{\partial}{\partial x^{j}}\left(\omega_{i_{1}\ldots i_{k}}\right)\left(\frac{\partial x^{j}}{\partial y^{b}}\dd y^{b}\right)\wedge\left(\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\dd y^{a_{1}}\right)\wedge\ldots\wedge\left(\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\dd y^{a_{k}}\right)=\\
- & =\frac{\partial}{\partial x^{j}}\left(\omega_{i_{1}\ldots i_{k}}\right)\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+ & \frac{\partial}{\partial y^{b}}\tilde{\omega}_{a_{1}\ldots a_{k}}\dd y^{b}\wedge\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}=\\
+ & \qquad\qquad=\frac{\partial}{\partial y^{b}}\left(\omega_{i_{1}\ldots i_{k}}\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\right)\dd y^{b}\wedge\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}=\\
+ & \qquad\qquad=\frac{\partial}{\partial y^{b}}\left(\omega_{i_{1}\ldots i_{k}}\right)\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\dd y^{b}\wedge\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}+\\
+ & \qquad\qquad\quad+\omega_{i_{1}\ldots i_{k}}\underbrace{\frac{\partial x^{i_{1}}}{\partial y^{b}\partial y^{a_{1}}}}_{\text{symmetrisch in }a_{1}\leftrightarrow b}\frac{\partial x^{i_{2}}}{\partial y^{a_{2}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\cdot\\
+ & \qquad\qquad\quad\cdot\underbrace{\dd y^{b}\wedge\dd y^{a_{1}}}_{\text{antisymmetrisch in }a_{1}\leftrightarrow b}\wedge\ldots\wedge\dd y^{a_{k}}+\ldots=\\
+ & \qquad\qquad=\frac{\partial x^{j}}{\partial y^{b}}\frac{\partial}{\partial x^{j}}\left(\omega_{i_{1}\ldots i_{k}}\right)\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\dd y^{b}\wedge\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}=\\
+ & \qquad\qquad=\frac{\partial}{\partial x^{j}}\left(\omega_{i_{1}\ldots i_{k}}\right)\left(\frac{\partial x^{j}}{\partial y^{b}}\dd y^{b}\right)\wedge\left(\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\dd y^{a_{1}}\right)\wedge\ldots\wedge\left(\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\dd y^{a_{k}}\right)=\\
+ & \qquad\qquad=\frac{\partial}{\partial x^{j}}\left(\omega_{i_{1}\ldots i_{k}}\right)\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
 \end{align*}
 
 \end_inset
@@ -19994,19 +20470,11 @@ f:M & \to N
 
 \end_inset
 
-diffbar.
+differenzierbar.
 \begin_inset Formula 
 \begin{align*}
 f_{*}:\TT_{p}M & \to\TT_{f\left(p\right)}N\\
-u & \mapsto\left(\eta\mapsto u\left(\eta\circ f\right)\right)
-\end{align*}
-
-\end_inset
-
-
-\begin_inset Formula 
-\begin{align*}
-\left(f_{*}u\right)\left(\eta\right) & =u\left(\eta\circ f\right)
+\left(f_{*}u\right)\left(\eta\right) & :=u\left(\eta\circ f\right)
 \end{align*}
 
 \end_inset
@@ -20023,11 +20491,11 @@ f^{*}:\Omega^{k}\left(N\right) & \to\Omega^{k}\left(M\right)\\
 Aus Theorem 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "asdf"
+reference "sub:Thm-Rechenregeln"
 
 \end_inset
 
-6.3.2 wissen wir:
+ wissen wir, dass
 \begin_inset Formula 
 \begin{align*}
 \dd:\Omega^{k}\left(N\right) & \to\Omega^{k+1}\left(N\right)
@@ -20035,18 +20503,10 @@ reference "asdf"
 
 \end_inset
 
-ist linear und es gilt mit der Definition
+linear ist, und die graduierte Leibniz-Regel
 \begin_inset Formula 
 \begin{align*}
-\text{grad}\left(\omega\right) & :=k\quad\Leftrightarrow\quad\omega\in\Omega^{k}\left(N\right)
-\end{align*}
-
-\end_inset
-
-gilt die graduierte Leibniz-Regel
-\begin_inset Formula 
-\begin{align*}
-\dd\left(\omega\wedge\eta\right) & =\dd\omega\wedge\eta+\left(-1\right)^{\text{grad}\left(\omega\right)}\omega\wedge\dd\eta
+\dd\left(\omega\wedge\eta\right) & =\dd\omega\wedge\eta+\left(-1\right)^{k}\omega\wedge\dd\eta
 \end{align*}
 
 \end_inset
@@ -20055,7 +20515,7 @@ und
 \begin_inset Formula $\dd^{2}=0$
 \end_inset
 
-.
+ gelten.
  Gehe induktiv nach der Stufe von 
 \begin_inset Formula $\omega$
 \end_inset
@@ -20114,7 +20574,7 @@ f^{*}\omega & =\omega\circ f
 
 \begin_inset Formula 
 \begin{align*}
-\left(f^{*}\omega\right)\left(u_{1},\ldots,u_{k}\right) & =\omega\left(f_{*}u_{1},\ldots,f_{*}u_{k}\right)\bigg|_{f\left(p\right)}
+\left(f^{*}\omega\right)\left(u_{1},\ldots,u_{k}\right)\big|_{p} & =\omega\left(f_{*}u_{1},\ldots,f_{*}u_{k}\right)\big|_{f\left(p\right)}
 \end{align*}
 
 \end_inset
@@ -20148,7 +20608,7 @@ Induktionsschritt
  Mit der Leibniz-Regel folgt:
 \begin_inset Formula 
 \begin{align*}
-\dd\left(\omega\wedge\dd x^{i}\right) & =\dd\omega\wedge\dd x^{i}+\left(-1\right)^{\text{grad}\left(\omega\right)}\omega\wedge\underbrace{\dd\left(\dd x^{i}\right)}_{=0}
+\dd\left(\omega\wedge\dd x^{i}\right) & =\dd\omega\wedge\dd x^{i}+\left(-1\right)^{k}\omega\wedge\underbrace{\dd\left(\dd x^{i}\right)}_{=0}
 \end{align*}
 
 \end_inset
@@ -20170,7 +20630,7 @@ f^{*}\left(\dd\left(\omega\wedge\dd x^{i}\right)\right) & =f^{*}\left(\dd\omega\
 
 \end_inset
 
-Nach Induktionsvoraussetzung (IV) gilt:
+Nach Induktionsvoraussetzung (Abkürzung: IV) gilt:
 \begin_inset Formula 
 \begin{align*}
 f^{*}\left(\dd\omega\right) & =\dd\left(f^{*}\omega\right)
@@ -20181,8 +20641,8 @@ f^{*}\left(\dd\omega\right) & =\dd\left(f^{*}\omega\right)
 Damit folgt:
 \begin_inset Formula 
 \begin{align*}
-f^{*}\left(\dd\left(\omega\wedge\dd x^{i}\right)\right) & =\dd\left(f^{*}\omega\right)\wedge f^{*}\left(\dd x^{i}\right)=\dd\left(f^{*}\omega\wedge f^{*}\dd x^{i}\right)-\left(-1\right)^{\text{grad}\left(\omega\right)}\omega\wedge\dd\left(f^{*}\dd x^{i}\right)=\\
- & \stackrel{\text{IV}}{=}\dd\left(f^{*}\omega\wedge f^{*}\dd x^{i}\right)-\left(-1\right)^{\text{grad}\left(\omega\right)}\omega\wedge f^{*}\dd\left(\dd x^{i}\right)=\\
+f^{*}\left(\dd\left(\omega\wedge\dd x^{i}\right)\right) & \stackrel{\text{IV}}{=}\dd\left(f^{*}\omega\right)\wedge f^{*}\left(\dd x^{i}\right)=\dd\left(f^{*}\omega\wedge f^{*}\dd x^{i}\right)-\left(-1\right)^{k}\omega\wedge\dd\left(f^{*}\dd x^{i}\right)=\\
+ & \stackrel{\text{IV }}{=}\dd\left(f^{*}\omega\wedge f^{*}\dd x^{i}\right)-\left(-1\right)^{k}\omega\wedge f^{*}\dd\left(\dd x^{i}\right)=\\
  & =\dd\left(f^{*}\left(\omega\wedge\dd x^{i}\right)\right)
 \end{align*}
 
@@ -20229,11 +20689,11 @@ mit
 \begin_inset Formula $\omega$
 \end_inset
 
- als Differentialform auf einer offenen Teilmenge des 
+ aufgefasst als Differentialform auf einer offenen Teilmenge des 
 \begin_inset Formula $\mathbb{R}^{n}$
 \end_inset
 
- aufgefasst wird.
+.
 \begin_inset ERT
 status open
 
@@ -20271,6 +20731,24 @@ Es gilt:
 
 \end_inset
 
+Für die ersten beiden Abbildungen definiere:
+\begin_inset Formula 
+\begin{align*}
+\dd:0 & \to\mathbb{R}\\
+0 & \mapsto0
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\dd:\mathbb{R} & \to C^{\infty}\left(M\right)\\
+\lambda & \mapsto\left(m\mapsto\lambda\right)
+\end{align*}
+
+\end_inset
+
 Für den letzten Schritt beachte:
 \begin_inset Formula 
 \begin{align*}
@@ -20297,10 +20775,7 @@ Im Fall
 \end_inset
 
  müssen daher übereinstimmen.
-\end_layout
-
-\begin_layout Standard
-Wegen der Antisymmetrie erhalten wir null.
+ Wegen der Antisymmetrie erhalten wir null.
 \end_layout
 
 \begin_layout Standard
@@ -20316,25 +20791,7 @@ Außerdem gilt
 
 \end_inset
 
-Außerdem definiere:
-\begin_inset Formula 
-\begin{align*}
-\dd:0 & \to\mathbb{R}\\
-0 & \mapsto0
-\end{align*}
-
-\end_inset
-
-
-\begin_inset Formula 
-\begin{align*}
-\dd:\mathbb{R} & \to C^{\infty}\left(M\right)\\
-\lambda & \mapsto\left(m\mapsto\lambda\right)
-\end{align*}
-
-\end_inset
-
-Dies nennt man allgemein einen 
+Eine solche Folge nennt man allgemein einen 
 \emph on
 Kettenkomplex
 \emph default
@@ -20342,7 +20799,9 @@ Kettenkomplex
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(deRham-Komplex, geschlossen, exakt)
 \end_layout
 
 \begin_layout Standard
@@ -20462,7 +20921,9 @@ ein Vektorraum.
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(sternförmig)
 \end_layout
 
 \begin_layout Standard
@@ -20490,7 +20951,9 @@ ist.
 \end_layout
 
 \begin_layout Standard
-TODO: Abb1
+
+\color green
+TODO: Abb1 einfügen
 \end_layout
 
 \begin_layout Subsection
@@ -20733,7 +21196,7 @@ Sei
 \begin_inset Formula $\omega$
 \end_inset
 
- eine geschlossene 1-Form, das heißt
+ eine geschlossene 1-Form, das heißt:
 \begin_inset Formula 
 \begin{align*}
 \omega & =\omega_{i}\dd x^{i}
@@ -20752,7 +21215,7 @@ Sei
 Für
 \begin_inset Formula 
 \begin{align*}
-\varphi\left(x\right) & :=\int_{0}^{1}\omega_{i}\left(tx\right)\dd tx^{i}
+\varphi\left(x\right) & :=\left(\int_{0}^{1}\omega_{i}\left(tx\right)\dd t\right)x^{i}
 \end{align*}
 
 \end_inset
@@ -20761,7 +21224,7 @@ gilt:
 \begin_inset Formula 
 \begin{align*}
 \dd\varphi\left(x\right) & =\left(\frac{\partial}{\partial x^{j}}\varphi\left(x\right)\right)\dd x^{j}=\bigg(\int_{0}^{1}t\cdot\underbrace{\partial_{j}\omega_{i}}_{=\partial_{i}\omega_{j}}\big|_{tx}\dd t\bigg)x^{i}\dd x^{j}+\left(\int_{0}^{1}\omega_{i}\big|_{tx}\dd t\right)\delta_{j}^{i}\dd x^{j}=\\
- & =\bigg(\int_{0}^{1}t\cdot\underbrace{\partial_{j}\omega_{i}}_{=\partial_{i}\omega_{j}}\big|_{tx}\dd t\bigg)x^{i}\dd x^{j}+\left(\int_{0}^{1}\omega_{j}\big|_{tx}\dd t\right)\dd x^{j}
+ & =\bigg(\int_{0}^{1}t\cdot\underbrace{\partial_{j}\omega_{i}}_{=\partial_{i}\omega_{j}}\big|_{tx}\dd t\bigg)x^{i}\dd x^{j}+\left(\int_{0}^{1}\omega_{j}\big|_{tx}\dd t\right)\dd x^{i}
 \end{align*}
 
 \end_inset
@@ -20769,7 +21232,7 @@ gilt:
 Es gilt:
 \begin_inset Formula 
 \begin{align*}
-\partial_{j}\omega_{i}\big|_{tx}x^{i}\dd x^{j} & \stackrel{\omega\text{ geschlossen}}{=}\partial_{i}\omega_{j}\big|_{tx}x^{i}\dd x^{i}\stackrel{\text{Kettenregel}}{=}\frac{\dd}{\dd t}\omega_{j}\big|_{tx}\dd x^{j}
+\partial_{j}\omega_{i}\big|_{tx}x^{i}\dd x^{j} & \stackrel{\omega\text{ geschlossen}}{=}\partial_{i}\omega_{j}\big|_{tx}x^{i}\dd x^{j}\stackrel{\text{Kettenregel}}{=}\frac{\dd}{\dd t}\omega_{j}\big|_{tx}\dd x^{j}
 \end{align*}
 
 \end_inset
@@ -20778,7 +21241,7 @@ Es folgt:
 \begin_inset Formula 
 \begin{align*}
 \dd\varphi\left(x\right) & =\left(\int_{0}^{1}t\cdot\partial_{j}\omega_{i}\big|_{tx}\dd t\right)x^{i}\dd x^{j}+\left(\int_{0}^{1}\omega_{j}\big|_{tx}\dd t\right)\dd x^{j}\\
- & =\left(\int_{0}^{1}\frac{\dd}{\dd t}\left(t\cdot\omega_{j}\big|_{tx}\right)\dd t\right)\dd x^{j}\stackrel{\text{part. Int.}}{=}\omega_{j}\left(x\right)\dd x^{j}
+ & =\left(\int_{0}^{1}\frac{\dd}{\dd t}\left(t\cdot\omega_{j}\big|_{tx}\right)\dd t\right)\dd x^{j}=\omega_{j}\left(x\right)\dd x^{j}
 \end{align*}
 
 \end_inset
@@ -20815,7 +21278,7 @@ qqed[Beweis für $k=1$]
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Subsubsection*
 Frobenius „Integrabilitätsbedingungen“
 \end_layout
 
@@ -20941,7 +21404,7 @@ B & =\sum_{\alpha=1}^{k}\left(-1\right)^{\alpha-1}\left(\int_{0}^{1}t^{k}\partia
 Also folgt:
 \begin_inset Formula 
 \begin{align*}
-\partial_{i_{\alpha}}\omega_{i_{1}\ldots l\ldots i_{k}} & =\frac{1}{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\partial_{i_{\alpha}}\omega_{i_{1}\ldots l\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}} & =\frac{1}{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
 \end{align*}
 
 \end_inset
@@ -20958,8 +21421,9 @@ B & =\frac{1}{k}\sum_{\alpha=1}^{k}\left(\int_{0}^{1}t^{k}\partial_{l}\omega_{i_
 Insgesamt gibt das:
 \begin_inset Formula 
 \begin{align*}
-\dd\varphi & =k\cdot\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}+\left(\int_{0}^{1}t^{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)x^{l}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
- & =\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)+t^{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+\dd\varphi & =k\cdot\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}+\\
+ & \quad+\left(\int_{0}^{1}t^{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)x^{l}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\left(\int_{0}^{1}kt^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)+t^{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\left(tx\right)x^{l}\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
  & =\left(\int_{0}^{1}\frac{\dd}{\dd t}\left(t^{k}\omega_{i_{1}\ldots i_{k}}\right)\big|_{tx}\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
  & =\omega_{i_{1}\ldots i_{k}}\left(x\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\omega
 \end{align*}
@@ -20987,14 +21451,11 @@ Beispiel
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\begin{align*}
-T^{2} & =\modulo{\mathbb{R}^{2}}{\mathbb{Z}^{2}}
-\end{align*}
-
+Betrachte den Torus 
+\begin_inset Formula $T^{2}=\modulo{\mathbb{R}^{2}}{\mathbb{Z}^{2}}$
 \end_inset
 
-
+.
 \begin_inset Formula 
 \begin{align*}
 \omega & :=\dd x\in\Omega^{1}\left(T^{2}\right)\\
@@ -21012,7 +21473,7 @@ Also ist
 \begin_inset Formula $\omega$
 \end_inset
 
- exakt? Also gibt es ein 
+ exakt, das heißt gibt es ein 
 \begin_inset Formula $\varphi\in\Omega^{0}=C^{\infty}\left(T^{2}\right)$
 \end_inset
 
@@ -21049,9 +21510,7 @@ mit
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
+ 
 \begin_inset Formula $\varphi$
 \end_inset
 
@@ -21089,7 +21548,7 @@ Sei
 
  eine differenzierbare Mannigfaltigkeit (
 \emph on
-keine
+ohne
 \emph default
  Riemannsche Metrik), zur Einfachheit kompakt.
 \end_layout
@@ -21113,10 +21572,7 @@ Für
 \end_inset
 
  geht das nicht.
-\end_layout
-
-\begin_layout Standard
-Für 
+ Für 
 \begin_inset Formula $k=n$
 \end_inset
 
@@ -21160,15 +21616,15 @@ Hätten wir eine Riemannsche Metrik, könnten wir für
 \end_layout
 
 \begin_layout Standard
-Allgemein 
+Allgemein für ein 
 \begin_inset Formula $\eta\in\Omega^{k}$
 \end_inset
 
-, also 
+, also total antisymmetrisches 
 \begin_inset Formula $\eta_{i_{1}\ldots i_{k}}\left(x\right)$
 \end_inset
 
- total antisymmetrisch.
+ gilt:
 \begin_inset Formula 
 \begin{align*}
 \eta & =\sum_{1\le i_{1}<\ldots<i_{k}\le n}\eta_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
@@ -21184,7 +21640,11 @@ k
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(Integral von Differentialformen)
+\series default
+
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Def-Integral-Differentialform"
@@ -21200,7 +21660,7 @@ Sei
 \end_inset
 
  eine Zerlegung der Eins, die einem Atlas 
-\begin_inset Formula $\left(x_{n},U_{n}\right)$
+\begin_inset Formula $\left(x_{m},U_{m}\right)$
 \end_inset
 
  untergeordnet ist, der endlich gewählt werden kann, da 
@@ -21209,21 +21669,18 @@ Sei
 
  kompakt ist.
  Also sei 
-\begin_inset Formula $\text{supp}\left(\eta_{k}\right)\subseteq U_{n_{k}}$
+\begin_inset Formula $\text{supp}\left(\eta_{k}\right)\subseteq U_{k}$
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-Für 
+ Für 
 \begin_inset Formula $\varphi\in\Omega^{n}\left(M\right)$
 \end_inset
 
  definiere:
 \begin_inset Formula 
 \begin{align*}
-\int_{M}\varphi & :=\sum_{k=1}^{K}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(x_{n_{k}}^{-1}\right)^{*}\left(\eta_{k}\cdot\varphi\right)\bigg|_{x}\left(\frac{\partial}{\partial x^{1}},\ldots,\frac{\partial}{\partial x^{n}}\right)\dd x^{1}\ldots\dd x^{n}
+\int_{M}\varphi & :=\sum_{k=1}^{K}\int_{x_{k}\left(U_{k}\right)}\left(x_{k}^{-1}\right)^{*}\left(\eta_{k}\cdot\varphi\right)\bigg|_{x}\left(\frac{\partial}{\partial x^{1}},\ldots,\frac{\partial}{\partial x^{n}}\right)\dd x^{1}\ldots\dd x^{n}
 \end{align*}
 
 \end_inset
@@ -21367,8 +21824,13 @@ qqed
 
 \end_layout
 
+\begin_layout Subsubsection*
+2.
+ Beweis
+\end_layout
+
 \begin_layout Standard
-Oder durch elementare Rechnung:
+Durch elementare Rechnung folgt mit
 \begin_inset Formula 
 \begin{align*}
 \omega & =\omega_{i_{1}\ldots i_{n}}\left(x\right)\dd x^{i}\wedge\ldots\wedge\dd x^{i_{n}}
@@ -21384,7 +21846,7 @@ Oder durch elementare Rechnung:
 
 \end_inset
 
-Damit folgt:
+nun:
 \begin_inset Formula 
 \begin{align*}
 \omega & =\omega_{i_{1}\ldots i_{n}}\frac{\partial x^{i_{1}}}{\partial y^{j_{1}}}\ldots\frac{\partial x^{i_{n}}}{\partial y^{j_{n}}}\dd y^{j_{1}}\wedge\ldots\wedge\dd y^{j_{n}}=\left(\det\frac{\partial x^{i}}{\partial y^{j}}\right)\cdot\omega_{j_{1}\ldots j_{n}}\dd y^{j_{1}}\wedge\ldots\dd y^{j_{n}}
@@ -21429,7 +21891,9 @@ Der Satz von Stokes
 \end_layout
 
 \begin_layout Subsection
-Theorem
+Theorem 
+\series medium
+(Satz von Stokes)
 \end_layout
 
 \begin_layout Standard
@@ -21458,7 +21922,7 @@ Sei
 \end_layout
 
 \begin_layout Standard
-Später: Mannigfaltigkeit mit Rand:
+Später zeigen wir für Mannigfaltigkeit mit Rand:
 \begin_inset Formula 
 \begin{align*}
 \int_{M}\dd\omega & =\int_{\partial M}\omega
@@ -21491,7 +21955,7 @@ Beweis
 Wähle eine endliche Zerlegung der Eins.
 \begin_inset Formula 
 \begin{align*}
-\int_{M}\dd\omega & =\sum_{k}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\eta_{k}\left(\dd\omega\right)_{1\ldots n}\dd^{n}x
+\int_{M}\dd\omega & =\sum_{k}\int_{x_{k}\left(U_{k}\right)}\eta_{k}\left(\dd\omega\right)_{1\ldots n}\dd^{n}x
 \end{align*}
 
 \end_inset
@@ -21560,7 +22024,19 @@ Summiere über
 
 \end_inset
 
+Für allgemeine 
+\begin_inset Formula $\omega$
+\end_inset
 
+ folgt die Behauptung nun aus der Linearität von 
+\begin_inset Formula $\dd$
+\end_inset
+
+, indem man eine Basisdarstellung von 
+\begin_inset Formula $\omega$
+\end_inset
+
+ betrachtet.
 \begin_inset ERT
 status open
 
@@ -21602,25 +22078,24 @@ x:U\cap\partial M & \to\mathbb{R}_{0}^{n}:=\left\{ x\in\mathbb{R}^{n}\big|x^{1}=
 
 \end_inset
 
-Sei 
+Seien 
 \begin_inset Formula $\omega\in\Omega^{k}\left(M\right)$
 \end_inset
 
-.
- Sei 
+ und 
 \begin_inset Formula $\left(x,U\right)$
 \end_inset
 
- Karte um Randpunkt 
+ eine Karte um einen Randpunkt 
 \begin_inset Formula $p\in\partial M$
 \end_inset
 
 .
- Sei 
+ Für 
 \begin_inset Formula $x\in\mathbb{R}_{-}^{n}$
 \end_inset
 
-.
+ schreibe:
 \begin_inset Formula 
 \begin{align*}
 \omega & =\omega_{i_{1}\ldots i_{k}}\left(x\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
@@ -21628,7 +22103,7 @@ Sei
 
 \end_inset
 
-Oder
+Dann ist
 \begin_inset Formula 
 \begin{align*}
 \omega\left(p\right):\left(\TT_{p}M\right)^{k} & \to\mathbb{R}
@@ -21636,7 +22111,7 @@ Oder
 
 \end_inset
 
-ist eine 
+eine 
 \begin_inset Formula $k$
 \end_inset
 
@@ -21651,7 +22126,7 @@ ist eine
 
 als Unterraum auf.
  Schränke 
-\begin_inset Formula $\omega\big|_{p}$
+\begin_inset Formula $\omega\left(p\right)$
 \end_inset
 
  auf 
@@ -21661,13 +22136,13 @@ als Unterraum auf.
  ein:
 \begin_inset Formula 
 \begin{align*}
-\omega\big|_{p} & =\left(\TT_{p}\partial M\right)^{k}\to\mathbb{R}
+\omega\left(p\right)\big|_{\partial M} & =\left(\TT_{p}\partial M\right)^{k}\to\mathbb{R}
 \end{align*}
 
 \end_inset
 
-ist multilinear und total antisymmetrisch und 
-\begin_inset Formula $\omega\in\Omega^{k}\left(\partial_{M}\right)$
+ist multilinear und total antisymmetrisch und somit 
+\begin_inset Formula $\omega\big|_{\partial M}\in\Omega^{k}\left(\partial_{M}\right)$
 \end_inset
 
 .
@@ -21708,22 +22183,19 @@ Theorem
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\begin{align*}
-\int_{M}\dd\omega & =\int_{\partial M}\omega
-\end{align*}
-
-\end_inset
-
-
+Sei 
 \begin_inset Formula $M$
 \end_inset
 
- ist 
+ eine 
 \begin_inset Formula $n$
 \end_inset
 
--dimensional und 
+-dimensionale, kompakte Mannigfaltigkeit mit Rand 
+\begin_inset Formula $\partial M$
+\end_inset
+
+ und 
 \begin_inset Formula $\dd\omega$
 \end_inset
 
@@ -21745,6 +22217,15 @@ Theorem
 \end_inset
 
 .
+ Es gilt:
+\begin_inset Formula 
+\begin{align*}
+\int_{M}\dd\omega & =\int_{\partial M}\omega
+\end{align*}
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection*
@@ -21759,16 +22240,20 @@ Wähle wieder eine endlich Zerlegung der Eins
 .
 \begin_inset Formula 
 \begin{align*}
-\int_{M}\dd\omega & =\sum_{k}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\eta_{k}\left(x\right)\left(\dd\omega\right)_{1\ldots n}\dd x^{1}\ldots\dd x^{n}
+\int_{M}\dd\omega & =\sum_{k}\int_{x_{k}\left(U_{k}\right)}\eta_{k}\left(x\right)\left(\dd\omega\right)_{1\ldots n}\dd x^{1}\ldots\dd x^{n}
 \end{align*}
 
 \end_inset
 
 Falls 
-\begin_inset Formula $U_{n_{k}}\cap\partial M=\emptyset$
+\begin_inset Formula $U_{k}\cap\partial M=\emptyset$
 \end_inset
 
-, also eine Karte im Innern, so gilt genau wie im Fall ohne Rand:
+ gilt, also 
+\begin_inset Formula $x_{k}$
+\end_inset
+
+ eine Karte im Innern ist, so gilt genau wie im Fall ohne Rand:
 \begin_inset Formula 
 \begin{align*}
 \int_{M}\eta_{k}\dd\omega & =-\int_{M}\left(\dd\eta_{k}\right)\wedge\omega
@@ -21792,7 +22277,9 @@ Falls
 \end_layout
 
 \begin_layout Standard
-TODO: Abb2
+
+\color green
+TODO: Abb2 einfügen
 \end_layout
 
 \begin_layout Standard
@@ -21814,7 +22301,7 @@ Nehme wieder an, dass gilt:
 \end_inset
 
 Integriere nun partiell.
- Falls 
+ Fall 
 \begin_inset Formula $l\not=1$
 \end_inset
 
@@ -21830,7 +22317,7 @@ Integriere nun partiell.
 \end_layout
 
 \begin_layout Standard
-Falls 
+Fall 
 \begin_inset Formula $l=1$
 \end_inset
 
@@ -21872,12 +22359,12 @@ Summiere über
 \begin_inset Formula $k$
 \end_inset
 
-, verwende, dass 
+, verwende dann 
 \begin_inset Formula ${\displaystyle \sum_{k}\eta_{k}=1}$
 \end_inset
 
  und 
-\begin_inset Formula $\dd1=0$
+\begin_inset Formula $\dd\left(1\right)=0$
 \end_inset
 
 .
@@ -21909,11 +22396,12 @@ Hodge-Stern, Hodge-Theorem
 \end_layout
 
 \begin_layout Standard
-Im Moment: 
+Sei nun 
 \begin_inset Formula $M^{n}$
 \end_inset
 
- differenzierbare Mannigfaltigkeit, (zur Einfachheit kompakt, ohne Rand).
+ eine differenzierbare Mannigfaltigkeit, zur Einfachheit kompakt und ohne
+ Rand.
 \end_layout
 
 \begin_layout Standard
@@ -21925,12 +22413,12 @@ Betrachte
 \begin_inset Formula $M$
 \end_inset
 
- als Vektorraum mit für 
+ als Vektorraum mit folgenden Operationen für 
 \begin_inset Formula $\omega,\eta\in\Omega^{k}$
 \end_inset
 
  und 
-\begin_inset Formula $\lambda$
+\begin_inset Formula $\lambda,\nu\in\mathbb{R}$
 \end_inset
 
 :
@@ -21970,7 +22458,7 @@ Kombiniere
 
 \end_inset
 
-Ist Bilinearform, nennt man auch 
+Dies ist eine Bilinearform und man nennt sie auch 
 \emph on
 duale Paarung
 \emph default
@@ -21982,7 +22470,7 @@ duale Paarung
 \begin_inset Formula $\Omega^{k}$
 \end_inset
 
-, 
+ und 
 \begin_inset Formula $\Omega^{n-k}$
 \end_inset
 
@@ -21992,43 +22480,47 @@ duale Paarung
 
 -dimensional.
  Wir müssten eigentlich eine Topologie auf 
-\begin_inset Formula $\Omega^{k},\Omega^{n-k}$
+\begin_inset Formula $\Omega^{k}$
 \end_inset
 
- einführen, lassen wir hier außer Acht, in Funktionalanalysis)
+ und 
+\begin_inset Formula $\Omega^{n-k}$
+\end_inset
+
+ einführen.
+ Dies lassen wir hier außer Acht und verweisen auf die Funktionalanalysis.)
 \end_layout
 
 \begin_layout Standard
-Falls
+Falls für alle 
+\begin_inset Formula $u\in E,v\in F$
+\end_inset
+
+ die Bedingung
 \begin_inset Formula 
 \begin{align*}
-\left\langle Au,v\right\rangle  & =\left\langle u,A^{*}v\right\rangle \quad\fall_{u\in E,v\in F}
+\left\langle Au,v\right\rangle  & =\left\langle u,A^{*}v\right\rangle 
 \end{align*}
 
 \end_inset
 
-heißt 
-\begin_inset Formula $A^{*}$
+für die duale Paarung 
+\begin_inset Formula $\left\langle .,.\right\rangle :E\times F\to\mathbb{R}$
 \end_inset
 
- Adjungierte von 
-\begin_inset Formula $A$
+ erfüllt ist, heißt 
+\begin_inset Formula $A^{*}:F\to F$
 \end_inset
 
- und 
-\begin_inset Formula $\left\langle .,.\right\rangle :E\times F$
+ die 
+\emph on
+Adjungierte
+\emph default
+ von 
+\begin_inset Formula $A:E\to E$
 \end_inset
 
- duale Paarung.
- 
-\begin_inset Formula $A:E\circlearrowleft$
-\end_inset
-
- , 
-\begin_inset Formula $A^{*}:F\circlearrowleft$
-\end_inset
-
-
+.
 \end_layout
 
 \begin_layout Standard
@@ -22051,7 +22543,7 @@ Sei
 .
 \begin_inset Formula 
 \begin{align*}
-0 & \stackrel{\text{S.v.S}}{=}\int_{M}\dd\left(\omega\wedge\eta\right)\sr ={\text{graduierte}}{\text{Leibnizregel}}\int_{M}\dd\left(\omega\right)\wedge\eta+\left(-1\right)^{k-1}\omega\wedge\left(\dd\eta\right)=\left\langle \dd\omega,\eta\right\rangle +\left(-1\right)^{\left(k-1\right)}\left\langle \omega,\dd\eta\right\rangle 
+0 & \sr ={\text{Satz von}}{\text{Schwarz}}\int_{M}\dd\left(\omega\wedge\eta\right)\sr ={\text{graduierte}}{\text{Leibnizregel}}\int_{M}\left(\dd\left(\omega\right)\wedge\eta+\left(-1\right)^{k-1}\omega\wedge\left(\dd\eta\right)\right)=\left\langle \dd\omega,\eta\right\rangle +\left(-1\right)^{\left(k-1\right)}\left\langle \omega,\dd\eta\right\rangle 
 \end{align*}
 
 \end_inset
@@ -22080,18 +22572,11 @@ Wegen
 
 \end_inset
 
-Es ist also unmöglich einen Differentialoperator zweiter Ordnung zu bilden.
- 
+Es ist also unmöglich so einen Differentialoperator zweiter Ordnung zu bilden.
+ Dafür benötigt man den Hodge-Stern-Operator: 
 \begin_inset Formula 
 \begin{align*}
-*:\Omega^{k} & \to\Omega^{n-k} &  & \text{Hodge-Stern wird gebraucht}
-\end{align*}
-
-\end_inset
-
-
-\begin_inset Formula 
-\begin{align*}
+* & :\Omega^{k}\to\Omega^{n-k} &  & \text{Hodge-Stern}\\
 \Delta & :=-\left(\dd^{*}\dd+\dd\dd^{*}\right) &  & \text{Hodge-Laplace}
 \end{align*}
 
@@ -22181,7 +22666,7 @@ natürlichen
 \end_layout
 
 \begin_layout Standard
-Für jede positiv orientierte Orhonormalbasis 
+Für jede positiv orientierte Orthonormalbasis 
 \begin_inset Formula $\left\{ e_{1},\ldots,e_{n}\right\} $
 \end_inset
 
@@ -22201,7 +22686,7 @@ Dabei ist
 \begin_inset Formula $\left\{ e^{1},\ldots,e^{n}\right\} $
 \end_inset
 
- die Dualbasis bezeichnet.
+ die Dualbasis.
 \end_layout
 
 \begin_layout Standard
@@ -22257,7 +22742,9 @@ Eine Darstellung in lokaler Karte
 \end_layout
 
 \begin_layout Subsection
-Definition
+Definition 
+\series medium
+(Hodge-Stern)
 \end_layout
 
 \begin_layout Standard
@@ -22269,7 +22756,7 @@ Hodge-Stern
 \begin_inset Formula $*$
 \end_inset
 
- ist der lineare Isomorphismus
+ ist der lineare Isomorphismus:
 \begin_inset Formula 
 \begin{align*}
 *:\Omega^{k}\left(M\right) & \to\Omega^{n-k}\left(M\right)\\
@@ -22320,9 +22807,11 @@ Beweis
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-**\omega & =\frac{1}{k!\left(n-k\right)!}\varepsilon_{\phantom{j_{1}\ldots j_{n-k}}l_{1}\ldots l_{k}}^{j_{1}\ldots j_{n-k}}\varepsilon_{\phantom{i_{1}\ldots i_{k}}i_{k+1}\ldots i_{n}}^{i_{1}\ldots i_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
- & =\frac{1}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}\varepsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\varepsilon_{s_{1}\ldots s_{k},i_{k+1}\ldots i_{n}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
- & =\frac{\left(-1\right)^{k\left(n-k\right)}}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\varepsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}\varepsilon_{s_{1}\ldots s_{k},i_{k+1}\ldots i_{n}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}
+**\omega & =*\left(\frac{1}{\left(n-k\right)!}\varepsilon_{\phantom{i_{1}\ldots i_{k}}i_{k+1}\ldots i_{n}}^{i_{1}\ldots i_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{i_{k+1}}\wedge\ldots\wedge\dd x^{i_{n}}\right)=\\
+ & =\frac{1}{k!}\varepsilon_{\phantom{j_{1}\ldots j_{n-k}}l_{1}\ldots l_{k}}^{j_{1}\ldots j_{n-k}}\left(\frac{1}{\left(n-k\right)!}\varepsilon_{\phantom{i_{1}\ldots i_{k}}j_{1}\ldots j_{n-k}}^{i_{1}\ldots i_{k}}\omega_{i_{1}\ldots i_{k}}\right)\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
+ & =\frac{1}{k!\left(n-k\right)!}\varepsilon_{\phantom{j_{1}\ldots j_{n-k}}l_{1}\ldots l_{k}}^{j_{1}\ldots j_{n-k}}\varepsilon_{\phantom{i_{1}\ldots i_{k}}j_{1}\ldots j_{n-k}}^{i_{1}\ldots i_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
+ & =\frac{1}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}\varepsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\varepsilon_{s_{1}\ldots s_{k},j_{1}\ldots j_{n-k}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
+ & =\frac{\left(-1\right)^{k\left(n-k\right)}}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\varepsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}\varepsilon_{j_{1}\ldots j_{n-k},s_{1}\ldots s_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}
 \end{align*}
 
 \end_inset
@@ -22339,7 +22828,7 @@ Beachte:
 Damit folgt:
 \begin_inset Formula 
 \begin{align*}
-**\omega & =\frac{\left(-1\right)^{k\left(n-k\right)}}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\epsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}\epsilon_{s_{1}\ldots s_{k},i_{k+1}\ldots i_{n}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}
+**\omega & =\frac{\left(-1\right)^{k\left(n-k\right)}}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\epsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}\epsilon_{j_{1}\ldots j_{n-k},s_{1}\ldots s_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}
 \end{align*}
 
 \end_inset
@@ -22352,7 +22841,7 @@ Klar ist, dass man nur Beiträge bekommt, wenn
 \begin_inset Formula $\left(r_{1},\ldots,r_{k}\right)$
 \end_inset
 
- ist.
+ ist, da sonst einer der beiden total antisymmetrischen Tensoren verschwindet.
  Wegen der Antisymmetrie des Dachprodukts und der Komponenten 
 \begin_inset Formula $\omega_{i_{1},\ldots,i_{k}}$
 \end_inset
@@ -22361,7 +22850,7 @@ Klar ist, dass man nur Beiträge bekommt, wenn
 \begin_inset Formula 
 \begin{align*}
 **\omega & =\left(-1\right)^{k\left(n-k\right)}g_{l_{1}r_{1}}g^{r_{1}i_{1}}\ldots g_{l_{k}r_{k}}g^{r_{k}i_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
- & =\left(-1\right)^{k\left(n-k\right)}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\left(-1\right)^{k\left(n-k\right)}\omega
+ & =\left(-1\right)^{k\left(n-k\right)}\omega_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\left(-1\right)^{k\left(n-k\right)}\omega
 \end{align*}
 
 \end_inset
@@ -22401,6 +22890,13 @@ Mit Hilfe des Hodge-Sterns kann man nun ein Skalarprodukt auf
 
 \begin_layout Subsection
 Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Lem-Integral-n-Form"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -22428,6 +22924,7 @@ Beweis
 \end_layout
 
 \begin_layout Standard
+Es gilt:
 \begin_inset Formula 
 \begin{align*}
 *^{2}\big|_{\Omega^{n}\left(M\right)} & =\mathbbm{1}
@@ -22435,7 +22932,7 @@ Beweis
 
 \end_inset
 
-Es ist
+Nun ist
 \begin_inset Formula 
 \begin{align*}
 *\omega & =:f
@@ -22490,7 +22987,7 @@ Beweis
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-\left\langle \omega,\eta\right\rangle  & \stackrel{\ref{a}6.6.3}{=}\int_{M}*\left(\omega\wedge\left(*\eta\right)\right)\dd\mu_{M}\\
+\left\langle \omega,\eta\right\rangle  & \stackrel{\ref{sub:Lem-Integral-n-Form}}{=}\int_{M}*\left(\omega\wedge\left(*\eta\right)\right)\dd\mu_{M}\\
 *\left(\omega\wedge\left(*\eta\right)\right) & =\varepsilon^{i_{1}\ldots i_{n}}\left(\omega_{i_{1}\ldots i_{k}}\left(*\eta\right)_{i_{k+1}\ldots i_{n}}\right)=\\
  & =\frac{1}{k!}\varepsilon^{i_{1}\ldots i_{n}}\omega_{i_{1}\ldots i_{k}}\varepsilon_{j_{1}\ldots j_{k},i_{k+1}\ldots i_{n}}\eta^{j_{1}\ldots j_{k}}=\\
  & =\frac{\left(n-k\right)!}{k!}\left(*\omega\right)^{i_{1}\ldots i_{n-k}}\left(*\eta\right)_{i_{1}\ldots i_{n-k}}
@@ -22515,7 +23012,13 @@ qqed
 \end_layout
 
 \begin_layout Subsection
-Lemma
+Lemma 
+\series medium
+(Adjungierte 
+\begin_inset Formula $d^{*}$
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Standard
@@ -22530,7 +23033,7 @@ Die Adjungierte von
  ist:
 \begin_inset Formula 
 \begin{align*}
-\dd^{*} & =\left(-1\right)^{k\left(n-k+1\right)}*\dd*:\Omega^{k}\left(M\right)\to\Omega^{k-1}\left(M\right)
+\dd^{*} & =\left(-1\right)^{k\left(n-k+1\right)\left(k-1\right)}*\dd*:\Omega^{k}\left(M\right)\to\Omega^{k-1}\left(M\right)
 \end{align*}
 
 \end_inset
@@ -22556,7 +23059,7 @@ Sei
 \begin_inset Formula 
 \begin{align*}
 \left\langle \dd\omega,\eta\right\rangle  & =\int_{M}\left(\dd\omega\right)\wedge\left(*\eta\right)\sr ={\text{Produktregel}}{}\underbrace{\int_{M}\dd\left(\omega\wedge*\eta\right)}_{=0}+\left(-1\right)^{k}\int_{M}\omega\wedge\dd*\eta=\\
- & \sr ={\text{Stokes}}{}\left(-1\right)^{k}\int_{M}\omega\wedge\dd*\eta=\left(-1\right)^{k\left(n-k+1\right)}\int_{M}\omega\wedge*\left(*\dd*\eta\right)=\left(-1\right)^{k\left(n-k+1\right)}\left\langle \omega,*\dd*\eta\right\rangle 
+ & =\left(-1\right)^{k\left(n-k+1\right)\left(k-1\right)}\int_{M}\omega\wedge*\left(*\dd*\eta\right)=\left(-1\right)^{k\left(n-k+1\right)\left(k-1\right)}\left\langle \omega,*\dd*\eta\right\rangle 
 \end{align*}
 
 \end_inset
@@ -22587,7 +23090,7 @@ Mit diesen Vorbereitungen kann man schließlich Operatoren zweiter Ordnung
 
 \end_inset
 
-Auf 0-Formen ist:
+Auf 0-Formen ist
 \begin_inset Formula 
 \begin{align*}
 \Delta f & =-\left(\dd\dd^{*}+\dd^{*}\dd\right)f=-\dd^{*}\dd f=\LB_{g}f
@@ -22595,7 +23098,7 @@ Auf 0-Formen ist:
 
 \end_inset
 
-Gerade wider der Laplace-Beltrami-Operator.
+gerade wieder der Laplace-Beltrami-Operator.
 \end_layout
 
 \begin_layout Standard
@@ -22612,7 +23115,16 @@ schöne
 \end_layout
 
 \begin_layout Subsection
-Lemma
+Lemma 
+\series medium
+(Rechenregeln Laplace-Operator)
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Lem-Rechenregeln-Laplace-Operator"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -22757,7 +23269,7 @@ iii
 
 \end_inset
 
-
+ Es gilt:
 \end_layout
 
 \begin_layout Standard
@@ -22904,7 +23416,7 @@ spezielle
 \end_layout
 
 \begin_layout Standard
-Auf 0-Formen:
+Auf 0-Formen gilt:
 \begin_inset Formula 
 \begin{align*}
 \dd^{*} & =*\dd*=0
@@ -22972,14 +23484,14 @@ Beweis
 \end_layout
 
 \begin_layout Standard
-Nach Korollar 
+Nach 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "a"
+reference "sub:KuD-Laplace-Gleichung_harmonisch"
 
 \end_inset
 
-5.2.3 ist jede harmonische Funktion konstant.
+ ist jede harmonische Funktion konstant.
  Also ist jede geschlossene 
 \begin_inset Formula $0$
 \end_inset
@@ -23015,7 +23527,7 @@ status open
 \end_layout
 
 \begin_layout Standard
-Auf 1-Formen:
+Auf 1-Formen gilt:
 \end_layout
 
 \begin_layout Standard
@@ -23023,15 +23535,15 @@ Sei
 \begin_inset Formula $\varphi\in\Omega^{1}$
 \end_inset
 
- mit 
+ 
+\emph on
+harmonisch
+\emph default
+, das heißt 
 \begin_inset Formula $\Delta\varphi=0$
 \end_inset
 
-, man sagt dazu 
-\begin_inset Formula $\varphi$
-\end_inset
-
- ist harmonisch.
+.
  Es folgt:
 \begin_inset Formula 
 \begin{align*}
@@ -23076,7 +23588,7 @@ nicht
 
 \end_inset
 
-Im allgemeinen kann 
+Im Allgemeinen kann 
 \begin_inset Formula $\dd^{*}\varphi\not=0$
 \end_inset
 
@@ -23127,7 +23639,7 @@ Theorem
 \end_layout
 
 \begin_layout Standard
-Zu jeder Äquivalenzklasse der de-Rham-Kohomologie 
+In jeder Äquivalenzklasse der de-Rham-Kohomologie 
 \begin_inset Formula $H^{k}\left(M\right)$
 \end_inset
 
@@ -23135,7 +23647,7 @@ Zu jeder Äquivalenzklasse der de-Rham-Kohomologie
 \end_layout
 
 \begin_layout Standard
-„Beweisidee“: Nehme an, 
+„Beweisidee“: Nehme 
 \begin_inset Formula $\varphi\in\Omega^{k}$
 \end_inset
 
@@ -23143,7 +23655,7 @@ Zu jeder Äquivalenzklasse der de-Rham-Kohomologie
 \begin_inset Formula $\dd\varphi=0$
 \end_inset
 
-.
+ an.
  Sei 
 \begin_inset Formula $\eta\in\Omega^{k-1}$
 \end_inset
@@ -23166,16 +23678,16 @@ Dies ist sicher erfüllt, wenn gilt:
 
 \end_inset
 
-In der Theorie der partiellen Differentialgleichungen (SoSe 2013) zeigt
- man, dass die Poisson-Gleichung für jedes 
+In der Theorie der partiellen Differentialgleichungen zeigt man, dass die
+ Poisson-Gleichung für jedes 
 \begin_inset Formula $\dd^{*}\varphi$
 \end_inset
 
- eine glatte Lösung besitzt 
+ eine glatte Lösung 
 \begin_inset Formula $\eta$
 \end_inset
 
-.
+ besitzt.
  (elliptische Differentialgleichung)
 \end_layout
 
@@ -23215,11 +23727,11 @@ Denn
  ist harmonisch und nach Lemma 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "d"
+reference "sub:Lem-Rechenregeln-Laplace-Operator"
 
 \end_inset
 
-6.6.6 folgt:
+ folgt:
 \begin_inset Formula 
 \begin{align*}
 \dd\left(\alpha_{1}-\alpha_{2}\right) & =0 & \dd^{*}\left(\alpha_{1}-\alpha_{2}\right) & =0
@@ -23264,34 +23776,8 @@ qqed
 Distributionen und Fouriertransformation
 \end_layout
 
-\begin_layout Standard
-Literatur:
-\end_layout
-
-\begin_layout Itemize
-
-\noun on
-J.
- Rauch
-\noun default
-: 
-\emph on
-Partial Differential Equations
-\emph default
-, Anhang: 
-\emph on
-A crash course in distribution theory
-\end_layout
-
-\begin_layout Itemize
-
-\noun on
-L.
- Schwartz
-\noun default
-: 
-\emph on
-Theory of Distributions
+\begin_layout Section
+Distributionen
 \end_layout
 
 \begin_layout Standard
@@ -23299,16 +23785,21 @@ Historisch: Dirac
 \begin_inset Formula $\delta$
 \end_inset
 
--Distribution
+-Distribution:
 \begin_inset Formula 
 \begin{align*}
-\delta\left(x\right) & =0\quad\text{für }x\not=0\\
-\int_{-\infty}^{\infty}\delta\left(x\right)\dd x & =1
+\delta\left(x\right) & :=0\quad\text{für }x\not=0\\
+\int_{-\infty}^{\infty}\delta\left(x\right)\dd x & :=1
 \end{align*}
 
 \end_inset
 
-TODO: Abb1
+
+\color green
+TODO: Abb1 einfügen
+\end_layout
+
+\begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
 \eta_{\varepsilon} & \xrightarrow{\varepsilon\to0}\delta
@@ -23324,7 +23815,7 @@ Rechenregel:
 
 \end_inset
 
-Eine Möglichkeit, dies mathematisch einzufüren ist das Dirac-Maß.
+Eine Möglichkeit, dies mathematisch einzuführen ist das Dirac-Maß.
 \end_layout
 
 \begin_layout Standard
@@ -23339,7 +23830,7 @@ ren können.
 \begin_inset Formula $x\in\mathbb{R}^{n}$
 \end_inset
 
-:
+ wollen wir
 \begin_inset Formula 
 \begin{align*}
 \Delta\frac{1}{\norm x}
@@ -23347,7 +23838,7 @@ ren können.
 
 \end_inset
 
-
+berechnen können.
 \end_layout
 
 \begin_layout Standard
@@ -23363,31 +23854,31 @@ Idee: Werte im schwachen Sinn aus, rechne formal:
 \end_layout
 
 \begin_layout Standard
-Allgemein: 
-\begin_inset Formula $\eta\in S\left(\mathbb{R}^{n}\right)$
+Allgemein betrachte Elemente 
+\begin_inset Formula $\eta\in\mathscr{S}\left(\mathbb{R}^{n}\right)$
 \end_inset
 
- Schwartz-Raum.
+ aus dem Schwartz-Raum.
  
-\begin_inset Formula $S^{*}\left(\mathbb{R}^{n}\right)$
+\begin_inset Formula $\mathscr{S}^{*}\left(\mathbb{R}^{n}\right)$
 \end_inset
 
  ist der Dualraum von 
-\begin_inset Formula $S\left(\mathbb{R}^{n}\right)$
+\begin_inset Formula $\mathscr{S}\left(\mathbb{R}^{n}\right)$
 \end_inset
 
 .
 \begin_inset Formula 
 \begin{align*}
-S^{*}\ni\phi:S & \to\mathbb{R}\\
-\left(\Delta\phi\right):S & \to\mathbb{R}\\
-\left(\Delta\phi\right)\left(\eta\right) & :=\phi\underbrace{\left(\Delta\eta\right)}_{\in S}
+\mathscr{S}^{*}\ni\phi:\mathscr{S} & \to\mathbb{R}\\
+\left(\Delta\phi\right):\mathscr{S} & \to\mathbb{R}\\
+\left(\Delta\phi\right)\left(\eta\right) & :=\phi\underbrace{\left(\Delta\eta\right)}_{\in\mathscr{S}}
 \end{align*}
 
 \end_inset
 
 
-\begin_inset Formula $S\left(\mathbb{R}^{n}\right)$
+\begin_inset Formula $\mathscr{S}\left(\mathbb{R}^{n}\right)$
 \end_inset
 
  ist unendlich-dimensional.
@@ -23396,14 +23887,16 @@ S^{*}\ni\phi:S & \to\mathbb{R}\\
 Stetigkeit
 \emph default
  von 
-\begin_inset Formula $\phi\in S^{*}$
+\begin_inset Formula $\phi\in\mathscr{S}^{*}$
 \end_inset
 
  heißt.
 \end_layout
 
-\begin_layout Section
-Definition
+\begin_layout Subsection
+Definition 
+\series medium
+(Multiindex, Schwartz-Norm)
 \end_layout
 
 \begin_layout Standard
@@ -23419,7 +23912,7 @@ Multiindex
 \begin_inset Formula $\alpha:=\left(i_{1},\ldots,i_{k}\right)$
 \end_inset
 
- ein geordnete Tupel von Indizes und 
+ ein geordnetes Tupel von Indizes und 
 \begin_inset Formula $\abs{\alpha}:=k$
 \end_inset
 
@@ -23431,11 +23924,7 @@ Stufe des Multiindex
 \begin_inset Newline newline
 \end_inset
 
-Der Differentialoperator der Ordnung 
-\begin_inset Formula $k$
-\end_inset
 
-.
 \begin_inset Formula 
 \begin{align*}
 \DD^{\alpha} & =\frac{\partial}{\partial x^{i_{1}}}\ldots\frac{\partial}{\partial x^{i_{k}}} &  & \text{Differentialoperator der Ordnung }k\\
@@ -23452,11 +23941,15 @@ Sei
 \begin_inset Formula $r,s\in\mathbb{N}$
 \end_inset
 
-.
+, dann ist die 
+\emph on
+Schwartz-Norm
+\emph default
+:
 \begin_inset Formula 
 \begin{align*}
-\norm f_{r,s} & :=\sum_{\sr{}{\alpha\text{ mit}}{\abs{\alpha}\le r}}\sum_{\sr{}{\beta\text{ mit}}{\abs{\beta}\le s}}\sup_{x\in\mathbb{R}^{n}}\abs{x^{\alpha}\DD^{\beta}f\left(x\right)} &  & \text{Schwartz-Norm}\\
- & =\sup_{x}\abs{f\left(x\right)}+\sup\abs{\frac{\partial}{\partial x^{1}}f}+\sup\abs{x^{1}f}+\ldots
+\norm f_{r,s} & :=\sum_{\sr{}{\alpha\text{ mit}}{\abs{\alpha}\le r}}\sum_{\sr{}{\beta\text{ mit}}{\abs{\beta}\le s}}\sup_{x\in\mathbb{R}^{n}}\abs{x^{\alpha}\DD^{\beta}f\left(x\right)}\\
+ & =\sup_{x\in\mathbb{R}^{n}}\abs{f\left(x\right)}+\sup_{x\in\mathbb{R}^{n}}\abs{\frac{\partial}{\partial x^{1}}f}+\sup_{x\in\mathbb{R}^{n}}\abs{x^{1}f}+\ldots
 \end{align*}
 
 \end_inset
@@ -23464,8 +23957,10 @@ Sei
 
 \end_layout
 
-\begin_layout Section
-Definition
+\begin_layout Subsection
+Definition 
+\series medium
+(Schwartz-Raum)
 \end_layout
 
 \begin_layout Standard
@@ -23520,7 +24015,7 @@ Beispiel
 \begin_inset Formula 
 \begin{align*}
 \norm f_{r,0} & =\sum_{\abs{\alpha}\le r}\sup_{x}\abs{x^{\alpha}e^{-\norm x^{2}}}<\infty\\
-\norm f_{r,s} & =\sum_{\abs{\alpha}\le r}\sum_{\abs{\beta}\le s}\sup\abs{\underbrace{x^{\alpha}\DD^{\beta}e^{-\norm x^{2}}}_{=P\left(x\right)e^{-\norm x^{2}}}}\stackrel{P\left(x\right)\text{ Polynom}}{=}\infty
+\norm f_{r,s} & =\sum_{\abs{\alpha}\le r}\sum_{\abs{\beta}\le s}\sup\abs{\underbrace{x^{\alpha}\DD^{\beta}e^{-\norm x^{2}}}_{=P\left(x\right)e^{-\norm x^{2}}}}\stackrel{P\left(x\right)\text{ Polynom}}{=}0
 \end{align*}
 
 \end_inset
@@ -23538,7 +24033,11 @@ Es ist
 \emph on
 schnellem Abfall
 \emph default
- (engl.: rapid decay).
+ (engl.: 
+\lang english
+rapid decay
+\lang ngerman
+).
 \end_layout
 
 \begin_layout Subsubsection*
@@ -23584,10 +24083,7 @@ Dies ist ähnlich wie in einem Banachraum, aber man hat jetzt eine ganze
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-Allgemeiner: topologischer Vektorraum, uniformer Raum, 
+ Allgemeiner: topologischer Vektorraum, uniformer Raum, 
 \begin_inset Formula $\ldots$
 \end_inset
 
@@ -23595,10 +24091,7 @@ Allgemeiner: topologischer Vektorraum, uniformer Raum,
 \end_layout
 
 \begin_layout Standard
-Konvergenzbegriff:
-\end_layout
-
-\begin_layout Standard
+Konvergenzbegriff: 
 \begin_inset Formula $f_{n}\to f$
 \end_inset
 
@@ -23617,7 +24110,7 @@ Konvergenzbegriff:
  liegen.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Satz
 \end_layout
 
@@ -23663,11 +24156,11 @@ Es gelte
 \begin_inset Formula $\sup_{x\in\mathbb{R}^{n}}\abs{f_{n}\left(x\right)-f\left(x\right)}\to0$
 \end_inset
 
-, also 
+, also konvergiert 
 \begin_inset Formula $f_{n}\rightrightarrows f$
 \end_inset
 
-.
+ gleichmäßig.
  Außerdem gilt:
 \begin_inset Formula 
 \begin{align*}
@@ -23688,7 +24181,7 @@ Also gilt
 \begin_inset Formula $\DD^{\alpha}f_{n}\rightrightarrows f$
 \end_inset
 
-.
+ konvergiert gleichmäßig und wegen
 \begin_inset Formula 
 \begin{align*}
 \norm{f-f_{n}}_{r,s} & \to0
@@ -23696,11 +24189,11 @@ Also gilt
 
 \end_inset
 
-Also konvergiert 
+konvergiert 
 \begin_inset Formula $x^{\alpha}\DD^{\beta}f_{n}\rightrightarrows x^{\alpha}\DD^{\beta}f$
 \end_inset
 
- gleichmäßig.
+ ebenfalls gleichmäßig.
 \end_layout
 
 \begin_layout Standard
@@ -23852,7 +24345,7 @@ qqed
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Definition 
 \series medium
 (Distribution)
@@ -23875,8 +24368,42 @@ temperierten Distributionen
 .
 \end_layout
 
-\begin_layout Section
-Satz
+\begin_layout Subsection
+Satz 
+\series medium
+(stetig 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\series medium
+
+\backslash
+texorpdfstring{
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\Leftrightarrow$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\series medium
+}{<->}
+\end_layout
+
+\end_inset
+
+ beschränkt)
+\series default
+
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Satz-StetigkeitDistribution"
@@ -23896,7 +24423,7 @@ Ein lineares Funktional
 \end_inset
 
  und ein 
-\begin_inset Formula $c\in\mathbb{R}_{>0}$
+\begin_inset Formula $C\in\mathbb{R}_{>0}$
 \end_inset
 
  gibt, sodass gilt:
@@ -23978,7 +24505,7 @@ Also bildet
 
  stetig.
  Dann ist das Urbild offener Mengen offen.
- Also insbesondere für die offene Menge 
+ Also gilt insbesondere für die offene Menge 
 \begin_inset Formula $B_{1}\left(0\right)\subseteq\mathbb{R}$
 \end_inset
 
@@ -24026,7 +24553,12 @@ Betrachte diese Ungleichung für
 
 \end_inset
 
-Wähle nun zu gegebenem 
+Ohne Beschränkung der Allgemeinheit sei 
+\begin_inset Formula $f\not=0$
+\end_inset
+
+, denn sonst ist die Behauptung klar.
+ Wähle nun zu gegebenem 
 \begin_inset Formula $f$
 \end_inset
 
@@ -24034,23 +24566,19 @@ Wähle nun zu gegebenem
 \begin_inset Formula $\norm f_{r,s}\not=0$
 \end_inset
 
- (Sonst ist die Behauptung klar, da 
-\begin_inset Formula $f=0$
+ den Skalierungsfaktor 
+\begin_inset Formula ${\displaystyle \lambda:=\frac{\varepsilon}{2\norm f_{r,s}}}$
 \end_inset
 
- folgt.) den Skalierungsfaktor 
-\begin_inset Formula ${\displaystyle \lambda:=\frac{\varepsilon}{\norm f_{r,s}}}$
-\end_inset
-
-: Aus
+: Damit folgt aus der stets gültigen Beziehung
 \begin_inset Formula 
 \begin{align*}
-\norm f_{r,s} & <\frac{2\varepsilon}{\varepsilon}\norm f_{r,s}
+\norm f_{r,s} & <\frac{2\varepsilon}{\varepsilon}\norm f_{r,s}=2\norm f_{r,s}
 \end{align*}
 
 \end_inset
 
-folgt dann:
+dann:
 \begin_inset Formula 
 \begin{align*}
 \abs{Tf} & <\frac{2}{\varepsilon}\norm f_{r,s}
@@ -24086,7 +24614,7 @@ qqed
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Beispiele 
 \series medium
 (
@@ -24146,7 +24674,7 @@ Nützliche Notation:
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Beispiel 
 \series medium
 (Integraloperator)
@@ -24192,7 +24720,7 @@ abc
  mit:
 \begin_inset Formula 
 \begin{align*}
-\abs{g\left(x\right)} & \le\left(1+\norm x^{r}\right)
+\abs{g\left(x\right)} & \le C\left(1+\norm x^{r}\right)
 \end{align*}
 
 \end_inset
@@ -24209,7 +24737,7 @@ f & \mapsto\int_{\mathbb{R}^{n}}f\left(x\right)g\left(x\right)\dd^{n}x
 Dieses Integral ist endlich:
 \begin_inset Formula 
 \begin{align*}
-\abs{T_{g}f} & \le\int_{\mathbb{R}}\abs{f\left(x\right)}\cdot\underbrace{\abs{g\left(x\right)}}_{\le C\left(1+\norm x^{r}\right)}\dd^{n}x\le C\left(1+\norm x^{r}\right)
+\abs{T_{g}f} & \le\int_{\mathbb{R}}\abs{f\left(x\right)}\cdot\underbrace{\abs{g\left(x\right)}}_{\le C\left(1+\norm x^{r}\right)}\dd^{n}x\le C\int_{\mathbb{R}}\abs{f\left(x\right)}\left(1+\norm x^{r}\right)\dd^{n}x
 \end{align*}
 
 \end_inset
@@ -24218,10 +24746,11 @@ Da
 \begin_inset Formula $f\in\mathscr{S}$
 \end_inset
 
- gilt, folgt:
+ ist, folgt:
 \begin_inset Formula 
 \begin{align*}
-\infty> & \underbrace{\norm f_{0,0}+\norm f_{r+n+1,0}}_{=:K}=\sup_{x}\left(\abs{f\left(x\right)}\right)+\sup_{x}\abs{\norm x^{r+n++1}f\left(x\right)}\ge\sup\left(\left(1+\norm x^{r+n+1}\right)f\left(x\right)\right)
+\sup\left(\left(1+\norm x^{r+n+1}\right)f\left(x\right)\right) & \le\sup_{x\in\mathbb{R}^{n}}\left(\abs{f\left(x\right)}\right)+\sup_{x\in\mathbb{R}^{n}}\abs{\norm x^{r+n+1}f\left(x\right)}=\\
+ & =\underbrace{\norm f_{0,0}+\norm f_{r+n+1;0}}_{=:K}<\infty
 \end{align*}
 
 \end_inset
@@ -24231,7 +24760,8 @@ Da
 \begin{align*}
 \Rightarrow\quad\abs{f\left(x\right)}\left(1+\norm x^{r+n+1}\right) & \le K\\
 \abs{f\left(x\right)} & \le\frac{K}{1+\norm x^{r+n+1}}\\
-\Rightarrow\quad\abs{T_{g}f} & \le\int_{\mathbb{R}^{n}}\frac{a\left(1+\norm x^{r}\right)}{1+\norm x^{r+n+1}}\dd^{n}x\le\int_{\mathbb{R}^{n}}\frac{\tilde{a}}{1+\norm x^{n+1}}<b
+\Rightarrow\quad\abs{T_{g}f} & \le CK\int_{\mathbb{R}^{n}}\frac{1+\norm x^{r}}{1+\norm x^{r+n+1}}\dd^{n}x\le\\
+ & \le2CK\underbrace{\int_{\mathbb{R}^{n}}\frac{1}{1+\norm x^{n+1}}\dd^{n}x}_{=:a<\infty}=2CKa<\infty
 \end{align*}
 
 \end_inset
@@ -24243,7 +24773,7 @@ Da
  ist stetig:
 \begin_inset Formula 
 \begin{align*}
-\abs{T_{g}f} & \le\int_{\mathbb{R}^{n}}\frac{C}{1+\norm x^{n+1}}\left(\norm f_{0,0}+\norm f_{r+n+1,0}\right)\le\tilde{a}\norm f_{r+n+1,0}
+\abs{T_{g}f} & \le2CKa=2Ca\left(\norm f_{0,0}+\norm f_{r+n+1,0}\right)\le4Ca\norm f_{r+n+1,0}
 \end{align*}
 
 \end_inset
@@ -24257,7 +24787,7 @@ Denn
 \end_inset
 
  und 
-\begin_inset Formula $g\le s$
+\begin_inset Formula $q\le s$
 \end_inset
 
 .
@@ -24282,7 +24812,7 @@ Auf diese Weise kann man
 \end_inset
 
  identifiziert.
- Damit werden Distributionen zu verallgemeinern.
+ Damit werden Distributionen zu verallgemeinerten Funktionen.
 \end_layout
 
 \begin_layout Standard
@@ -24305,8 +24835,8 @@ abc
 :
 \begin_inset Formula 
 \begin{align*}
-T_{g}f:\mathscr{S}\left(\mathbb{R}\right) & \to\mathbb{R}\\
-f & \mapsto\int_{\mathbb{R}^{n}}f\cdot g\dd^{n}x
+T_{g}:\mathscr{S}\left(\mathbb{R}\right) & \to\mathbb{R}\\
+f & \mapsto\int_{\mathbb{R}^{n}}f\cdot g\,\dd^{n}x
 \end{align*}
 
 \end_inset
@@ -24362,7 +24892,7 @@ end{abclist}
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Beispiel 
 \series medium
 (Ableitung der 
@@ -24388,7 +24918,7 @@ Rechne erst formal für ein
 :
 \begin_inset Formula 
 \begin{align*}
-\int_{\mathbb{R}}\delta'\left(x\right)f\left(x\right)\dd x & \stackrel{\text{part.Int.}}{=}-\int_{\mathbb{R}}\delta\left(x\right)f'\left(x\right)\dd x=-f'\left(0\right)
+\int_{\mathbb{R}}\delta'\left(x\right)f\left(x\right)\dd x & \stackrel{\text{part. Int.}}{=}-\int_{\mathbb{R}}\delta\left(x\right)f'\left(x\right)\dd x=-f'\left(0\right)
 \end{align*}
 
 \end_inset
@@ -24402,15 +24932,7 @@ f & \mapsto-f^{'}\left(0\right)
 
 \end_inset
 
-ist eine lineare Abbildung, also ist 
-\begin_inset Formula $\delta'$
-\end_inset
-
- stetig und somit 
-\begin_inset Formula $\delta'\in\mathscr{S}^{*}$
-\end_inset
-
-.
+ist eine lineare Abbildung und es gilt:
 \begin_inset Formula 
 \begin{align*}
 \abs{\delta'\left(f\right)} & \le\sup_{x\in\mathbb{R}}\abs{f'\left(x\right)}\le\sup_{x\in\mathbb{R}}\abs{f\left(x\right)}+\sup_{x\in\mathbb{R}}\abs{f'\left(x\right)}=\norm f_{0,1}
@@ -24418,10 +24940,25 @@ ist eine lineare Abbildung, also ist
 
 \end_inset
 
+Also ist 
+\begin_inset Formula $\delta'$
+\end_inset
 
+ stetig nach 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Satz-StetigkeitDistribution"
+
+\end_inset
+
+ und somit 
+\begin_inset Formula $\delta'\in\mathscr{S}^{*}$
+\end_inset
+
+.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Definition 
 \series medium
 (Distributionsableitung)
@@ -24460,7 +24997,7 @@ Behauptung
 \begin_inset Formula $\DD^{\alpha}T\in\mathscr{S}^{*}\left(\mathbb{R}^{n}\right)$
 \end_inset
 
- ist also eine temperiere Distribution.
+ ist eine temperiere Distribution.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -24523,7 +25060,7 @@ qqed
 Es gilt noch Folgendes (ohne Beweis):
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Satz
 \end_layout
 
@@ -24536,18 +25073,24 @@ Für
 \begin_inset Formula $g\mapsto T_{g}\in\mathscr{S}^{*}$
 \end_inset
 
- ist injektiv.
-\end_layout
+ injektiv.
+\begin_inset Note Note
+status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Allgemeiner 
 \begin_inset Formula $g\in\hat{L}_{\text{loc}}$
 \end_inset
 
-.
+.(?)
 \end_layout
 
-\begin_layout Section
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
 Lemma
 \end_layout
 
@@ -24561,6 +25104,673 @@ Es gilt
 \end_inset
 
 und sogar noch bessere Ungleichungen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%DATE: Fr 20.7.12
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ab jetzt in einer Dimension.
+ Die Verallgemeinerung geht analog.
+\begin_inset Formula 
+\begin{align*}
+\mathscr{S}\left(\mathbb{R}\right) & =\left\{ f\in C^{\infty}\left(\mathbb{R}\right)\big|\norm f_{p,q}<\infty\right\} \\
+\norm f_{p,q} & =\sum_{r=0}^{p}\sum_{s=0}^{q}\sup_{x}\abs{x^{r}f^{\left(s\right)}\left(x\right)}
+\end{align*}
+
+\end_inset
+
+Der Dualraum 
+\begin_inset Formula $\mathscr{S}^{*}\left(\mathbb{R}\right)$
+\end_inset
+
+ besteht aus den temperierte Distribution, das ein 
+\begin_inset Formula $T\in\mathscr{S}^{*}\left(\mathbb{R}\right)$
+\end_inset
+
+ ist eine Abbildung 
+\begin_inset Formula $T:\mathscr{S}\left(\mathbb{R}\right)\to\mathbb{R}$
+\end_inset
+
+, die linear und stetig ist.
+\end_layout
+
+\begin_layout Section
+Die Fouriertransformation
+\end_layout
+
+\begin_layout Subsection
+Definition 
+\series medium
+(Fouriertransformation)
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $f\in\mathscr{S}\left(\mathbb{C}\right)$
+\end_inset
+
+, das heißt 
+\begin_inset Formula $f=f_{1}+\ii f_{2}$
+\end_inset
+
+ mit 
+\begin_inset Formula $f_{1},f_{2}\in\mathscr{S}\left(\mathbb{R}\right)$
+\end_inset
+
+.
+ Setze:
+\begin_inset Formula 
+\begin{align*}
+\left(\mathcal{F}f\right)\left(p\right) & =\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}f\left(x\right)e^{-\ii px}\dd x & \left(\overline{\mathcal{F}}f\right)\left(p\right) & =\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}f\left(x\right)e^{\ii px}\dd x
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Satz
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mathcal{F},\overline{\mathcal{F}}:\mathscr{S}\left(\mathbb{C}\right)\to\mathscr{S}\left(\mathbb{C}\right)$
+\end_inset
+
+ sind linear und stetig.
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis
+\end_layout
+
+\begin_layout Standard
+Es gilt:
+\begin_inset Formula 
+\begin{align*}
+\abs{\left(\mathcal{F}f\right)\left(p\right)} & \le\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\abs{f\left(x\right)e^{-\ii px}}\dd x=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\abs{f\left(x\right)}\left(1+x^{2}\right)\cdot\frac{1}{1+x^{2}}\dd x\le\\
+ & \le\frac{1}{\sqrt{2\pi}}\underbrace{\sup_{x}\left(\abs{f\left(x\right)}\left(1+x^{2}\right)\right)}_{\le\norm f_{2,0}<\infty}\underbrace{\int_{-\infty}^{\infty}\cdot\frac{1}{1+x^{2}}\dd x}_{<\infty}<\infty
+\end{align*}
+
+\end_inset
+
+Das Integral ist also konvergent.
+ Verwende
+\begin_inset Formula 
+\begin{align*}
+p^{r}e^{-\ii px} & =\ii^{r}\left(\frac{\partial}{\partial x}\right)^{r}e^{-\ii px}
+\end{align*}
+
+\end_inset
+
+und erhalte:
+\begin_inset Formula 
+\begin{align*}
+\left(p^{r}\DD^{s}f\right)\left(p\right) & =p^{r}\left(\frac{\partial}{\partial p}\right)^{s}\int_{-\infty}^{\infty}f\left(x\right)e^{-\ii px}\dd x=\\
+ & =\left(\frac{\partial}{\partial p}\right)^{s}\int_{-\infty}^{\infty}f\left(x\right)\left(\left(\ii\frac{\partial}{\partial x}\right)^{r}e^{-\ii px}\right)\dd x=\\
+ & \stackrel{\text{part.Int.}}{=}\left(\frac{\partial}{\partial p}\right)^{s}\int_{-\infty}^{\infty}\underbrace{\left(\left(-\ii\frac{\partial}{\partial x}\right)^{r}f\left(x\right)\right)}_{\in\mathscr{S}}e^{-\ii px}\dd x=\\
+ & =\int_{-\infty}^{\infty}\left(-\ii x\right)^{s}\left(\left(-\ii\frac{\partial}{\partial x}\right)^{r}f\left(x\right)\right)e^{-\ii px}\dd x
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\frac{\partial}{\partial p} & \leftrightarrow-\ii x & p & \leftrightarrow\ii\frac{\partial}{\partial x}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\abs{p^{r}\DD^{s}f\left(p\right)} & \le\int_{-\infty}^{\infty}\abs{x^{s}f^{\left(r\right)}\left(x\right)}\left(1+x^{2}\right)\cdot\frac{1}{1+x^{2}}\dd x\le\\
+ & \le\sup_{x}\abs{x^{s}f^{r}\left(x\right)\left(1+x^{2}\right)}\cdot\underbrace{\int_{-\infty}^{\infty}\frac{1}{1+x^{2}}\dd x}_{=:C<\infty}\le C\norm f_{s+2,r}
+\end{align*}
+
+\end_inset
+
+Also gilt:
+\begin_inset Formula 
+\begin{align*}
+\norm{\mathcal{F}f}_{r,s} & \le\tilde{C}\norm f_{s+2,r}
+\end{align*}
+
+\end_inset
+
+Also ist 
+\begin_inset Formula $\mathcal{F}$
+\end_inset
+
+ tatsächlich stetig.
+ Für 
+\begin_inset Formula $\overline{\mathcal{F}}$
+\end_inset
+
+ geht das analog.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Theorem 
+\series medium
+(Plancherel)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\mathcal{F}\overline{\mathcal{F}} & =\overline{\mathcal{F}}\mathcal{F}=\text{id}:\mathscr{S}\left(\mathbb{C}\right)\to\mathscr{S}\left(\mathbb{C}\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Beweis
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\left(\mathcal{F}\overline{\mathcal{F}}f\right)\left(p\right) & =\frac{1}{2\pi}\int_{-\infty}^{\infty}e^{-\ii px}\left(\int_{-\infty}^{\infty}e^{\ii qx}f\left(q\right)\dd q\right)\dd x\\
+ & \stackrel{\text{naiv}}{=}\frac{1}{2\pi}\int f\left(q\right)\underbrace{\left(\int e^{-\ii\left(p-q\right)x}\dd x\right)}_{\text{Integral existiert nicht}}\dd q
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Um diese Konvergenzprobleme der Integrale zu vermeiden, führt man einen
+ sogenannten 
+\emph on
+konvergenzerzeugenden Faktor
+\emph default
+ ein:
+\begin_inset Formula 
+\begin{align*}
+\left(\mathcal{F}\overline{\mathcal{F}}f\right)\left(p\right) & =\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\underbrace{\left(\overline{\mathcal{F}}f\right)\left(x\right)}_{\in\mathscr{S}\left(\mathbb{C}\right)}e^{-\ii px}\dd x=\\
+ & \sr ={\text{dominierte}}{\text{Konvergenz}}\frac{1}{\sqrt{2\pi}}\lim_{\varepsilon\searrow0}\int_{-\infty}^{\infty}\underbrace{e^{-\varepsilon x^{2}}}_{\to1}\left(\overline{\mathcal{F}}f\right)\left(x\right)e^{-\ii px}\dd x=\\
+ & =\frac{1}{2\pi}\lim_{\varepsilon\searrow0}\int_{-\infty}^{\infty}e^{-\varepsilon x^{2}}\left(\int_{-\infty}^{\infty}e^{\ii qx}f\left(q\right)\dd q\right)e^{-\ii px}\dd x=\\
+ & =\frac{1}{2\pi}\lim_{\varepsilon\searrow0}\int_{-\infty}^{\infty}f\left(q\right)\left(\int_{-\infty}^{\infty}e^{-\varepsilon x^{2}}e^{\ii\left(q-p\right)x}\dd x\right)\dd q
+\end{align*}
+
+\end_inset
+
+Berechne das Innere Integral mit 
+\begin_inset Formula $u:=p-q$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\int_{-\infty}^{\infty}e^{-\varepsilon x^{2}-\ii ux}\dd x & =\int_{-\infty}^{\infty}e^{-\varepsilon\left(x+\frac{\ii u}{2\varepsilon}\right)^{2}}e^{-\frac{u^{2}}{4\varepsilon}}\dd x\sr ={y=x+\frac{\ii u}{2\varepsilon}}{\dd y=\dd x}e^{-\frac{u^{2}}{4\varepsilon}}\int_{-\infty}^{\infty}e^{-\varepsilon y^{2}}\dd y=\sqrt{\frac{\pi}{\varepsilon}}e^{-\frac{u^{2}}{2\varepsilon}}
+\end{align*}
+
+\end_inset
+
+Setze dies ein:
+\begin_inset Formula 
+\begin{align*}
+\left(\mathcal{F}\overline{\mathcal{F}}f\right)\left(p\right) & =\frac{1}{2\pi}\lim_{\varepsilon\searrow0}\int_{-\infty}^{\infty}\underbrace{f\left(q\right)}_{=f\left(p\right)+\left(f\left(q\right)-f\left(p\right)\right)}\sqrt{\frac{\pi}{\varepsilon}}e^{-\frac{\left(p-q\right)^{2}}{4\varepsilon}}\dd q=\\
+ & =\frac{1}{2\pi}\lim_{\varepsilon\searrow0}\sqrt{\frac{\pi}{\varepsilon}}\left(f\left(p\right)\int_{-\infty}^{\infty}e^{-\frac{\left(p-q\right)^{2}}{4\varepsilon}}\dd q+\int_{-\infty}^{\infty}\left(f\left(q\right)-f\left(p\right)\right)e^{-\frac{\left(p-q\right)^{2}}{4\varepsilon}}\dd q\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\color green
+TODO: Abb: Plot von 
+\begin_inset Formula $\sqrt{\frac{\pi}{\varepsilon}}e^{-\frac{\left(p-q\right)^{2}}{4\varepsilon}}$
+\end_inset
+
+ für zwei verschiedene 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Man erhält:
+\begin_inset Formula 
+\begin{align*}
+\int_{-\infty}^{\infty}e^{-\frac{\left(p-q\right)^{2}}{4\varepsilon}}\dd q & \sr ={v:=\frac{p-q}{\sqrt{4\varepsilon}}}{\dd v=-\frac{\dd q}{\sqrt{4\varepsilon}}}-\sqrt{4\varepsilon}\int_{\infty}^{-\infty}e^{-v^{2}}\dd v=2\sqrt{\pi\varepsilon}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\abs{\int_{-\infty}^{\infty}\left(f\left(q\right)-f\left(p\right)\right)e^{-\frac{\left(p-q\right)^{2}}{4\varepsilon}}\dd q} & \le C\int_{-\infty}^{\infty}\abs{q-p}e^{-\frac{\left(p-q\right)^{2}}{4\varepsilon}}\dd q=\\
+ & \sr ={v:=\frac{p-q}{\sqrt{4\varepsilon}}}{\dd v=-\frac{\dd q}{\sqrt{4\varepsilon}}}C\int_{-\infty}^{\infty}\abs v\sqrt{4\varepsilon}e^{-v^{2}}\left(-\sqrt{4\varepsilon}\right)\dd v\le\\
+ & \le4C\varepsilon\int_{-\infty}^{\infty}\abs ve^{-v^{2}}\dd v\le\varepsilon\tilde{C}
+\end{align*}
+
+\end_inset
+
+Es folgt:
+\begin_inset Formula 
+\begin{align*}
+\left(\mathcal{F}\overline{\mathcal{F}}f\right)\left(p\right) & =\frac{1}{2\pi}\lim_{\varepsilon\searrow0}\sqrt{\frac{\pi}{\varepsilon}}\left(f\left(p\right)\cdot2\sqrt{\pi\varepsilon}+\mathcal{O}\left(\varepsilon\right)\right)=\frac{1}{2\pi}\lim_{\varepsilon\searrow0}2\pi\left(f\left(p\right)+\mathcal{O}\left(\sqrt{\varepsilon}\right)\right)=\\
+ & =\lim_{\varepsilon\searrow0}f\left(p\right)+\mathcal{O}\left(\sqrt{\varepsilon}\right)=f\left(p\right)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula $\overline{\mathcal{F}}\mathcal{F}$
+\end_inset
+
+ geht analog.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ziel: Verallgemeinere 
+\begin_inset Formula $\mathcal{F},\overline{\mathcal{F}}$
+\end_inset
+
+ auf 
+\begin_inset Formula $\mathscr{S}^{*}\left(\mathbb{C}\right)$
+\end_inset
+
+.
+ Als Vorbereitung seien 
+\begin_inset Formula $f,g\in\mathscr{S}\left(\mathbb{C}\right)$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+\int_{-\infty}^{\infty}\mathcal{F}\left(f\right)\left(p\right)\cdot g\left(p\right)\dd p & =\int_{-\infty}^{\infty}\left(\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}f\left(x\right)e^{-\ii px}\dd x\right)\cdot g\left(p\right)\dd p=\\
+ & \sr ={\text{Fubini}}{\text{wie oben}}\int_{-\infty}^{\infty}f\left(x\right)\left(\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}g\left(p\right)e^{-\ii px}\dd p\right)\dd x=\\
+ & =\int_{-\infty}^{\infty}f\left(x\right)\left(\mathcal{F}g\right)\left(x\right)\dd x
+\end{align*}
+
+\end_inset
+
+Die letzte Gleichung lässt sich unmittelbar verwenden, um die Fouriertransformat
+ion einer Distribution zu definieren.
+\end_layout
+
+\begin_layout Subsection
+Definition 
+\series medium
+(Fouriertransformation für Distribution)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mathcal{F},\overline{\mathcal{F}}:\mathscr{S}^{*}\left(\mathbb{R}\right)\to\mathscr{S}^{*}\left(\mathbb{R}\right)$
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\left(\mathcal{F}T\right)\left(f\right) & :=T\left(\mathcal{F}f\right)\\
+\left(\overline{\mathcal{F}}T\right)\left(f\right) & :=T\left(\overline{\mathcal{F}}f\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Satz
+\end_layout
+
+\begin_layout Standard
+Es gilt:
+\begin_inset Formula 
+\begin{align*}
+\mathcal{F}\overline{\mathcal{F}} & =\text{id}_{\mathscr{S}^{*}\left(\mathbb{C}\right)}=\overline{\mathcal{F}}\mathcal{F}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\left(\mathcal{F}\left(\overline{\mathcal{F}}T\right)\right)\left(f\right) & =\left(\overline{\mathcal{F}}T\right)\left(\mathcal{F}f\right)=T\left(\overline{\mathcal{F}}\mathcal{F}f\right)=T\left(f\right)
+\end{align*}
+
+\end_inset
+
+Also gilt 
+\begin_inset Formula $\mathcal{F}\overline{\mathcal{F}}T=T$
+\end_inset
+
+ und für 
+\begin_inset Formula $\overline{\mathcal{F}}\mathcal{F}T=T$
+\end_inset
+
+ folgt es analog.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Lemma
+\end_layout
+
+\begin_layout Standard
+Für alle 
+\begin_inset Formula $f,g\in\mathscr{S}$
+\end_inset
+
+ gilt:
+\begin_inset Formula 
+\begin{align*}
+\int_{\mathbb{R}}\overline{f}\left(x\right)\cdot g\left(x\right)\dd x & =\int_{\mathbb{R}}\overline{\left(\mathcal{F}f\right)}\left(x\right)\left(\mathcal{F}g\right)\left(x\right)\dd x
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Beweis
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\int_{\mathbb{R}}\overline{\mathcal{F}f}h\dd x & =\int_{\mathbb{R}}\left(\overline{\mathcal{F}}\overline{f}\right)h\dd x\stackrel{\text{wie oben}}{=}\int_{\mathbb{R}}\overline{f}\cdot\left(\overline{\mathcal{F}}h\right)\dd x
+\end{align*}
+
+\end_inset
+
+Für 
+\begin_inset Formula $h=\mathcal{F}g$
+\end_inset
+
+ folgt:
+\begin_inset Formula 
+\begin{align*}
+\int_{\mathbb{R}}\overline{\mathcal{F}f}\mathcal{F}g\dd x & =\int_{\mathbb{R}}\overline{f}\left(\overline{\mathcal{F}}\mathcal{F}g\right)\dd x=\int_{\mathbb{R}}\overline{f}\cdot g\dd x
+\end{align*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+qqed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Führe das folgende Skalarprodukt auf 
+\begin_inset Formula $\mathscr{S}$
+\end_inset
+
+ ein:
+\begin_inset Formula 
+\begin{align*}
+\left\langle f,g\right\rangle  & :=\int_{\mathbb{R}}\overline{f}g\dd x
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula $\left(\mathcal{\mathscr{S}},\left\langle .,.\right\rangle \right)$
+\end_inset
+
+ ist ein Skalarproduktraum.
+ Vervollständige dies zum Hilbertraum 
+\begin_inset Formula $\left(\mathcal{L}^{2}\left(\mathbb{C}\right),\left\langle .,.\right\rangle \right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Dann ist 
+\begin_inset Formula $\mathcal{F}:\mathscr{S}\to\mathscr{S}$
+\end_inset
+
+ eine 
+\emph on
+Isometrie
+\emph default
+, das heißt 
+\begin_inset Formula $\left\langle f,g\right\rangle =\left\langle \mathcal{F}f,\mathcal{F}g\right\rangle $
+\end_inset
+
+.
+ Die Abbildung
+\begin_inset Formula 
+\begin{align*}
+\mathcal{F}:\mathcal{L}^{2}\left(\mathbb{C}\right) & \to\mathcal{L}^{2}\left(\mathbb{C}\right)
+\end{align*}
+
+\end_inset
+
+ist 
+\emph on
+unitär
+\emph default
+.
+\end_layout
+
+\begin_layout Subsection
+Beispiele
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{iiilist}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+iii
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\mathcal{F}\delta$
+\end_inset
+
+ ist zu berechnen.
+\begin_inset Formula 
+\begin{align*}
+\left(\mathcal{F}\delta\right)\left(f\right) & =\delta\left(\mathcal{F}f\right)=\left(\mathcal{F}f\right)\left(0\right)=\frac{1}{\sqrt{2\pi}}\left(\int_{-\infty}^{\infty}f\left(x\right)e^{-ipx}\dd x\right)_{p=0}=\\
+ & =\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}f\left(x\right)\dd x=\int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}}f\left(x\right)\dd x=T_{\frac{1}{\sqrt{2\pi}}}\left(f\right)
+\end{align*}
+
+\end_inset
+
+Oder einfacher:
+\begin_inset Formula 
+\begin{align*}
+\mathcal{F}\delta & =\frac{1}{\sqrt{2\pi}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+iii
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $g\left(p\right)=e^{\ii py}$
+\end_inset
+
+ mit einem gegeben Parameter 
+\begin_inset Formula $y\in\mathbb{R}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $g$
+\end_inset
+
+ ist keine Schwartzfunktion, aber betrachte 
+\begin_inset Formula $\TT_{g}\in\mathscr{S}^{*}$
+\end_inset
+
+ definiert durch:
+\begin_inset Formula 
+\begin{align*}
+\left(T_{g}\right)f & :=\int_{\mathbb{R}}g\left(p\right)f\left(p\right)\dd p
+\end{align*}
+
+\end_inset
+
+Es folgt:
+\begin_inset Formula 
+\begin{align*}
+\left(\mathcal{F}T_{g}\right)f & =T_{g}\left(\mathcal{F}f\right)=\int_{\mathbb{R}}\underbrace{e^{\ii py}}_{=g\left(p\right)}\left(\frac{1}{\sqrt{2\pi}}\int_{\mathbb{R}}f\left(x\right)e^{-\ii px}\dd x\right)\dd p=\\
+ & \stackrel{\text{Plancherel}}{=}\sqrt{2\pi}\cdot f\left(y\right)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\Rightarrow\quad\left(\mathcal{F}T_{g}\right) & =\sqrt{2\pi}\delta_{y}
+\end{align*}
+
+\end_inset
+
+Dabei ist 
+\begin_inset Formula $\delta_{y}\left(f\right)=f\left(y\right)$
+\end_inset
+
+.
+ Oft schreibt man auch:
+\begin_inset Formula 
+\begin{align*}
+\mathcal{F}e^{\ii py} & =\sqrt{2\pi}\delta_{y}\\
+\int\dd pe^{-\ii p\left(x-y\right)} & =2\pi\delta\left(x-y\right) &  & \text{Plancherel}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{iiilist}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Part*

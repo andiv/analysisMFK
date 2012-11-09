@@ -37,9 +37,9 @@
 \@ifundefined{date}{}{\date{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 \usepackage{tikz}
-%\usepackage{tikz-3dplot}
+%\usepackage{tikz-3dplot,cancel,polynom}
 \usetikzlibrary{matrix,arrows,calc,decorations}
-\usepackage{latexsym,stmaryrd,stackrel,array,tabularx,multirow,icomma,braket,polynom,cancel,bbm}
+\usepackage{latexsym,stmaryrd,stackrel,icomma,braket,bbm}
 \usepackage[explicit]{titlesec}
 
 % Inhaltsverzeichnis
@@ -65,6 +65,9 @@
 \DeclareMathOperator*{\bcupdop}{\dot{\bigcup}}
 \DeclareMathOperator*{\bcapdop}{\dot{\bigcap}}
 
+%Operatornorm
+\newcommand{\opnor}[1]{\abs{\hspace*{-1.1pt}\norm{#1}\hspace*{-1.1pt}}}
+
 % Rotieren
 \newcommand{\Rotate}[1]{
 \begin{tikzpicture}
@@ -74,7 +77,7 @@
 
 %QED-Zeichen (Box)
 \newcommand{\qed}{\ensuremath{\Box}}
-\newcommand{\qqed}[1][\arabic{chapter}.\arabic{section}\ifnum\arabic{subsection}>0{.\arabic{subsection}}\fi]{\hfill\qed\ensuremath{_{\text{#1}}}}
+\newcommand{\qqed}[1][\arabic{chapter}.\arabic{section}\ifnum\arabic{subsection}>0{.\arabic{subsection}}\fi]{\hspace*{1mm}\hfill\qed\ensuremath{_{\text{#1}}}}
 
 % Mengen Modulo
 \newcommand{\moduloT}[2]{
@@ -92,6 +95,16 @@
 
 % Für Z/2Z, um nicht soviel schreiben zu müssen
 \newcommand{\modloT}[2]{\moduloT{ \mathbb{#1}}{#2\mathbb{#1}}}
+
+%Laplace-Beltrami-Operator
+\newcommand{\LBO}{
+\begin{minipage}{6mm}
+ \begin{tikzpicture}
+   \node at (0,0){$\Delta$};
+   \draw[line width=0.75] (0.25,-0.13) -- (0.1,0.15);
+ \end{tikzpicture}
+\end{minipage}
+}
 
 %Die Modulo-Kommandos in klein, für die Darstellungen unter Quantoren.
 \newcommand{\moduloScriptT}[2]{
@@ -168,19 +181,20 @@
 
 
 
-
-
 \global\long\def\norm#1{\left\lVert #1\right\rVert }
 
 
 \global\long\def\abs#1{\left\lvert #1\right\rvert }
 
 
-\global\long\def\mins{\text{-}}
+\global\long\def\opnorm#1{\opnor{#1}}
 
 
-\global\long\def\LB{\Delta\backslash}
-%TODO: Symbol
+\global\long\def\mins{-}
+
+
+\global\long\def\LB{\LBO}
+
 
 \global\long\def\exs{\exsop}
 
@@ -359,6 +373,13 @@ Differentialtopologie:
 \begin{itemize}
 \item \noun{Bröcker, Jänich}: \emph{Einführung in die Differentialtopologie}
 \item \noun{Jänich}: \emph{Vektoranalysis}
+\end{itemize}
+Distributionen:
+\begin{itemize}
+\item \noun{J. Rauch}: \foreignlanguage{english}{\emph{Partial Differential
+Equations}}, Anhang: \foreignlanguage{english}{\emph{A crash course
+in distribution theory}}
+\item \noun{L. Schwartz}: \foreignlanguage{english}{\emph{Theory of Distributions}}
 \end{itemize}
 {\small \newpage{}}\fancyhead[R]{Inhaltsverzeichnis}
 \fancyhead[C]{}
@@ -3775,10 +3796,8 @@ Divergenz nicht definieren kann.
 
 Auf Riemannschen Mannigfaltigkeiten kann man hoffen, dass man mit
 Hilfe der Metrik die Formel so modifizieren kann, dass der störende
-Zusatzterm herausfällt.
-
-
-\subsection{Definition \textmd{(Divergenz)}}
+Zusatzterm herausfällt. Dies erreicht man mit folgender Definition
+für die Divergenz:
 
 \begin{align*}
 \text{div}\left(v\right) & :=\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det g}\cdot v^{j}\right)
@@ -3794,28 +3813,25 @@ dann gilt:
 
 
 
-\subsection{Bemerkung}
+\subsubsection*{Frage}
 
-\textcolor{green}{TODO: Rest überarbeiten}
-
-Frage:
 \begin{align*}
-\frac{\partial}{\partial x^{i}}\det g\left(x\right) & =?
+\frac{\partial}{\partial x^{i}}\det\left(g\left(x\right)\right) & =?
 \end{align*}
-Einfacher ist es, eine glatte 1-Parameter-Familie von Matrizen $A\left(t\right)\in\text{GL}_{n}\left(\mathbb{C}\right)$
+Einfacher ist es, eine glatte Ein-Parameter-Familie von Matrizen $A\left(t\right)\in\text{GL}_{n}\left(\mathbb{C}\right)$
 zu betrachten.
 
-Dann ist $\det\left(A\left(t\right)\right)$ glatt in $t$, weil polynomial
-in den Matrixelementen.
+Dann ist $\det\left(A\left(t\right)\right)$ glatt in $t$, denn es
+ist ein polynomialer Ausdruck der Matrixelemente.
 
 
-\subsection{Lemma}
+\subsection{Lemma\label{sub:Lem-AbleitungDeterminante}}
 
 Sei $A\in C^{1}\left(\left(a,b\right),\text{GL}_{n}\left(\mathbb{C}\right)\right)$,
 dann gilt:
 
 \begin{align*}
-\frac{\dd}{\dd t}\det\left(A\left(t\right)\right) & =\det A\left(t\right)\cdot\text{Tr}\left(A^{-1}\left(t\right)\frac{\dd}{\dd t}A\left(t\right)\right)
+\frac{\dd}{\dd t}\det\left(A\left(t\right)\right) & =\det\left(A\left(t\right)\right)\cdot\text{Tr}\left(A^{-1}\left(t\right)\frac{\dd}{\dd t}A\left(t\right)\right)
 \end{align*}
 
 
@@ -3828,11 +3844,13 @@ Entwicklungssatz nach der $i$-ten Zeile entwickeln und erhält:
 \begin{align*}
 \det\left(A\right) & =\sum_{j=1}^{n}a_{ij}\text{Adj}_{ij}\left(A\right)
 \end{align*}
-Dabei ist die \emph{Adjunkte} $\text{Adj}_{ij}\left(A\right)$ die
-Determinante der Matrix ist, bei der man die $i$-te Zeile und die
-$j$-te Spalte streicht mal $\left(-1\right)^{i+j}$.
+Dabei ist die \emph{Adjunkte} $\text{Adj}_{ij}\left(A\right)$ das
+Produkt von $\left(-1\right)^{i+j}$ und der Determinante der Matrix,
+die man erhält, wenn man bei $A$ die $i$-te Zeile und die $j$-te
+Spalte streicht.
 
-Wähle $k\in\left\{ 1,\ldots,n\right\} $ mit $k\not=i$. Dann ist:
+Wähle $k\in\left\{ 1,\ldots,n\right\} $ mit $k\not=i$. Dann folgt,
+da zwei Zeilen der Matrix in der Determinante identisch sind:
 \begin{align*}
 \sum_{j=1}^{n}a_{ij}\text{Adj}_{kj}\left(A\right) & =\det\left(\begin{array}{ccc}
 a_{11} & \ldots & a_{1n}\\
@@ -3847,7 +3865,7 @@ Also folgt eine \quotedblbase{}Orthogonalitätsrelation\textquotedblleft{}:
 \end{align*}
 Zusammenhang zur Inversen $B:=A^{-1}$:
 \begin{align*}
-A\cdot B & =E_{n}\\
+A\cdot B & =\mathbbm{1}\\
 \sum_{j}a_{ij}\cdot b_{jk} & =\delta_{ik}
 \end{align*}
 Also folgt:
@@ -3862,8 +3880,8 @@ b_{jk} & =\frac{1}{\det\left(A\right)}\text{Adj}_{kj}\left(A\right)
 Betrachte eine $2\times2$-Matrix:
 \begin{align*}
 A^{-1} & =\frac{1}{\det\left(A\right)}\left(\begin{array}{cc}
-\text{Adj}_{11}\left(A\right) & -\text{Adj}_{21}\left(A\right)\\
--\text{Adj}_{12}\left(A\right) & \text{Adj}_{22}\left(A\right)
+\text{Adj}_{11}\left(A\right) & \text{Adj}_{21}\left(A\right)\\
+\text{Adj}_{12}\left(A\right) & \text{Adj}_{22}\left(A\right)
 \end{array}\right)=\frac{1}{\det\left(A\right)}\left(\begin{array}{cc}
 a_{22} & -a_{12}\\
 -a_{21} & a_{11}
@@ -3878,7 +3896,7 @@ a_{22} & -a_{12}\\
 a_{11} & a_{12}\\
 a_{21} & a_{22}
 \end{array}\right)=\\
- & =\frac{1}{\det\left(A\right)}\left(\begin{array}{cc}
+ & =\frac{1}{a_{11}a_{22}-a_{12}a_{21}}\left(\begin{array}{cc}
 a_{22}a_{11}-a_{12}a_{21} & a_{22}a_{12}-a_{12}a_{22}\\
 -a_{21}a_{11}+a_{11}a_{21} & -a_{21}a_{11}+a_{11}a_{22}
 \end{array}\right)=\left(\begin{array}{cc}
@@ -3896,9 +3914,9 @@ a_{22}a_{11}-a_{12}a_{21} & a_{22}a_{12}-a_{12}a_{22}\\
 Mit der Kettenregel folgt:
 
 \begin{align*}
-\frac{\dd}{\dd t}\det\left(A\left(t\right)\right) & =\sum_{i,j=1}^{n}\frac{\partial}{\partial a_{ij}}\det A\cdot\dot{a}_{ij}
+\frac{\dd}{\dd t}\det\left(A\left(t\right)\right) & =\sum_{i,j=1}^{n}\frac{\partial}{\partial a_{ij}}\det\left(A\right)\cdot\dot{a}_{ij}
 \end{align*}
-Sei $i,j$ fest, so gilt:
+Sei $i,j$ fest gewählt, so gilt:
 \begin{align*}
 \det\left(A\right) & =\sum_{k=1}^{n}a_{ik}\text{Adj}_{ik}\left(A\right)
 \end{align*}
@@ -3909,59 +3927,14 @@ und man erhält:
 \end{align*}
 Also gilt:
 \begin{align*}
-\frac{\dd}{\dd t}\det\left(A\left(t\right)\right) & =\sum_{i,j=1}^{n}\text{Adj}_{ij}\cdot\dot{a}_{ij}=\det\left(A\right)\sum_{i,j}b_{ji}\cdot\dot{a}_{ij}=\det\left(A\right)\sum_{j}\left(B\cdot\dot{A}\right)_{jj}=\det\left(A\right)\text{Tr}\left(B\cdot\dot{A}\right)
+\frac{\dd}{\dd t}\det\left(A\left(t\right)\right) & =\sum_{i,j=1}^{n}\text{Adj}_{ij}\left(A\right)\cdot\dot{a}_{ij}=\det\left(A\right)\sum_{i,j}b_{ji}\cdot\dot{a}_{ij}=\\
+ & =\det\left(A\right)\sum_{j}\left(B\cdot\dot{A}\right)_{jj}=\det\left(A\right)\text{Tr}\left(B\cdot\dot{A}\right)
 \end{align*}
 Es folgt:
 \begin{align*}
 \frac{\dd}{\dd t}\det A & =\det A\cdot\text{Tr}\left(A^{-1}\cdot\dot{A}\right)
 \end{align*}
 \qqed
-
-
-\subsection{Bemerkung}
-
-\begin{align*}
-\tilde{g}_{lm}\left(y\right) & =g_{ij}\left(x\right)\frac{\partial x^{i}}{\partial y^{l}}\frac{\partial x^{j}}{\partial y^{m}}=\frac{\partial x^{i}}{\partial y^{l}}g_{ij}\left(x\right)\frac{\partial x^{j}}{\partial y^{m}}\\
-\tilde{g}\left(y\right) & =\left(\frac{\partial x}{\partial y}\right)^{T}g\left(x\right)\left(\frac{\partial x}{\partial y}\right)
-\end{align*}
-\begin{align*}
-\det\tilde{g} & =\det g\cdot\det\left(\frac{\partial x}{\partial y}\right)^{T}\det\left(\frac{\partial x}{\partial y}\right)=\det g\left(\det\left(\frac{\partial x}{\partial y}\right)\right)^{2}
-\end{align*}
-\begin{align*}
-\sqrt{\det\tilde{g}} & =\pm\sqrt{\det g\left(x\right)}\det\left(\frac{\partial x}{\partial y}\right)
-\end{align*}
-Dabei ist $+$, falls $\det\left(\frac{\partial x}{\partial y}\right)>0$
-und $-$, falls $\det\left(\frac{\partial x}{\partial y}\right)<0$.
-\begin{align*}
-\frac{1}{\sqrt{\det\tilde{g}}}\frac{\partial}{\partial y^{k}}\sqrt{\det\tilde{g}} & =\frac{1}{\sqrt{\det\tilde{g}}}\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\sqrt{\det\tilde{g}}=\\
- & =\frac{\partial}{y^{k}}\left(\ln\sqrt{\det\tilde{g}}\right)=\frac{\partial}{\partial y^{k}}\left(\ln\left(\sqrt{\det g}\right)+\ln\left(\det\left(\frac{\partial x}{\partial y}\right)\right)\right)=\\
- & =\frac{1}{\sqrt{\det g}}\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\sqrt{\det g}+\left(\det\left(\frac{\partial x}{\partial y}\right)\right)^{-1}\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\det\left(\frac{\partial x}{\partial y}\right)
-\end{align*}
-Mit
-\begin{align*}
-\det\left(\frac{\partial x}{\partial y}\right) & =\left(\det\left(\frac{\partial y}{\partial x}\right)\right)^{-1}
-\end{align*}
-folgt:
-\begin{align*}
-\det\left(\frac{\partial x}{\partial y}\right)^{-1}\cdot\frac{\partial}{\partial x^{i}}\det\left(\frac{\partial x}{\partial y}\right) & =\det\left(\frac{\partial y}{\partial x}\right)\cdot\frac{\partial}{\partial x^{i}}\left(\det\left(\frac{\partial y}{\partial x}\right)\right)^{-1}=\\
- & =-\left(\det\left(\frac{\partial y}{\partial x}\right)\right)^{-1}\cdot\frac{\partial}{\partial x^{i}}\det\left(\frac{\partial y}{\partial x}\right)=\\
- & =-\left(\det\left(\frac{\partial y}{\partial x}\right)\right)^{-1}\cdot\det\left(\frac{\partial y}{\partial x}\right)\cdot\text{Tr}\left(\left(\frac{\partial y}{\partial x}\right)^{-1}\cdot\frac{\partial}{\partial x^{i}}\left(\frac{\partial y}{\partial x}\right)\right)=\\
- & =-\text{Tr}\left(\left(\frac{\partial y}{\partial x}\right)^{-1}\cdot\frac{\partial}{\partial x^{i}}\left(\frac{\partial y}{\partial x}\right)\right)=-\frac{\partial x^{l}}{\partial y^{k}}\cdot\frac{\partial^{2}y^{k}}{\partial x^{i}\partial x^{l}}
-\end{align*}
-Also gilt:
-\begin{align*}
-\frac{1}{\sqrt{\det\tilde{g}}}\left(\frac{\partial}{\partial y^{k}}\sqrt{\det\tilde{g}}\right)\tilde{v}^{k} & =\frac{1}{\sqrt{\det g}}\frac{\partial x^{l}}{\partial y^{k}}\left(\frac{\partial}{\partial x^{l}}\sqrt{\det g}\right)\tilde{v}^{k}-\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial x^{l}}{\partial y^{m}}\frac{\partial^{2}y^{m}}{\partial x^{l}\partial x^{i}}\tilde{v}^{k}=\\
- & \stackrel{v^{l}=\frac{\partial x^{l}}{\partial y^{k}}\tilde{v}^{k}}{=}\frac{1}{\sqrt{\det g}}\left(\frac{\partial}{\partial x^{l}}\sqrt{\det g}\right)v^{l}-\frac{\partial x^{l}}{\partial y^{m}}\frac{\partial^{2}y^{m}}{\partial x^{l}\partial x^{i}}v^{i}
-\end{align*}
-Es folgt:
-\begin{align*}
-\frac{1}{\sqrt{\det\tilde{g}}}\left(\frac{\partial}{\partial y^{j}}\sqrt{\det\tilde{g}}\tilde{v}^{j}\right) & =\frac{1}{\sqrt{\det\tilde{g}}}\left(\frac{\partial}{\partial y^{j}}\sqrt{\det\tilde{g}}\right)\tilde{v}^{j}+\frac{\partial}{\partial y^{j}}\tilde{v}^{j}=\\
- & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}\right)v^{i}-\frac{\partial x^{l}}{\partial y^{m}}\left(\frac{\partial^{2}}{\partial x^{l}\partial x^{i}}\right)v^{i}\\
- & \quad+\underbrace{\frac{\partial x^{l}}{\partial y^{j}}\frac{\partial y^{j}}{\partial x^{i}}}_{=\partial_{i}^{l}}\frac{\partial}{\partial x^{l}}v^{i}+\frac{\partial x^{l}}{\partial y^{j}}\left(\frac{\partial^{2}y^{j}}{\partial x^{i}\partial x^{l}}\right)v^{i}=\\
- & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}\right)v^{i}+\frac{\partial}{\partial x^{i}}\left(v^{i}\left(x\right)\right)=\\
- & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}v^{i}\left(x\right)\right)
-\end{align*}
-
 
 
 \subsection{Lemma und Definition \textmd{(Divergenz)\label{sub:LuD-Divergenz}}}
@@ -3979,7 +3952,51 @@ Diese Definition ist unabhängig von der Wahl der Karte.
 \subsubsection*{Beweis}
 
 Dies ergibt sich durch explizite Rechnung, indem man das Transformationsverhalten
-betrachtet.\qqed
+in eine andere Karte $\left(y,V\right)$ betrachtet:
+
+\begin{align*}
+\tilde{g}_{lm}\left(y\right) & =g_{ij}\left(x\right)\frac{\partial x^{i}}{\partial y^{l}}\frac{\partial x^{j}}{\partial y^{m}}=\frac{\partial x^{i}}{\partial y^{l}}g_{ij}\left(x\right)\frac{\partial x^{j}}{\partial y^{m}}\\
+\tilde{g}\left(y\right) & =\left(\frac{\partial x}{\partial y}\right)^{T}g\left(x\right)\left(\frac{\partial x}{\partial y}\right)
+\end{align*}
+\begin{align*}
+\Rightarrow\quad\det\tilde{g} & =\det g\cdot\det\left(\frac{\partial x}{\partial y}\right)^{T}\det\left(\frac{\partial x}{\partial y}\right)=\det g\left(\det\left(\frac{\partial x}{\partial y}\right)\right)^{2}
+\end{align*}
+\begin{align*}
+\sqrt{\det\tilde{g}} & =\sqrt{\det g\left(x\right)}\abs{\det\left(\frac{\partial x}{\partial y}\right)}
+\end{align*}
+Es folgt:
+\begin{align*}
+\frac{1}{\sqrt{\det\tilde{g}}}\frac{\partial}{\partial y^{k}}\sqrt{\det\tilde{g}} & =\frac{\partial}{\partial y^{k}}\left(\ln\sqrt{\det\tilde{g}}\right)=\frac{\partial}{\partial y^{k}}\left(\ln\left(\sqrt{\det g}\right)+\ln\left(\abs{\det\left(\frac{\partial x}{\partial y}\right)}\right)\right)=\\
+ & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial y^{k}}\sqrt{\det g}+\left(\abs{\det\left(\frac{\partial x}{\partial y}\right)}\right)^{-1}\frac{\partial}{\partial y^{k}}\abs{\det\left(\frac{\partial x}{\partial y}\right)}=\\
+ & =\frac{1}{\sqrt{\det g}}\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\sqrt{\det g}+\left(\abs{\det\left(\frac{\partial x}{\partial y}\right)}\right)^{-1}\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\abs{\det\left(\frac{\partial x}{\partial y}\right)}
+\end{align*}
+Mit
+\begin{align*}
+\frac{\partial x}{\partial y} & =\left(\frac{\partial y}{\partial x}\right)^{-1} & \det\left(\frac{\partial x}{\partial y}\right) & =\left(\det\left(\frac{\partial y}{\partial x}\right)\right)^{-1}
+\end{align*}
+folgt für den zweiten Term:
+\begin{align*}
+ & \left(\abs{\det\left(\frac{\partial x}{\partial y}\right)}\right)^{-1}\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\abs{\det\left(\frac{\partial x}{\partial y}\right)}=\\
+ & \qquad\qquad\stackrel{\det\left(\frac{\partial y}{\partial x}\right)\not=0}{=}\abs{\det\left(\frac{\partial y}{\partial x}\right)}\text{sgn}\left(\det\left(\frac{\partial y}{\partial x}\right)\right)\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\left(\det\left(\frac{\partial y}{\partial x}\right)\right)^{-1}=\\
+ & \qquad\qquad=-\det\left(\frac{\partial y}{\partial x}\right)\left(\det\left(\frac{\partial y}{\partial x}\right)\right)^{-2}\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\det\left(\frac{\partial y}{\partial x}\right)=\\
+ & \qquad\qquad\stackrel{\ref{sub:Lem-AbleitungDeterminante}}{=}-\left(\det\left(\frac{\partial y}{\partial x}\right)\right)^{-1}\det\left(\frac{\partial y}{\partial x}\right)\frac{\partial x^{i}}{\partial y^{k}}\cdot\text{Tr}\left(\left(\frac{\partial y}{\partial x}\right)^{-1}\cdot\frac{\partial}{\partial x^{i}}\frac{\partial y}{\partial x}\right)=\\
+ & \qquad\qquad=-\frac{\partial x^{i}}{\partial y^{k}}\cdot\text{Tr}\left(\frac{\partial x}{\partial y}\cdot\frac{\partial}{\partial x^{i}}\frac{\partial y}{\partial x}\right)=-\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial x^{l}}{\partial y^{m}}\cdot\frac{\partial^{2}y^{m}}{\partial x^{i}\partial x^{l}}
+\end{align*}
+Also gilt:
+\begin{align*}
+\frac{1}{\sqrt{\det\tilde{g}}}\frac{\partial}{\partial y^{k}}\left(\sqrt{\det\tilde{g}}\right)\tilde{v}^{k} & =\frac{1}{\sqrt{\det g}}\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}\right)\tilde{v}^{k}-\frac{\partial x^{i}}{\partial y^{k}}\frac{\partial x^{l}}{\partial y^{m}}\cdot\frac{\partial^{2}y^{m}}{\partial x^{i}\partial x^{l}}\tilde{v}^{k}=\\
+ & \stackrel{v^{i}=\frac{\partial x^{i}}{\partial y^{k}}\tilde{v}^{k}}{=}\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}\right)v^{i}-\frac{\partial x^{l}}{\partial y^{m}}\frac{\partial^{2}y^{m}}{\partial x^{i}\partial x^{l}}v^{i}
+\end{align*}
+Es folgt:
+\begin{align*}
+\frac{1}{\sqrt{\det\tilde{g}}}\left(\frac{\partial}{\partial y^{k}}\sqrt{\det\tilde{g}}\tilde{v}^{k}\right) & =\frac{1}{\sqrt{\det\tilde{g}}}\left(\frac{\partial}{\partial y^{k}}\sqrt{\det\tilde{g}}\right)\tilde{v}^{k}+\frac{\sqrt{\det\tilde{g}}}{\sqrt{\det\tilde{g}}}\frac{\partial}{\partial y^{k}}\tilde{v}^{k}=\\
+ & =\frac{1}{\sqrt{\det\tilde{g}}}\left(\frac{\partial}{\partial y^{k}}\sqrt{\det\tilde{g}}\right)\tilde{v}^{k}+\frac{\partial x^{j}}{\partial y^{k}}\frac{\partial}{\partial x^{j}}\left(\frac{\partial y^{k}}{\partial x^{i}}v^{i}\right)=\\
+ & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}\right)v^{i}-\frac{\partial x^{l}}{\partial y^{m}}\left(\frac{\partial^{2}y^{m}}{\partial x^{i}\partial x^{l}}\right)v^{i}\\
+ & \quad+\frac{\partial x^{j}}{\partial y^{k}}\frac{\partial^{2}y^{k}}{\partial x^{j}\partial x^{i}}v^{i}+\underbrace{\frac{\partial x^{j}}{\partial y^{k}}\frac{\partial y^{k}}{\partial x^{i}}}_{=\delta_{i}^{j}}\frac{\partial}{\partial x^{j}}v^{i}=\\
+ & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}\right)v^{i}+\frac{\partial}{\partial x^{i}}v^{i}\left(x\right)=\\
+ & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}v^{i}\left(x\right)\right)
+\end{align*}
+\qqed
 
 
 \subsection{Bemerkung}
@@ -3997,24 +4014,26 @@ $w$ ist ein Vektorfeld.
 
 \section{Der Satz von Gauß auf kompakten Mannigfaltigkeiten}
 
-Motivation:
+
+\subsubsection*{Motivation}
 
 Der Hauptsatz der Differential- und Integralrechnung ist:
 \begin{align*}
 \int_{a}^{b}f'\left(x\right)\dd x & =f\big|_{a}^{b}
 \end{align*}
-Versuche dies auf höhere Dimensionen zu verallgemeinern.
+Versuche nun, dies auf höhere Dimensionen zu verallgemeinern.
 
-Sei $\Omega\subseteq\mathbb{R}^{n}$ und $v$ ein Vektorfeld und die
-Normale sei $\nu$.
+Sei $\Omega\subseteq\mathbb{R}^{n}$, $v$ ein Vektorfeld und die
+äußere Normale von $\Omega$ sei $\nu$.
 \begin{align*}
-\int_{\Omega}\text{div}\left(v\right)\dd\mu_{\Omega} & =\int_{\partial\Omega}\left\langle v,\nu\right\rangle \dd\mu_{\Omega}
+\int_{\Omega}\text{div}\left(v\right)\dd\mu_{\Omega} & =\int_{\partial\Omega}\left\langle v,\nu\right\rangle \dd\mu_{\partial\Omega}
 \end{align*}
 Bei uns ist $\Omega=M$ eine kompakte Mannigfaltigkeit und $\partial\Omega=\emptyset$.
 Wir wollen also zeigen:
 \begin{align*}
 \int_{M}\text{div}\left(v\right)\dd\mu_{M} & =0
 \end{align*}
+Dabei gilt:
 \begin{align*}
 \text{div}\left(v\right) & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det g}v^{j}\right)\\
 \dd\mu_{M} & =\sqrt{\det g}\dd^{n}x\\
@@ -4037,31 +4056,33 @@ und $v$ ein Vektorfeld auf $M$. Dann gilt:
 
 Wähle einen Atlas $\left(x_{n},U_{n}\right)_{n\in\left\{ 1,\ldots,N\right\} }$
 und untergeordnete Zerlegung der Eins $\left(\eta_{k}\right)_{k\in\left\{ 1,\ldots,K\right\} }$.
-Dann ist nach Definition des Integrals
+Dann gilt nach Definition des Integrals:
 \begin{align*}
 \int_{M}\text{div}\left(v\right)\dd\mu_{M} & =\sum_{k}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(\eta_{k}\cdot\text{div}\left(v\right)\right)\circ x_{n_{k}}^{-1}\cdot\sqrt{\det\left(g\circ x_{n_{k}}^{-1}\right)}\dd^{n}x
 \end{align*}
 Es ist $x_{n_{k}}\left(U_{n_{k}}\right)\subseteq\mathbb{R}^{n}$ und
 $\text{supp}\left(\eta_{k}\right)\subseteq U_{n_{k}}$. Also folgt
-mit der Schreibweise $f\left(x\right)$ für $f\circ x^{-1}$:
+mit der Schreibweise $f\left(x\right)$ für $f\circ x_{n_{k}}^{-1}$:
 \begin{align*}
 \int_{M}\text{div}\left(v\right)\dd\mu_{M} & =\sum_{k=1}^{K}\int_{\mathbb{R}^{n}}\eta_{k}\left(x\right)\frac{1}{\sqrt{\det g\left(x\right)}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g\left(x\right)}v^{i}\left(x\right)\right)\sqrt{\det g\left(x\right)}\dd^{n}x=\\
  & =\sum_{k=1}^{K}\int_{\mathbb{R}^{n}}\eta_{k}\left(x\right)\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g\left(x\right)}v^{i}\left(x\right)\right)\dd^{n}x
 \end{align*}
 \begin{align*}
-\int_{\mathbb{R}^{n}}\eta_{k}\left(x\right)\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g\left(x\right)}v^{i}\left(x\right)\right)\dd^{n}x & =\int_{-\infty}^{\infty}\dd x_{1}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\eta_{k}\sum_{i=1}^{n}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g\left(x\right)}v^{i}\left(x\right)\right)=\\
- & =\sum_{i=1}^{n}\int_{-\infty}^{\infty}\dd x_{1}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\eta_{k}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g\left(x\right)}v^{i}\left(x\right)\right)
+ & \int_{\mathbb{R}^{n}}\eta_{k}\left(x\right)\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g\left(x\right)}v^{i}\left(x\right)\right)\dd^{n}x=\\
+ & \qquad\qquad=\int_{-\infty}^{\infty}\dd x_{1}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\eta_{k}\sum_{i=1}^{n}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g\left(x\right)}v^{i}\left(x\right)\right)=\\
+ & \qquad\qquad=\sum_{i=1}^{n}\int_{-\infty}^{\infty}\dd x_{1}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\eta_{k}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g\left(x\right)}v^{i}\left(x\right)\right)
 \end{align*}
-Gehe jetzt alle Summanden durch und wende den Satz von Fubini an:
+Gehe jetzt alle Summanden durch und wende den Satz von Fubini an,
+beispielsweise beim ersten Summanden:
 \begin{align*}
  & \int_{-\infty}^{\infty}\dd x_{1}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\eta_{k}\frac{\partial}{\partial x^{1}}\left(\sqrt{\det g\left(x\right)}v^{1}\left(x\right)\right)\\
- & =\int_{-\infty}^{\infty}\dd x_{2}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\int_{-\infty}^{\infty}\dd x_{1}\eta_{k}\frac{\partial}{\partial x^{1}}\left(\sqrt{\det g\left(x\right)}v^{1}\left(x\right)\right)=\\
+ & =\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\int_{-\infty}^{\infty}\dd x_{1}\eta_{k}\frac{\partial}{\partial x^{1}}\left(\sqrt{\det g\left(x\right)}v^{1}\left(x\right)\right)=\\
  & \stackrel{\text{part.Int.}}{=}\int_{-\infty}^{\infty}\dd x_{2}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\int_{-\infty}^{\infty}\dd x_{1}\left(-\frac{\partial}{\partial x^{1}}\eta_{k}\right)\sqrt{\det g\left(x\right)}v^{1}\left(x\right)
 \end{align*}
-Der Randterm der partiellen Integration verschwindet, da $M$ kompakt
-ist. Also folgt:
+Der Randterm der partiellen Integration verschwindet, da $\eta_{k}$
+einen kompakten Träger hat. Also folgt:
 \begin{align*}
-\int_{\mathbb{R}^{n}}\eta_{k}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}v^{i}\right)\dd^{n}x & =-\int_{-\infty}^{\infty}\left(\frac{\partial}{\partial x^{i}}\eta_{k}\right)\cdot v^{i}\sqrt{\det g}\dd^{n}x=-\int_{M}v\left(\eta_{k}\right)\dd\mu_{M}
+\int_{\mathbb{R}^{n}}\eta_{k}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}v^{i}\right)\dd^{n}x & =-\int_{\mathbb{R}^{n}}\left(\frac{\partial}{\partial x^{i}}\eta_{k}\right)\cdot v^{i}\sqrt{\det g}\dd^{n}x=-\int_{M}v\left(\eta_{k}\right)\dd\mu_{M}
 \end{align*}
 Summiere über $k$:
 \begin{align*}
@@ -4070,17 +4091,17 @@ Summiere über $k$:
 \qqed
 
 
-\subsection{Definition}
+\subsection{Definition \textmd{(Gradient, Laplace-Beltrami-Operator)}}
 
-Sei $u\in C^{\infty}\left(M,\mathbb{R}\right)$.
+Für $u\in C^{\infty}\left(M,\mathbb{R}\right)$ definiere 
 \begin{align*}
-\DD u & =\left(\frac{\partial}{\partial x^{i}}u\right)\cdot\dd x^{i}\in\TT^{0,1}M\\
-\text{grad}\left(u\right) & =\left(\text{grad}\left(u\right)\right)^{i}\frac{\partial}{\partial x^{i}}\in\TT^{1,0}M\\
-\left(\text{grad}\left(u\right)\right)^{i} & =g^{ij}\cdot\frac{\partial}{\partial x^{j}}u
+\DD u & :=\frac{\partial}{\partial x^{i}}\left(u\right)\cdot\dd x^{i}\in\TT^{0,1}M\\
+\text{grad}\left(u\right) & :=\left(\text{grad}\left(u\right)\right)^{i}\frac{\partial}{\partial x^{i}}\in\TT^{1,0}M\\
+\left(\text{grad}\left(u\right)\right)^{i} & :=g^{ij}\cdot\frac{\partial}{\partial x^{j}}u
 \end{align*}
-Laplace-Beltrami-Operator: TODO: Symbol
+und den \emph{Laplace-Beltrami-Operator}:
 \begin{align*}
-\Delta\backslash u & :=\text{div}\left(\text{grad}\left(u\right)\right)=\frac{1}{\sqrt{\det\left(g\right)}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det\left(g\right)}g^{jk}\frac{\partial}{\partial x^{k}}u\right)
+\LB u & :=\text{div}\left(\text{grad}\left(u\right)\right)=\frac{1}{\sqrt{\det\left(g\right)}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det\left(g\right)}g^{jk}\frac{\partial}{\partial x^{k}}u\right)
 \end{align*}
 
 
@@ -4090,8 +4111,7 @@ Laplace-Beltrami-Operator: TODO: Symbol
 \subsubsection*{alternativer Beweis von \ref{sub:LuD-Divergenz}}
 
 Wähle $h\in C_{0}^{\infty}\left(M\right)$. Sei $\left(x,U\right)$
-eine Karte, so gewählt, dass $\text{supp}\left(h\right)\subseteq U$
-ist. Dann ist
+eine Karte mit $\text{supp}\left(h\right)\subseteq U$. Dann ist
 \begin{align*}
 \int_{M}v\left(h\right)\dd\mu_{M}
 \end{align*}
@@ -4103,79 +4123,78 @@ unabhängig von der Wahl der Karte definiert und es gilt:
 \end{align*}
 Dies ist für alle $h$ unabhängig von der Wahl der Karte.
 
-Diracfolge, konvergiert im Limes $n\to\infty$ gegen $\left(\text{div}\left(v\right)\right)\left(x\right)$.
+Wähle eine Diracfolge $h_{m}$, die im Limes $m\to\infty$ gegen die
+Delta-Distribution (mal eine Konstante $c$) konvergiert.
 
 Sei $\eta\in C_{0}^{\infty}\left(\mathbb{R}\right)$, $\eta\ge0$
 und $\eta\left(0\right)>0$.
 
-TODO: Abb1-Plot von $e^{-\frac{1}{\left(x-1\right)^{2}}}$ einfügen.
+\textcolor{green}{TODO: Abb1-Plot von $e^{-\frac{1}{\left(x-1\right)^{2}}}$
+einfügen.}
 
 Sei $x_{0}\in x\left(U\right)$. 
 \begin{align*}
-h_{m}\left(x\right) & =m^{n}\eta\left(m\norm{x-x_{0}}\right)
+h_{m}\left(x\right) & :=m^{n}\eta\left(m\norm{x-x_{0}}\right)
 \end{align*}
+
+
+\textcolor{green}{TODO: Abb2 einfügen}
+
+Um das Integral
 \begin{align*}
-\int_{\mathbb{R}^{n}}h_{m}\left(x\right)\dd^{n}x
+\int_{\mathbb{R}^{n}}h_{m}\left(x\right)\dd^{n}x & =\int_{\mathbb{R}^{n}}m^{n}\eta\left(m\norm{x-x_{0}}\right)\dd^{n}x
 \end{align*}
-
-
-TODO: Abb2
-
-Substitution
+zu berechnen, führe die Substitution
 \begin{align*}
 u & =m\left(x-x_{0}\right) & \dd^{n}u & =m^{n}\cdot\dd^{n}x
 \end{align*}
-liefert:
+durch:
 \begin{align*}
-\int_{\mathbb{R}^{n}}h_{m}\left(x\right)\dd^{n}x & =\int_{\mathbb{R}^{n}}\frac{1}{m^{n}}\cdot m^{n}\cdot\eta\left(\norm u\right)\dd^{n}u=c>0
+\int_{\mathbb{R}^{n}}h_{m}\left(x\right)\dd^{n}x & =\int_{\mathbb{R}^{n}}m^{n}\eta\left(\norm u\right)\frac{\dd^{n}u}{m^{n}}=\int_{\mathbb{R}^{n}}\eta\left(\norm u\right)\dd^{n}u=c\in\mathbb{R}_{>0}
 \end{align*}
-Dies ist unabhängig von $m$.
+Dies ist unabhängig von $m$. Mit
 \begin{align*}
-\int_{M}h_{m}\underbrace{\left(\text{div}\left(v\right)\cdot\sqrt{\det g}\right)}_{\text{stetig}}\dd^{n}x & \xrightarrow{m\to\infty}\text{div}\left(v\left(x_{0}\right)\right)\sqrt{\det\left(g\left(x_{0}\right)\right)}\cdot c
+\int_{M}v\left(h_{m}\right)\dd\mu_{M}=\int_{M}h_{m}\cdot\underbrace{\text{div}\left(v\right)\cdot\sqrt{\det g}}_{\text{stetig}}\dd^{n}x & \xrightarrow{m\to\infty}c\cdot\text{div}\left(v\right)\left(x_{0}\right)\sqrt{\det\left(g\left(x_{0}\right)\right)}
 \end{align*}
-\qqed[\ref{sub:LuD-Divergenz}]
+ist also auch die Divergenz unabhängig von der Wahl der Karte.\qqed[\ref{sub:LuD-Divergenz}]
 
 
-\subsection{Korollar und Definition}
+\subsection{Korollar und Definition \textmd{(Laplace-Gleichung, harmonisch)\label{sub:KuD-Laplace-Gleichung_harmonisch}}}
 
-Sei $\left(M,g\right)$ eine kompakte Riemannsche Mannigfaltigkeit
-und $u\in C^{\infty}\left(M\right)$ und $\Delta\backslash u=0$.
+Sei $\left(M,g\right)$ eine zusammenhängende, kompakte Riemannsche
+Mannigfaltigkeit, $u\in C^{\infty}\left(M\right)$ und es gelte die
+\emph{Laplace-Gleichung}$\LB u=0$.
+
 Dann nennt man $u$ \emph{harmonisch} und $u$ ist konstant.
-
-Die Gleichung heißt Laplace-Gleichung.
-
-TODO: Symbol
 
 
 \subsubsection*{Beweis}
 
-Es gilt
+Es gilt:
 \begin{align*}
-0 & =\left(\LB u\right)\cdot u=\text{div}\left(\text{grad}\left(u\right)\cdot u\right)-g\left(\text{grad}u,\text{grad}u\right)
+0 & =\underbrace{\left(\LB u\right)}_{=0}\cdot u=\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det g}\cdot\text{grad}^{j}\left(u\right)\right)\cdot u=\\
+ & =\underbrace{\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det g}\left(\left(\text{grad}^{j}u\right)\cdot u\right)\right)}_{\text{div}\left(\text{grad}\left(u\right)\cdot u\right)}-\frac{1}{\sqrt{\det g}}\sqrt{\det g}\underbrace{\text{grad}^{j}\left(u\right)\left(\partial_{j}u\right)}_{=g^{ij}\left(\partial_{i}u\right)\left(\partial_{j}u\right)}=\\
+ & =\text{div}\left(\text{grad}\left(u\right)\cdot u\right)-g\left(\text{grad}\left(u\right)\!,\,\text{grad}\left(u\right)\right)
 \end{align*}
-wegen:
+Denn mit $g_{jk}g^{kl}=\delta_{j}^{l}$ folgt: 
 \begin{align*}
-\left(\LB u\right)\cdot u & =\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det g}\text{grad}^{j}\left(u\right)\right)\cdot u=\\
- & =\underbrace{\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{j}}\left(\sqrt{\det g}\left(\left(\text{grad}^{j}u\right)\cdot u\right)\right)}_{\text{div}\left(u\cdot\text{grad}\left(u\right)\right)}-\frac{1}{\sqrt{\det g}}\sqrt{\det g}\underbrace{\text{grad}^{j}\left(u\right)\left(\partial_{j}u\right)}_{=g^{ij}\left(\partial_{i}u\right)\left(\partial_{j}u\right)}
-\end{align*}
-\begin{align*}
-g_{jk}g^{kl} & =\delta_{j}^{l}\\
-g^{ij}\partial_{i}u\partial_{j}u & =g^{ij}\partial_{i}u\partial_{l}u=g_{ik}\left(g^{ji}\partial_{i}u\right)\left(g^{kl}\partial_{l}u\right)=g_{ij}\partial^{i}u\partial^{j}u=g\left(\text{grad}\left(u\right),\text{grad}\left(u\right)\right)
+g^{ij}\left(\partial_{i}u\right)\left(\partial_{j}u\right) & =g^{ij}\left(\partial_{i}u\right)\left(g_{jk}g^{kl}\partial_{l}u\right)=g_{jk}\left(g^{ji}\partial_{i}u\right)\left(g^{kl}\partial_{l}u\right)=\\
+ & =g_{jk}\left(\partial^{j}u\right)\left(\partial^{k}u\right)=g\left(\text{grad}\left(u\right)\!,\,\text{grad}\left(u\right)\right)
 \end{align*}
 Integriere jetzt über $M$:
 \begin{align*}
-0 & =\int_{M}\left(\text{div}\left(u\cdot\text{grad}\left(u\right)\right)-g\left(\text{grad}\left(u\right),\text{grad}\left(u\right)\right)\right)\dd\mu_{M}=\\
- & =\underbrace{\int_{M}\text{div}\left(u\cdot\text{grad}\left(u\right)\right)\dd\mu_{M}}_{=0}-\int_{M}g\left(\text{grad}\left(u\right),\text{grad}\left(u\right)\right)\dd\mu_{M}=\\
- & =-\int_{M}\underbrace{g\left(\text{grad}\left(u\right),\text{grad}\left(u\right)\right)}_{\ge0}\dd\mu_{M}
+0 & =\int_{M}\left(\text{div}\left(u\cdot\text{grad}\left(u\right)\right)-g\left(\text{grad}\left(u\right)\!,\,\text{grad}\left(u\right)\right)\right)\dd\mu_{M}=\\
+ & =\underbrace{\int_{M}\text{div}\left(u\cdot\text{grad}\left(u\right)\right)\dd\mu_{M}}_{=0}-\int_{M}g\left(\text{grad}\left(u\right)\!,\,\text{grad}\left(u\right)\right)\dd\mu_{M}=\\
+ & =-\int_{M}\underbrace{g\left(\text{grad}\left(u\right)\!,\,\text{grad}\left(u\right)\right)}_{\ge0}\dd\mu_{M}
 \end{align*}
-Also ist $g\left(\text{grad}\left(u\right),\text{grad}\left(u\right)\right)=0$,
+Also ist $g\left(\text{grad}\left(u\right)\!,\,\text{grad}\left(u\right)\right)=0$,
 das heißt $\text{grad}\left(u\right)=0$ und somit $\partial_{j}u=0$,
 also ist $u$ konstant.\qqed
 
 
 \subsection{Bemerkung}
 
-Ist $f$ eine holomorphe Funktion, dann ist:
+Ist $f$ eine holomorphe Funktion, dann gilt:
 \begin{align*}
 \Delta_{\mathbb{R}^{2}}\text{Re}\left(f\right) & =\Delta_{\mathbb{R}^{2}}\text{Im}\left(f\right)=0
 \end{align*}
@@ -4184,11 +4203,12 @@ Der Satz von Liouville aus Analysis III sagt:
 Ist $f$ beschränkt und auf ganz $\mathbb{C}$ holomorph, dann ist
 $f$ konstant.
 \end{quote}
-Hier haben wir das Analogon auf kompakten Riemannschen Mannigfaltigkeiten.
+Hier haben wir das Analogon auf zusammenhängenden, kompakten Riemannschen
+Mannigfaltigkeiten.
 
 Vergleiche auch mit der Poisson-Gleichung aus der Physik:
 \begin{align*}
-\Delta\phi & =4\pi k\varrho &  & \text{Newtonsches Gravitationsgesetz}
+\Delta\phi & =4\pi G\varrho &  & \text{Newtonsches Gravitationsgesetz}
 \end{align*}
 
 
@@ -4201,7 +4221,7 @@ Betrachte den Halbraum:
 \end{align*}
 
 
-TODO: Abb3
+\textcolor{green}{TODO: Abb3 einfügen}
 
 Die Topologie auf $\mathbb{R}_{-}^{n}$ ist die von $\mathbb{R}^{n}$
 induzierte Relativtopologie, das heißt $\Omega\subseteq\mathbb{R}_{-}^{n}$
@@ -4209,24 +4229,31 @@ ist genau dann offen, wenn es eine offene Menge $U\subseteq\mathbb{R}^{n}$
 gibt, sodass $U\cap\mathbb{R}_{-}^{n}=\Omega$ ist.
 
 Zum Beispiel ist $\Omega=B_{1}\left(0\right)\cap\mathbb{R}_{-}^{n}$
-ist bezüglich der Relativtopologie offen, da $B_{1}\left(0\right)\subseteq\mathbb{R}^{n}$
-offen ist, aber $\Omega$ ist in $\mathbb{R}^{n}$ nicht offen.
+bezüglich der Relativtopologie offen, da $B_{1}\left(0\right)\subseteq\mathbb{R}^{n}$
+offen ist. Aber $\Omega$ ist in $\mathbb{R}^{n}$ nicht offen.
 
 
-\subsection{Definition}
+\subsection{Definition \textmd{(differenzierbar)}}
 
 Sei $\Omega\subseteq\mathbb{R}_{-}^{n}$ offen. Eine Funktion $f:\Omega\to\mathbb{R}$
-heißt ($k$-mal stetig) differenzierbar in $x\in\Omega$, falls es
-eine Umgebung $U$ von $x$ im $\mathbb{R}^{n}$ gibt, und eine Fortsetzung
-$\tilde{f}$ von $f$ gibt, also $\tilde{f}:U\to\mathbb{R}$ und $\tilde{f}\big|_{U\cap\Omega}=f\big|_{U\cap\Omega}$,
-die ($k$-mal stetig) differenzierbar ist.
+heißt\emph{ ($k$-mal stetig) differenzierbar in $x\in\Omega$}, falls
+es eine Umgebung $U$ von $x$ im $\mathbb{R}^{n}$ gibt, und eine
+Fortsetzung $\tilde{f}$ von $f$ gibt, also $\tilde{f}:U\to\mathbb{R}$
+und $\tilde{f}\big|_{U\cap\Omega}=f\big|_{U\cap\Omega}$, die ($k$-mal
+stetig) differenzierbar ist.
 
-$f$ heißt ($k$-mal stetig) differenzierbar in $\Omega$, falls $f$
-in jedem Punkt $x\in\Omega$ differenzierbar ist.
+$f$ heißt \emph{($k$-mal stetig) differenzierbar in $\Omega$},
+falls $f$ in jedem Punkt $x\in\Omega$ differenzierbar ist.
 
-TODO: Abb4
+\textcolor{green}{TODO: Abb4 einfügen}
 
 
+\subsubsection*{Bemerkung}
+
+Es gibt genau dann eine Fortsetzung $\tilde{f}$ von $f$, wenn $f$
+auf jeder offenen Teilmenge von $\Omega$ ($k$-mal stetig) differenzierbar
+ist und der Limes der $k$-ten partiellen Ableitungen von $f$ auf
+dem Rand existiert.
 
 
 \subsection{Lemma}
@@ -4234,15 +4261,15 @@ TODO: Abb4
 Sei $\Omega\subseteq\mathbb{R}_{-}^{n}$ offen bezüglich der Relativtopologie
 und $f\in C^{k}\left(\Omega,\mathbb{R}\right)$, so gibt es ein offenes
 $U\subseteq\mathbb{R}^{n}$ mit $\Omega\subseteq U$ und eine Fortsetzung
-$\tilde{f}:U\to\mathbb{R}$.
+$\tilde{f}\in C^{k}\left(U,\mathbb{R}\right)$.
 
 
 \subsubsection*{Beweis}
 
-Für jedes $x\in\Omega$ gibt es ein $U^{x}$ und eine Fortsetzung
-$\tilde{f}^{x}:U^{x}\to\mathbb{R}$.
+Für jedes $x\in\Omega$ gibt es nach Definition eine offene Umgebung
+$U^{x}$ von $x$ und eine Fortsetzung $\tilde{f}^{x}:U^{x}\to\mathbb{R}$.
 
-TODO: Abb5
+\textcolor{green}{TODO: Abb5 einfügen}
 
 Wähle eine abzählbare untergeordnete Zerlegung der Eins $\left(\eta_{k}\right)_{k\in\mathbb{N}}$,
 das heißt $\eta_{k}$ ist lokal endlich, $\sum_{k\in\mathbb{N}}\eta_{k}=1$
@@ -4250,10 +4277,10 @@ und $\text{supp}\left(\eta_{k}\right)\subseteq U^{x\left(k\right)}$
 für alle $k\in\mathbb{N}$. Dies ist nach Satz \ref{sub:Satz-Existenz-abz=0000E4hlbarer-Atlas}
 und Theorem \ref{sub:Thm-Existenz-Partition-der-Eins} immer möglich.
 
-Setze nun $\tilde{f}_{k}=\eta_{k}\cdot\tilde{f}^{x\left(k\right)}\left(x\right)$
+Setze nun $\tilde{f}_{k}=\eta_{k}\left(x\right)\cdot\tilde{f}^{x\left(k\right)}\left(x\right)$
 und:
 \begin{align*}
-\tilde{f}\left(x\right) & =\sum_{k}\eta_{k}\left(x\right)\tilde{f}^{x\left(k\right)}\left(x\right)
+\tilde{f}\left(x\right) & :=\sum_{k}\tilde{f}_{k}=\sum_{k}\eta_{k}\left(x\right)\tilde{f}^{x\left(k\right)}\left(x\right)
 \end{align*}
 Dann wissen wir:
 \begin{itemize}
@@ -4261,13 +4288,15 @@ Dann wissen wir:
 sodass $\eta_{k}\big|_{V}=0$ für fast alle $k$ ist.\\
 Damit ist klar, dass die Reihe konvergiert, denn sie reduziert sich
 auf eine endliche Summe.\\
-Außerdem ist $\tilde{f}$ wieder glatt.
+Außerdem ist $\tilde{f}$ wieder $k$-mal stetig differenzierbar.
 \item Sei $x\in\Omega$, dann folgt:
 \begin{align*}
 \tilde{f}\left(x\right) & =\sum_{k}\eta_{k}\left(x\right)\cdot\underbrace{\tilde{f}^{x\left(k\right)}\left(x\right)}_{=f\left(x\right)}=\sum_{k}\eta_{k}\left(x\right)f\left(x\right)=f\left(x\right)\underbrace{\left(\sum_{k}\eta_{k}\left(x\right)\right)}_{=1}
 \end{align*}
-\qqed
+
 \end{itemize}
+\qqed
+
 
 \subsection{Definition \textmd{(Mannigfaltigkeit mit Rand)}}
 
@@ -4280,11 +4309,11 @@ Wie bei Mannigfaltigkeiten kann man definieren:
 \item Karten
 \item Atlas
 \item maximaler Atlas
-\item differenzierbare Struktur (Kartenwechsel in $C^{p}$ sind)
+\item differenzierbare Struktur
 \item $C^{k}$-Struktur
 \end{itemize}
 
-\subsection{Lemma und Definition}
+\subsection{Lemma und Definition \textmd{(Randpunkt, innerer Punkt)}}
 
 Sei $M$ eine differenzierbare Mannigfaltigkeit mit Rand.
 
@@ -4294,7 +4323,7 @@ ist.
 
 Ansonsten heißt $p$ \emph{innerer Punkt}.
 
-TODO: Abb6
+\textcolor{green}{TODO: Abb6 einfügen}
 
 Diese Begriffe sind wohldefiniert, das heißt zu einem gegebenen Punkt
 $p\in M$ kann es nicht zwei Karten $\left(x,U\right)$ und $\left(y,V\right)$
@@ -4326,7 +4355,7 @@ f\left(x\left(p\right)\right) & =g\left(y\left(p\right)\right)=0
 Also hat $\DD f\big|_{x\left(p\right)}$ Rang 1, das heißt Höchstrang.
 Betrachte die Kurve:
 \begin{align*}
-c\left(\tau\right) & =x\left(p\right)+\tau\cdot\text{grad}\left(f\right)
+c\left(\tau\right) & =x\left(p\right)+\tau\cdot\text{grad}\left(f\right)\left(p\right)
 \end{align*}
 Dann ist:
 \begin{align*}
@@ -4341,8 +4370,10 @@ g\left(y\circ x^{-1}\left(z\right)\right) & =f\left(z\right)>0
 \end{align*}
 \qqed
 
+%DATE: Di 12.6.12
 
-\subsection{Definition}
+
+\subsection{Definition \textmd{(Rand, Inneres)}}
 
 Der \emph{Rand von $M$} ist:
 \begin{align*}
@@ -4352,7 +4383,7 @@ Dies ist eine $\left(n-1\right)$-dimensionale differenzierbare Mannigfaltigkeit,
 denn für $p\in\partial M$ ist für jede Karte $\left(x,U\right)$
 um $p$ schon $x^{1}\left(p\right)=0$.
 
-TODO: Abb1
+\textcolor{green}{TODO: Abb1 einfügen}
 
 Betrachte:
 \begin{align*}
@@ -4367,21 +4398,19 @@ Mannigfaltigkeit ohne Rand.
 
 \subsection{Beispiel}
 
-Sei $N^{n}$ eine glatte Mannigfaltigkeit (ohne Rand) und sei $\varphi:N^{n}\to\mathbb{R}$
-von der Klasse $C^{\infty}$ und $a$ sei ein regulärer Wert von $\varphi$.
+Seien $N^{n}$ eine glatte Mannigfaltigkeit (ohne Rand), $\varphi:N^{n}\to\mathbb{R}$
+von der Klasse $C^{\infty}$ und $a$ ein regulärer Wert von $\varphi$.
 \begin{align*}
 M & :=\varphi^{-1}\left((-\infty,a]\right)
 \end{align*}
 ist dann eine Mannigfaltigkeit mit Rand $\partial M=\varphi^{-1}\left(a\right)$.
 
 
-\subsection{Definition}
+\subsection{Definition \textmd{(Tangentialraum)}}
 
 Nun zum Tangentialraum:
 
 Für innere Punkte geht dies wie bisher. Sei also $p$ ein Randpunkt.
-
-TODO: Abb2
 
 $f\circ x^{-1}:x\left(U\right)\to\mathbb{R}$ ist eine glatte Funktion.
 Dann gibt es ein offenes $V\subseteq\mathbb{R}^{n}$ mit $x\left(U\right)\subseteq V$
@@ -4408,17 +4437,17 @@ die Richtungsableitungen:
 
 \subsection{Bemerkung}
 
-Sei $p\in\partial M$. 
+\textcolor{green}{TODO: Abb2 einfügen}
 
-$\TT_{p}M$ ist ein $n$-dimensionaler Vektorraum.
+Sei $p\in\partial M$. $\TT_{p}M$ ist ein $n$-dimensionaler Vektorraum.
 
 $\TT_{p}\partial M$ ist ein $\left(n-1\right)$-dimensionaler Vektorraum.
 
-TODO: Abb3
+\textcolor{green}{TODO: Abb3 einfügen}
 
 Sei $\hat{g}\in C^{\infty}\left(\hat{V}\subseteq\mathbb{R}_{-}^{n}\right)$
-mit $\hat{V}:=V\cap\mathbb{R}_{-}^{n}$. Dann kann $\hat{g}$ ausgedehnt
-werden zu $g\in C^{\infty}\left(V,\mathbb{R}_{-}^{n}\right)$.
+mit $\hat{V}=V\cap\mathbb{R}_{-}^{n}$ und $V\subseteq\mathbb{R}^{n}$
+offen. Dann kann $\hat{g}$ fortgesetzt werden zu $g\in C^{\infty}\left(V,\mathbb{R}_{-}^{n}\right)$.
 
 Eine Derivation, die auf $\hat{g}$ wirkt, kann aufgefasst werden
 als Derivation auf $g$, die tangential zu $\mathbb{R}_{0}^{n}$ verläuft.
@@ -4449,7 +4478,7 @@ alle $w\in\TT_{p}\partial M$ gilt $g\left(\nu,w\right)=0$.
 Wir betrachten also eine orthogonale Zerlegung von $\TT_{p}M=\TT_{p}\partial M\oplus\left\langle \nu\right\rangle $.
 Außerdem normieren wir $\nu$, das heißt es gilt $\left\langle \nu,\nu\right\rangle =1$.
 
-TODO: Abb4
+\textcolor{green}{TODO: Abb4 einfügen}
 
 Eine Normale heißt \emph{innere Normale}, falls es eine $C^{1}$-Kurve
 $C:[0,\varepsilon)\to M$ mit $c\left(0\right)=p$ gibt, sodass die
@@ -4473,7 +4502,7 @@ ab.
 \section{Der allgemeine Gaußsche Divergenzsatz}
 
 
-\subsection{Theorem}
+\subsection{Theorem \textmd{(Satz von Gauß)}}
 
 Sei $\left(M^{n},g\right)$ eine kompakte Riemannsche Mannigfaltigkeit
 mit Rand $\partial M$, $\nu$ die äußere Normale und $u$ ein Vektorfeld
@@ -4481,9 +4510,9 @@ auf $M$. Dann gilt:
 \begin{align*}
 \int_{M}\text{div}\left(u\right)\dd\mu & =\int_{\partial M}\left\langle \nu,u\right\rangle \dd\mu_{\partial M}
 \end{align*}
-Dabei ist $\dd\mu_{\partial M}$ bezüglich der induzierten Metrik
-und $\left\langle \nu,u\right\rangle $ das Skalarprodukt auf $\TT_{p}M$,
-das heißt die Riemannsche Metrik.
+Dabei ist $\dd\mu_{\partial M}$ das Maß bezüglich der induzierten
+Metrik und $\left\langle \nu,u\right\rangle $ das Skalarprodukt auf
+$\TT_{p}M$, das heißt die induzierte Riemannsche Metrik.
 
 
 \subsubsection*{Beweis}
@@ -4500,31 +4529,25 @@ Kürzere Schreibweise:
 \end{align*}
 Falls das Kartengebiet $U_{n_{k}}$ den Rand von $M$ nicht schneidet,
 also $U_{n_{k}}\cap\partial M=\emptyset$, können wir genau wie früher
-partiell integrieren.
-
-Es genügt also, eine Karte am Rand zu betrachten:
+partiell integrieren:
 \begin{align*}
 \int_{\mathbb{R}^{n}}\eta_{k}\text{div}\left(u\right)\sqrt{\det g}\dd^{n}x & =\int_{\mathbb{R}^{n}}\eta_{k}\partial_{j}\left(\sqrt{\det g}u^{j}\right)\dd^{n}x\stackrel{\text{part.Int.}}{=}-\int_{M}u\left(\eta_{n_{k}}\right)\dd\mu_{M}
 \end{align*}
+Es genügt also, eine Karte am Rand zu betrachten:
 
-
-TODO: Abb5
+\textcolor{green}{TODO: Abb5 einfügen}
 \begin{align*}
-\int_{\mathbb{R}_{-}^{n}}\eta\cdot\left(\text{div}v\right)\sqrt{\det g}\dd^{n}x & =\int_{\mathbb{R}_{-}^{n}}\eta\cdot\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}v^{i}\right)\sqrt{\det g}\dd^{n}x=\\
- & =\int_{-\infty}^{0}\dd x_{1}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\eta\cdot\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}v^{i}\right)\sqrt{\det g}=\\
- & =-\int_{\mathbb{R}_{-}^{n}}\left(\frac{\partial}{\partial x^{i}}\eta\right)\cdot\sqrt{\det g}v^{i}\dd^{n}x+\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\eta\sqrt{\det g}v^{1}\big|_{x^{1}=0}=\\
- & =-\int_{M}u\left(\eta\right)\cdot\dd\mu_{M}+\int_{\mathbb{R}_{0}^{n}}\eta\sqrt{\det g}u^{1}\big|_{x_{1}=0}\dd^{n-1}x
+\int_{\mathbb{R}_{-}^{n}}\eta\cdot\left(\text{div}\left(u\right)\right)\sqrt{\det g}\dd^{n}x & =\int_{\mathbb{R}_{-}^{n}}\eta\cdot\frac{1}{\sqrt{\det g}}\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}u^{i}\right)\sqrt{\det g}\dd^{n}x=\\
+ & =\int_{-\infty}^{0}\dd x_{1}\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\eta\cdot\frac{\partial}{\partial x^{i}}\left(\sqrt{\det g}u^{i}\right)=\\
+ & =-\int_{\mathbb{R}_{-}^{n}}\left(\frac{\partial}{\partial x^{i}}\eta\right)\cdot\sqrt{\det g}u^{i}\dd^{n}x+\int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\eta\sqrt{\det g}u^{1}\bigg|_{x^{1}=0}=\\
+ & =-\int_{M}u\left(\eta\right)\cdot\dd\mu_{M}+\int_{\mathbb{R}_{0}^{n}}\eta\sqrt{\det g}u^{1}\bigg|_{x_{1}=0}\dd^{n-1}x
 \end{align*}
-Dabei ist:
-\begin{align*}
-\int_{-\infty}^{0}\dd x_{1}f\left(x_{1}\right) & =\lim_{\varepsilon\searrow0}\int_{-\infty}^{\infty}f_{\varepsilon}\left(x_{1}\right)\dd x_{1}
-\end{align*}
-TODO: Abb6
+\textcolor{green}{TODO: Abb6 einfügen}
 
-Summand mit $i=1$ genauer:
+Für den Summand mit $i=1$ gilt genauer:
 \begin{align*}
- & \int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\left(\int_{-\infty}^{0}\dd x_{1}\eta\frac{\partial}{\partial x^{1}}\left(\sqrt{\det g}v^{1}\right)\right)=\\
-= & \int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\left(\eta\sqrt{\det g}v^{1}\big|_{x^{1}=0}-\int_{-\infty}^{0}\dd x_{1}\frac{\partial}{\partial x^{1}}\left(\eta\right)\cdot\sqrt{\det g}v^{1}\right)
+ & \int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\left(\int_{-\infty}^{0}\dd x_{1}\eta\frac{\partial}{\partial x^{1}}\left(\sqrt{\det g}u^{1}\right)\right)=\\
+= & \int_{-\infty}^{\infty}\dd x_{2}\ldots\int_{-\infty}^{\infty}\dd x_{n}\left(\eta\sqrt{\det g}u^{1}\big|_{x^{1}=0}-\int_{-\infty}^{0}\dd x_{1}\frac{\partial}{\partial x^{1}}\left(\eta\right)\cdot\sqrt{\det g}u^{1}\right)
 \end{align*}
 
 
@@ -4571,17 +4594,18 @@ Wir erhalten also:
 Summiere nun über $k$. Dies ist eine endliche Summe, weil $M$ kompakt
 ist.
 
-Verwende dabei, dass $\sum_{k}u\left(\eta_{k}\right)=u\left(1\right)=0$.\qqed
+Verwende dabei, dass $\sum_{k}u\left(\eta_{k}\right)=u\left(1\right)=0$.
+Dann folgt die Behauptung.\qqed
 
 
 \subsection{Theorem \textmd{(Greensche Formeln)}}
 
-Sei $\left(M,g\right)$ kompakte Mannigfaltigkeiten mit Rand und $f,g\in C^{\infty}\left(M,\mathbb{R}\right)$.
+Sei $\left(M,g\right)$ kompakte Mannigfaltigkeiten mit Rand und $f,h\in C^{\infty}\left(M,\mathbb{R}\right)$.
 \begin{align*}
-\int_{M}f\cdot\LB g\dd\mu_{M} & =-\int_{M}\left\langle \DD f,\DD g\right\rangle \dd\mu_{M}+\int_{\partial M}f\cdot\nu\left(g\right)\dd\mu_{\partial M}
+\int_{M}f\cdot\LB h\dd\mu_{M} & =-\int_{M}\left\langle \DD f,\DD h\right\rangle \dd\mu_{M}+\int_{\partial M}f\cdot\nu\left(h\right)\dd\mu_{\partial M}
 \end{align*}
 \begin{align*}
-\int_{M}\left(f\cdot\LB g-g\cdot\LB f\right)\dd\mu_{M} & =\int_{\partial M}f\cdot\nu\left(g\right)\dd\mu_{\partial M}+\int_{\partial M}\left(f\nu\left(g\right)-\nu\left(f\right)g\right)\dd\mu_{\partial M}
+\int_{M}\left(f\cdot\LB h-h\cdot\LB f\right)\dd\mu_{M} & =\int_{\partial M}\left(f\nu\left(h\right)-\nu\left(f\right)h\right)\dd\mu_{\partial M}
 \end{align*}
 
 
@@ -4590,24 +4614,27 @@ Sei $\left(M,g\right)$ kompakte Mannigfaltigkeiten mit Rand und $f,g\in C^{\inft
 
 Es gilt:
 \begin{align*}
-\left\langle \DD f,\DD g\right\rangle  & =g\left(\text{grad}f,\text{grad}g\right)
+\left\langle \DD f,\DD h\right\rangle  & =g\left(\text{grad}\left(f\right),\text{grad}\left(h\right)\right)=\left(\partial_{j}f\right)\left(\partial^{j}h\right)
 \end{align*}
 \begin{align*}
-f\cdot\LB g & =\text{div}\left(f\cdot\text{grad}\left(g\right)\right)-\left\langle \DD f,\DD g\right\rangle 
-\end{align*}
-Denn es gilt:
-\begin{align*}
-f\cdot\LB g & =f\cdot\frac{1}{\sqrt{\det g}}\partial_{j}\left(\sqrt{\det g}\partial^{j}g\right)=\frac{1}{\sqrt{\det g}}\partial_{j}\left(\sqrt{\det g}f\cdot\partial^{j}g\right)-\left(\partial_{j}f\right)\left(\partial^{j}g\right)=\\
- & =\text{div}\left(f\cdot\text{grad}\left(g\right)\right)-\left\langle \DD f,\DD g\right\rangle 
+f\cdot\LB h & =f\cdot\frac{1}{\sqrt{\det g}}\partial_{j}\left(\sqrt{\det g}\partial^{j}h\right)=\frac{1}{\sqrt{\det g}}\partial_{j}\left(\sqrt{\det g}f\cdot\partial^{j}h\right)-\left(\partial_{j}f\right)\left(\partial^{j}h\right)=\\
+ & =\text{div}\left(f\cdot\text{grad}\left(h\right)\right)-\left\langle \DD f,\DD h\right\rangle 
 \end{align*}
 Integriere auf beiden Seiten:
 \begin{align*}
-\int_{M}f\cdot\LB g\dd\mu_{M} & =-\int_{M}\left\langle \DD f,\DD g\right\rangle \dd\mu_{M}+\int_{M}\text{div}\left(f\cdot\text{grad}\left(g\right)\right)\dd\mu_{M}=\\
- & =-\int_{M}\left\langle \DD f,\DD g\right\rangle \dd\mu_{M}+\int_{\partial M}\left\langle f\cdot\text{grad}\left(g\right),\nu\right\rangle \dd\mu_{\partial M}=\\
- & =-\int_{M}\left\langle \DD f,\DD g\right\rangle \dd\mu_{M}+\int_{\partial M}f\cdot\nu\left(g\right)\dd\mu_{\partial M}
+\int_{M}f\cdot\LB h\dd\mu_{M} & =-\int_{M}\left\langle \DD f,\DD h\right\rangle \dd\mu_{M}+\int_{M}\text{div}\left(f\cdot\text{grad}\left(h\right)\right)\dd\mu_{M}=\\
+ & =-\int_{M}\left\langle \DD f,\DD h\right\rangle \dd\mu_{M}+\int_{\partial M}\left\langle f\cdot\text{grad}\left(h\right),\nu\right\rangle \dd\mu_{\partial M}=\\
+ & =-\int_{M}\left\langle \DD f,\DD h\right\rangle \dd\mu_{M}+\int_{\partial M}f\cdot\nu\left(h\right)\dd\mu_{\partial M}
 \end{align*}
 Für die zweite Gleichung betrachte die erste Gleichung, vertauscht
-$f$ und $g$, und subtrahiert dies von der ersten Gleichung.\qqed
+$f$ und $g$, und subtrahiert dies von der ursprünglichen ersten
+Gleichung:
+\begin{align*}
+\int_{M}\left(f\cdot\LB h-h\cdot\LB f\right)\dd\mu_{M} & =-\int_{M}\left\langle \DD f,\DD h\right\rangle \dd\mu_{M}+\int_{\partial M}f\cdot\nu\left(h\right)\dd\mu_{\partial M}+\\
+ & \quad+\int_{M}\left\langle \DD h,\DD f\right\rangle \dd\mu_{M}-\int_{\partial M}h\cdot\nu\left(f\right)\dd\mu_{\partial M}=\\
+ & =\int_{\partial M}\left(f\nu\left(h\right)-\nu\left(f\right)h\right)\dd\mu_{\partial M}
+\end{align*}
+\qqed
 
 
 \subsection{Randwertprobleme}
@@ -4647,24 +4674,23 @@ die Gleichung:
 \begin{align*}
 f\big|_{\partial M} & =0 & \text{bzw.}\quad\nu\left(f\right) & =0
 \end{align*}
-Nach der ersten Greenschen Formel für $g=f$ gilt dann:
+Nach der ersten Greenschen Formel für $h=f$ gilt dann:
 \begin{align*}
-0=\int_{M}f\cdot\LB f\dd\mu_{M} & =-\int_{M}\left\langle \DD f,\DD g\right\rangle \dd\mu_{M}+\int_{\partial M}\underbrace{f}_{=0\ \text{(Dirichlet)}}\cdot\underbrace{\nu\left(f\right)}_{=0\ \text{(Neumann)}}\dd\mu_{\partial M}
+0=\int_{M}f\cdot\LB f\dd\mu_{M} & =-\int_{M}\left\langle \DD f,\DD f\right\rangle \dd\mu_{M}+\int_{\partial M}\underbrace{f}_{=0\ \text{(Dirichlet)}}\cdot\underbrace{\nu\left(f\right)}_{=0\ \text{(Neumann)}}\dd\mu_{\partial M}
 \end{align*}
 Also folgt:
 \begin{align*}
-\int_{M}\underbrace{\left\langle \DD f,\DD g\right\rangle }_{\ge0}\dd\mu_{M} & =0
+\int_{M}\underbrace{\left\langle \DD f,\DD f\right\rangle }_{\ge0}\dd\mu_{M} & =0
 \end{align*}
-Also gilt $\DD f=0$ und somit ist $f$ konstant.\qqed
+Also gilt $\DD f=0$ und somit ist $f$ konstant. Beim Dirichlet-Problem
+folgt $f=0$, da dies auf dem Rand gilt.\qqed
 
 
 \subsection{Theorem \textmd{(Mittelwertgleichung)}}
 
-Sei $f$ harmonisch, $\Delta f=0$ in $\Omega\subseteq\mathbb{R}^{n}$
-offen.
-
-Sei $p\in\Omega$ und $r\in\mathbb{R}_{>0}$, sodass $B_{r}\left(p\right)\subseteq\Omega$.
-Es folgt:
+Seien $f$ harmonisch, also $\Delta f=0$ in $\Omega\stackrel{\text{offen}}{\subseteq}\mathbb{R}^{n}$,
+$p\in\Omega$ und $r\in\mathbb{R}_{>0}$, sodass $B_{r}\left(p\right)\subseteq\Omega$
+gilt. Dann gilt:
 \begin{align*}
 f\left(p\right) & =\frac{1}{\text{vol}\left(S_{r}^{\left(p\right)}\right)}\int_{S_{r}^{\left(p\right)}}f\dd\mu
 \end{align*}
@@ -4693,22 +4719,16 @@ Es gilt:
 \begin{align*}
 0 & =\Delta f=\text{div}\left(\text{grad}\left(f\right)\right)
 \end{align*}
-Setze zur Einfachheit $p=0$.
-
-Die äußere Normale ist:
+Setze zur Einfachheit $p=0$. Die äußere Normale ist:
 \begin{align*}
 \nu\left(x\right) & =\frac{x}{\norm x}
 \end{align*}
 
 
-TODO: Abb1
+\textcolor{green}{TODO: Abb1 einfügen}
 \begin{align*}
 0 & =\int_{B_{r}\left(0\right)}\Delta f\dd\mu_{M}=\int_{B_{r}\left(0\right)}\text{div}\left(\text{grad}\left(f\right)\right)\dd\mu_{M}=\\
- & =\int_{S_{r}}\left\langle \text{grad}\left(f\right),\nu\right\rangle \dd\mu_{S_{r}}
-\end{align*}
-Also gilt:
-\begin{align*}
-0 & =\int_{S_{r}}\nu\left(f\right)\dd\mu_{S_{r}}
+ & =\int_{S_{r}}\left\langle \text{grad}\left(f\right),\nu\right\rangle \dd\mu_{S_{r}}=\int_{S_{r}}\nu\left(f\right)\dd\mu_{S_{r}}
 \end{align*}
 Skaliere nun um:
 \begin{align*}
@@ -4716,7 +4736,7 @@ Skaliere nun um:
 \end{align*}
 Weiterer Trick:
 \begin{align*}
-\frac{\dd}{\dd r}f\left(ry\right) & =\DD f\big|_{ry}\cdot y=\left(\nu f\right)\left(ry\right)
+\frac{\dd}{\dd r}f\left(ry\right) & =\DD f\big|_{ry}\cdot y=\nu\left(f\right)\big|_{ry}
 \end{align*}
 Denn es gilt:
 \begin{align*}
@@ -4736,7 +4756,7 @@ c=\lim_{r\to0}F\left(r\right) & \sr ={\text{glm. Konvergenz}}{S_{1}\text{ kompak
 \end{align*}
 Also gilt:
 \begin{align*}
-f\left(0\right) & =\frac{c}{\text{vol}\left(S_{1}\right)}=\frac{1}{\text{vol}\left(S_{1}\right)}\int_{S_{1}}f\left(ry\right)\dd\mu_{S_{1}}y=\\
+f\left(0\right) & =\frac{c}{\text{vol}\left(S_{1}\right)}=\frac{1}{\text{vol}\left(S_{1}\right)}\int_{S_{1}}f\left(ry\right)\dd\mu_{S_{1}}\left(y\right)=\\
  & \stackrel{x=ry}{=}\frac{1}{r^{n-1}\text{vol}\left(S_{1}\right)}\int_{S_{r}}f\left(x\right)\dd\mu_{S_{r}}\left(x\right)=\frac{1}{\text{vol}\left(S_{r}\right)}\int_{S_{r}}f\left(x\right)\dd\mu_{S_{r}}\left(x\right)
 \end{align*}
 \qqed
@@ -4744,11 +4764,10 @@ f\left(0\right) & =\frac{c}{\text{vol}\left(S_{1}\right)}=\frac{1}{\text{vol}\le
 
 \subsection{Theorem \textmd{(Satz von Gauß auf nicht-kompakten Mannigfaltigkeiten)}}
 
-Sei $\left(M,g\right)$ eine Riemannsche Mannigfaltigkeit mit Rand
-mit kompaktem Rand $\partial M$.
+Sei $\left(M,g\right)$ eine Riemannsche Mannigfaltigkeit mit kompaktem
+Rand $\partial M$.
 
-Sei $u$ ein glattes Vektorfeld, sodass $\text{div}\left(u\right)$
-integrierbar ist.
+Sei $u$ ein glattes Vektorfeld, und $\text{div}\left(u\right)$ integrierbar.
 
 Nehme außerdem an, dass es eine untergeordnete Zerlegung der Eins
 $\left(\eta_{k}\right)$ gibt, sodass $\text{supp}\left(\eta_{k}\right)$
@@ -4778,7 +4797,7 @@ Es gilt:
 Sei $u$ ein glattes Vektorfeld im $\mathbb{R}^{3}$ mit $\text{div}\left(u\right)\in L^{1}\left(\mathbb{R}^{3}\right)$
 und:
 \begin{align*}
-\text{lim}_{x\to\infty}\abs x^{2}\abs{u\left(x\right)} & =0
+\text{lim}_{\norm x\to\infty}\norm x^{2}\abs{u\left(x\right)} & =0
 \end{align*}
 
 
@@ -4791,9 +4810,9 @@ Dann ist $\int_{\mathbb{R}^{2}}\text{div}\left(u\right)\dd^{3}x=0$.
 $M=\mathbb{R}^{3}\setminus\Omega$ mit glattem Rand, geht es analog.
 \item Die Bedingung
 \begin{align*}
-\text{lim}_{x\to\infty}\abs x^{2}\abs{u\left(x\right)} & =0
+\text{lim}_{\norm x\to\infty}\norm x^{2}\abs{u\left(x\right)} & =0
 \end{align*}
-kann abgeschwächt werden, am bestem mit Lebesgue-Integral.
+kann abgeschwächt werden, am bestem mit dem Lebesgue-Integral.
 \end{itemize}
 
 \subsubsection*{Beweis}
@@ -4801,28 +4820,24 @@ kann abgeschwächt werden, am bestem mit Lebesgue-Integral.
 Wähle $\eta_{R}\in C_{0}^{\infty}\left(\mathbb{R}\right)$ mit $\eta_{R}\big|_{\left[0,R\right]}=1$
 und $\eta_{R}\big|_{[R+1,\infty)}=0$ und $\abs{\eta_{R}'}\le2$.
 
-TODO: ABb1
+\textcolor{green}{TODO: Abb1 einfügen}
 
 Nach dem Satz von Gauß gilt, da $\eta_{R}\cdot u$ einen kompakten
 Träger hat:
 \begin{align*}
-\int_{\mathbb{R}^{3}}\text{div}\left(\eta_{R}\left(\abs x\right)\cdot u\left(x\right)\right)\dd x & =0
+\int_{\mathbb{R}^{3}}\text{div}\left(\eta_{R}\left(\norm x\right)\cdot u\left(x\right)\right)\dd x & =0
 \end{align*}
 
 
-Also folgt, wenn man $\tilde{\eta}_{R}:=\eta_{R}\left(\abs x\right):\mathbb{R}^{3}\to\mathbb{R}$
+Also folgt, wenn man $\tilde{\eta}_{R}:=\eta_{R}\left(\norm .\right):\mathbb{R}^{3}\to\mathbb{R}$
 betrachtet:
 \begin{align*}
-\int_{\mathbb{R}^{3}}\eta_{R}\left(\abs x\right)\text{div}\left(u\right)\dd^{3}x & =-\int_{\mathbb{R}^{3}}u\left(\tilde{\eta}_{R}\right)\dd^{3}x
+\int_{\mathbb{R}^{3}}\tilde{\eta}_{R}\text{div}\left(u\right)\dd^{3}x & =-\int_{\mathbb{R}^{3}}u\left(\tilde{\eta}_{R}\right)\dd^{3}x
 \end{align*}
-Mit $R\to\infty$ folgt aus Dominierter Konvergenz:
+Mit $R\to\infty$ folgt aus Dominierter Konvergenz $\lim_{R\to\infty}u\left(\tilde{\eta}_{R}\right)=u\left(1\right)=0$
+und somit:
 \begin{align*}
-\int_{\mathbb{R}^{3}}\text{div}\left(u\right)\dd^{3}x & =0
-\end{align*}
-
-
-\begin{align*}
-\abs{\int_{\mathbb{R}^{3}}u\left(\tilde{\eta}_{R}\right)\dd^{3}x} & \le\int_{\mathbb{R}^{3}}\abs{u\left(\tilde{\eta}_{R}\right)}\dd^{3}x
+\abs{\int_{\mathbb{R}^{3}}\text{div}\left(u\right)\dd^{3}x}=\abs{\int_{\mathbb{R}^{3}}u\left(\tilde{\eta}_{R}\right)\dd^{3}x} & \le\int_{\mathbb{R}^{3}}\abs{u\left(\tilde{\eta}_{R}\right)}\dd^{3}x
 \end{align*}
 \begin{align*}
 \abs{u\left(\tilde{\eta}_{R}\right)} & \le\abs u\cdot\abs{\DD\tilde{\eta}_{R}}=\abs u\cdot\abs{\eta_{R}'}
@@ -4832,22 +4847,26 @@ Mit $R\to\infty$ folgt aus Dominierter Konvergenz:
 \end{align*}
 Dabei ist $\chi$ die charakteristische Funktion der Menge:
 \begin{align*}
-\left\{ x\in\mathbb{R}^{3}|R\le\abs x\le R+1\right\} 
+\left\{ x\in\mathbb{R}^{3}|R\le\norm x\le R+1\right\} 
 \end{align*}
 Denn:
 \begin{align*}
-\DD\eta_{R}\left(\abs x\right) & =\DD\eta\left(\sqrt{\abs x^{2}}\right)
+\DD\eta_{R}\left(\norm x\right) & =\DD\eta_{R}\left(\sqrt{\norm x^{2}}\right)
 \end{align*}
 Es folgt:
 \begin{align*}
-\frac{\partial}{\partial x^{j}}\eta_{R} & =\eta_{R}'\left(\abs x\right)\frac{x^{j}}{\sqrt{\abs x^{2}}}
+\frac{\partial}{\partial x^{j}}\eta_{R} & =\eta_{R}'\left(\norm x\right)\frac{x^{j}}{\sqrt{\norm x^{2}}}
 \end{align*}
 \begin{align*}
-\text{grad}\left(\eta\right) & =\eta'\left(\abs x\right)\frac{x}{\abs x}\\
-\abs{\text{grad}\left(\eta\right)} & =\abs{\eta'\left(\abs x\right)}\le2
+\text{grad}\left(\eta\right) & =\eta'\left(\norm x\right)\frac{x}{\norm x}\\
+\abs{\text{grad}\left(\eta\right)} & =\abs{\eta'\left(\norm x\right)}\le2
 \end{align*}
 \begin{align*}
-2\int_{\mathbb{R}^{3}}\abs u\cdot\chi\dd^{3}x & \le2\sup_{R\le\abs x\le R+1}\abs{u\left(x\right)}\cdot4\pi\left(R+1\right)^{2}\le4\cdot4\pi\sup_{R\le\abs x\le R+1}\abs{u\left(x\right)}\abs x^{2}\stackrel{R\to\infty}{\longrightarrow}0
+2\int_{\mathbb{R}^{3}}\abs u\cdot\chi\dd^{3}x & \le2\sup_{R\le\norm x\le R+1}\abs{u\left(x\right)}\cdot4\pi\left(R+1\right)^{2}\le4\cdot4\pi\sup_{R\le\norm x\le R+1}\abs{u\left(x\right)}\norm x^{2}\stackrel{R\to\infty}{\longrightarrow}0
+\end{align*}
+Also folgt:
+\begin{align*}
+\int_{\mathbb{R}^{3}}\text{div}\left(u\right)\dd^{3}x & =0
 \end{align*}
 \qqed
 
@@ -4865,29 +4884,25 @@ Wie kann man eine Ableitung einführen?
 
 
 Partielle Ableitungen liefern im Allgemeinen keine sinnvolle Ableitung,
-da sie von der Wahl der Koordinaten abhängen, zum Beispiel:
-
-\begin{align*}
-v & \in\TT^{0,1}M
-\end{align*}
+da sie von der Wahl der Koordinaten abhängen, zum Beispiel sei $v\in\TT^{0,1}M$:
 \begin{align*}
 v & =v_{k}\left(x\right)\dd x^{k}=\tilde{v}_{l}\left(y\right)\dd y^{l}\\
-\tilde{v}_{l} & =\frac{\partial x^{k}}{\partial y^{l}}v_{k}\left(x\right)
+\tilde{v}_{l} & =\frac{\partial x^{k}}{\partial y^{l}}v_{k}
 \end{align*}
 \begin{align*}
-\frac{\partial\tilde{v}_{l}}{\partial y^{m}} & =\frac{\partial}{\partial y^{m}}\left(\frac{\partial x^{k}}{\partial y^{l}}v_{k}\left(x\right)\right)=\underbrace{\frac{\partial x^{n}}{\partial y^{m}}\cdot\frac{\partial}{\partial x^{n}}}_{=\frac{\partial}{\partial y^{m}}}\left(\frac{\partial x^{k}}{\partial y^{l}}v_{k}\left(x\right)\right)=\\
- & =\frac{\partial x^{n}}{\partial y^{m}}\frac{\partial x^{k}}{\partial y^{l}}\frac{\partial v_{k}}{\partial x^{n}}+\frac{\partial x^{n}}{\partial y^{m}}v_{k}\left(x\right)\frac{\partial^{2}x^{k}}{\partial x^{n}\partial y^{l}}=\\
- & =\underbrace{\frac{\partial x^{n}}{\partial y^{m}}\frac{\partial x^{k}}{\partial y^{l}}\frac{\partial v_{k}}{\partial x^{n}}}_{\text{entspricht Transformationsverhalten eines Tensors}}+\underbrace{v_{k}\left(x\right)\frac{\partial^{2}x^{k}}{\partial y^{m}\partial y^{l}}}_{\text{unerwünschter Zusatzterm}}
+\frac{\partial\tilde{v}_{l}}{\partial y^{m}} & =\frac{\partial}{\partial y^{m}}\left(\frac{\partial x^{k}}{\partial y^{l}}v_{k}\right)=\underbrace{\frac{\partial x^{n}}{\partial y^{m}}\cdot\frac{\partial}{\partial x^{n}}}_{=\frac{\partial}{\partial y^{m}}}\left(\frac{\partial x^{k}}{\partial y^{l}}v_{k}\right)=\\
+ & =\frac{\partial x^{n}}{\partial y^{m}}\frac{\partial x^{k}}{\partial y^{l}}\frac{\partial v_{k}}{\partial x^{n}}+\frac{\partial x^{n}}{\partial y^{m}}v_{k}\frac{\partial^{2}x^{k}}{\partial x^{n}\partial y^{l}}=\\
+ & =\underbrace{\frac{\partial x^{n}}{\partial y^{m}}\frac{\partial x^{k}}{\partial y^{l}}\frac{\partial v_{k}}{\partial x^{n}}}_{\text{Transformationsverhalten eines Tensors}}+\underbrace{v_{k}\frac{\partial^{2}x^{k}}{\partial y^{m}\partial y^{l}}}_{\text{unerwünschter Zusatzterm}}
 \end{align*}
 Um den unerwünschten Zusatzterm zum Verschwinden zu bringen, \emph{antisymmetrisiert}
 man:
 \begin{align*}
-F_{jk}\left(x\right) & :=\frac{\partial v_{k}\left(x\right)}{\partial x^{j}}-\frac{\partial v_{j}\left(x\right)}{\partial x^{k}} & \tilde{F}_{lm}\left(x\right) & :=\frac{\partial\tilde{v}_{l}\left(x\right)}{\partial y^{l}}-\frac{\partial\tilde{v}_{j}\left(x\right)}{\partial y^{m}}
+F_{jk}\left(x\right) & :=\frac{\partial v_{k}\left(x\right)}{\partial x^{j}}-\frac{\partial v_{j}\left(x\right)}{\partial x^{k}} & \tilde{F}_{lm}\left(x\right) & :=\frac{\partial\tilde{v}_{m}\left(x\right)}{\partial y^{l}}-\frac{\partial\tilde{v}_{l}\left(x\right)}{\partial y^{m}}
 \end{align*}
 Es folgt:
 \begin{align*}
-\tilde{F}_{lm}\left(x\right) & =\frac{\partial x^{k}}{\partial y^{l}}\frac{\partial x^{n}}{\partial y^{m}}\frac{\partial v_{k}}{\partial x^{n}}+v_{k}\left(x\right)\frac{\partial^{2}x^{k}}{\partial y^{l}\partial y^{m}}-\frac{\partial x^{k}}{\partial y^{m}}\frac{\partial x^{n}}{\partial y^{l}}\frac{\partial v_{k}}{\partial x^{n}}-v_{k}\left(x\right)\frac{\partial^{2}x^{k}}{\partial y^{m}\partial y^{l}}=\\
- & =\frac{\partial x^{a}}{\partial y^{l}}\cdot\frac{\partial x^{b}}{\partial y^{m}}\left(\frac{\partial v_{a}}{\partial x^{b}}-\frac{\partial v_{b}}{\partial x^{a}}\right)=\frac{\partial x^{a}}{\partial y^{l}}\cdot\frac{\partial x^{b}}{\partial y^{m}}F_{ab}\left(x\right)
+\tilde{F}_{lm}\left(x\right) & =\frac{\partial x^{n}}{\partial y^{l}}\frac{\partial x^{k}}{\partial y^{m}}\frac{\partial v_{k}}{\partial x^{n}}+v_{k}\frac{\partial^{2}x^{k}}{\partial y^{l}\partial y^{m}}-\frac{\partial x^{n}}{\partial y^{m}}\frac{\partial x^{k}}{\partial y^{l}}\frac{\partial v_{k}}{\partial x^{n}}-v_{k}\frac{\partial^{2}x^{k}}{\partial y^{m}\partial y^{l}}=\\
+ & =\frac{\partial x^{a}}{\partial y^{l}}\cdot\frac{\partial x^{b}}{\partial y^{m}}\left(\frac{\partial v_{b}}{\partial x^{a}}-\frac{\partial v_{a}}{\partial x^{b}}\right)=\frac{\partial x^{a}}{\partial y^{l}}\cdot\frac{\partial x^{b}}{\partial y^{m}}F_{ab}\left(x\right)
 \end{align*}
 Also ist
 \begin{align*}
@@ -4903,10 +4918,9 @@ und $\dd$ heißt \emph{äußere Ableitung}.
 \subsubsection*{Anwendung in der Physik}
 
 Betrachte das Vektorpotential $\vec{A}$ mit Magnetfeld $\vec{B}=\text{rot}\left(\vec{A}\right)$
-und $\varphi$ das elektrostatische Potential.
-
-Betrachte im 4-dimensionalen Minkowskiraum das elektromagnetische
-Potential $A=\left(\varphi,\vec{A}\right)$. Dann ist
+und das elektrostatische Potential $\varphi$. Im 4-dimensionalen
+Minkowskiraum ist das elektromagnetische Potential $A=\left(\varphi,\vec{A}\right)$.
+Dann ist
 \begin{align*}
 F & =\dd A
 \end{align*}
@@ -4914,22 +4928,15 @@ der Feldstärketensor. Nichtrelativistisch:
 \begin{align*}
 \left(\text{rot}\left(\vec{A}\right)\right)^{i} & =\varepsilon^{ijk}\underbrace{\partial_{j}A_{k}}_{=\dd A}
 \end{align*}
-
-
 Betrachte im Folgenden nur Tensorfelder der Stufe $\left(0,k\right)$,
 die \emph{alternierend} sind, das heißt:
 \begin{align*}
 A_{i_{1}\ldots i_{l}\ldots i_{m}\ldots i_{k}} & =-A_{i_{1}\ldots i_{m}\ldots i_{l}\ldots i_{k}}
 \end{align*}
+Die Menge dieser Tensorfelder ist $\Lambda^{k}\left(M\right)$ und
+man bezeichnet sie als \emph{Differentialformen}.
 
-
-Wir schreiben solche Tensorfelder als
-\begin{align*}
-\Lambda^{k}\left(M\right)
-\end{align*}
-und bezeichnen sie als \emph{Differentialformen}.
-
-Die \emph{äußere Ableitung} ist:
+Die \emph{äußere Ableitung} ist eine Abbildung:
 \begin{align*}
 \dd:\Lambda^{k}\left(M\right) & \to\Lambda^{k+1}\left(M\right)
 \end{align*}
@@ -4952,16 +4959,15 @@ E^{0,k} & :=\underbrace{E^{*}\otimes\ldots\otimes E^{*}}_{k\text{ Faktoren}}
 
 
 
-\subsection{Definition}
+\subsection{Definition \textmd{(multilinear, Tensorprodukt)}}
 
-Eine Abbildung $\varphi:E^{k}\to\mathbb{R}$ heißt multilinear, falls
-sie in jedem Argument linear ist.
+Eine Abbildung $\varphi:E^{k}\to\mathbb{R}$ heißt \emph{multilinear},
+falls sie in jedem Argument linear ist.
 
 Die multilinearen Abbildungen bilden einen Vektorraum $M^{k}\left(E\right)$.
 
-Auf den multilinearen Abbildungen bilden einen Vektorraum $M^{k}\left(E\right)$.
-
-Auf den multilinearen Abbildungen kann man ein Tensorprodukt einführen:
+Auf den multilinearen Abbildungen kann man ein \emph{Tensorprodukt}
+einführen:
 \begin{align*}
 \otimes:M^{k}\left(E\right)\times M^{l}\left(E\right) & \to M^{k+l}\\
 \left(\varphi_{1}\otimes\varphi_{2}\right)\left(v_{1},\ldots,v_{k+l}\right) & =\varphi_{1}\left(v_{1},\ldots,v_{k}\right)\varphi_{2}\left(v_{k+1},\ldots,v_{k+l}\right)
@@ -4969,34 +4975,33 @@ Auf den multilinearen Abbildungen kann man ein Tensorprodukt einführen:
 $\otimes$ ist bilinear.
 
 
-\subsection{Satz}
+\subsection{Satz \textmd{(Tensorprodukt-Basis)}}
 
 Sei $\varphi^{1},\ldots,\varphi^{n}$ eine Basis von $E^{*}$. Dann
 bilden die Vektoren
 \begin{align*}
-\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}} & ;\ 1\le i_{1},\ldots,i_{k}\le n
+\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}} & ;\ \;1\le i_{1},\ldots,i_{k}\le n
 \end{align*}
 eine Basis von $M^{k}\left(E\right)$. Insbesondere gilt $\dim\left(M^{k}\left(E\right)\right)=n^{k}$.
 
 
 \subsubsection*{Beweis}
 
+Sei $\left(e_{k}\right)$ eine Basis von $E$ und $\left(\varphi^{k}\right)$
+die duale Basis, das heißt $\varphi^{k}\left(e_{l}\right)=\delta_{l}^{k}$.
 \begin{align*}
 \left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)\left(e_{j_{1}},\ldots,e_{j_{k}}\right) & =\varphi^{i_{1}}\left(e_{j_{1}}\right)\cdots\varphi^{i_{k}}\left(e_{j_{k}}\right)=\delta_{j_{1}}^{i_{1}}\cdots\delta_{j_{k}}^{i_{k}}
 \end{align*}
 
 
-Dabei ist $\left(e_{k}\right)$ eine Basis von $E$ und $\left(\varphi^{k}\right)$
-sei die duale Basis, das heißt $\varphi^{k}\left(e_{l}\right)=\delta_{l}^{k}$.
-
 \begin{abclist}
 
-\abc Die Vektoren $\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)_{1\le i_{1}\ldots i_{k}\le n}$
-spannen $M^{k}\left(E\right)$ auf.
+\abc Zeige, dass die Vektoren $\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)_{1\le i_{1},\ldots,i_{k}\le n}$
+ein Erzeugendensystem von $M^{k}\left(E\right)$ sind:
 
-Sei $T\in M^{k}\left(E\right)$. Setze $t_{i_{1}\ldots i_{k}}=T\left(e_{i_{1}},\ldots,e_{i_{k}}\right)$.
+Sei $T\in M^{k}\left(E\right)$, so setze $t_{i_{1}\ldots i_{k}}=T\left(e_{i_{1}},\ldots,e_{i_{k}}\right)$.
 
-Sei $w_{i}\in E$, so stelle es in der Basis dar:
+Seien $w_{i}\in E$, so stelle diese in der Basis dar:
 \begin{align*}
 w_{i} & =\sum_{k=1}^{n}w_{i}^{k}e_{k}
 \end{align*}
@@ -5005,7 +5010,7 @@ Aus der Multilinearität folgt:
 T\left(w_{1},\ldots,w_{k}\right) & =w_{1}^{i_{1}}\cdots w_{k}^{i_{k}}T\left(e_{i_{1}},\ldots,e_{i_{k}}\right)=w_{1}^{i_{1}}\cdots w_{k}^{i_{k}}t_{i_{1}\ldots i_{k}}
 \end{align*}
 \begin{align*}
-\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)\left(w_{1},\ldots,w_{k}\right) & =w_{1}^{j_{1}}\cdots w_{k}^{j_{k}}\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)\left(w_{i_{1}},\ldots,w_{i_{k}}\right)=w_{1}^{i_{1}}\cdots w_{k}^{i_{k}}
+\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)\left(w_{1},\ldots,w_{k}\right) & =w_{1}^{j_{1}}\cdots w_{k}^{j_{k}}\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)\left(e_{j_{1}},\ldots,e_{j_{k}}\right)=w_{1}^{i_{1}}\cdots w_{k}^{i_{k}}
 \end{align*}
 Also gilt:
 \begin{align*}
@@ -5017,21 +5022,25 @@ T & =t_{i_{1}\ldots i_{k}}\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k
 \end{align*}
 
 
-\abc Die Vektoren $\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)_{1\le i_{1}\ldots i_{k}\le n}$
-sind linear unabhängig, denn aus
+\abc Zeige, dass die Vektoren $\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)_{1\le i_{1},\ldots,i_{k}\le n}$
+linear unabhängig sind: Aus
 \begin{align*}
-\sum\lambda_{i_{1}\ldots i_{k}}\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}} & =0
+\lambda_{i_{1}\ldots i_{k}}\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}} & =0
 \end{align*}
-folgt durch anwenden von $e_{j_{1}}\otimes\ldots\otimes e_{j_{k}}$:
+folgt durch anwenden auf $\left(e_{j_{1}},\ldots,e_{j_{k}}\right)$:
 \begin{align*}
-\lambda_{j_{1}\ldots j} & =0
+\lambda_{j_{1}\ldots j_{k}} & =0
 \end{align*}
 Also sind alle Koeffizienten Null und somit folgt die lineare Unabhängigkeit.
 
 \end{abclist}
 
-Zusammenhang zum Tensorprodukt: Sei $T\in M^{k}\left(E\right)$, also
-ist
+\qqed
+
+
+\subsubsection*{Zusammenhang zum Tensorprodukt}
+
+Sei $T\in M^{k}\left(E\right)$, also ist
 \begin{align*}
 T:E\times\ldots\times E & \to\mathbb{R}
 \end{align*}
@@ -5046,7 +5055,7 @@ T\left(w_{1},\ldots,w_{k}\right) & =\hat{T}\left(w_{1}\otimes\ldots\otimes w_{k}
 Also ist $\hat{T}\in\left(E\otimes\ldots\otimes E\right)^{*}\stackrel{\sim}{=}E^{*}\otimes\ldots\otimes E^{*}$.
 
 
-\subsection{Definition}
+\subsection{Definition \textmd{(Pullback)}}
 
 Sei $f:E\to F$ linear.
 
@@ -5059,7 +5068,7 @@ f^{*}:M^{k}\left(F\right) & \to M^{k}\left(E\right)\\
 
 
 
-\subsection{Definition}
+\subsection{Definition \textmd{(alternierend)}}
 
 Ein $\varphi\in M^{k}\left(E\right)$ heißt \emph{alternierend} (oder
 \emph{total antisymmetrisch}), falls es antisymmetrisch unter Vertauschung
@@ -5072,7 +5081,7 @@ bezeichnet. Sei $S_{k}$ die symmetrische Gruppe, also die Permutationsgruppe
 von $\left\{ 1,\ldots,k\right\} $.
 \begin{align*}
 \text{Alt}:M^{k}\left(E\right) & \to\Omega^{k}\left(E\right)\\
-\left(\text{Alt}T\right)\left(v_{1},\ldots,v_{k}\right) & :=\frac{1}{k!}\sum_{\sigma\in S_{k}}\text{sgn}\left(\sigma\right)T\left(v_{\sigma\left(1\right)},\ldots,v_{\sigma\left(k\right)}\right)
+\text{Alt}\left(T\right)\left(v_{1},\ldots,v_{k}\right) & :=\frac{1}{k!}\sum_{\sigma\in S_{k}}\text{sgn}\left(\sigma\right)T\left(v_{\sigma\left(1\right)},\ldots,v_{\sigma\left(k\right)}\right)
 \end{align*}
 
 
@@ -5100,17 +5109,17 @@ T & =T\left(e_{i},e_{j}\right)\underbrace{\varphi^{i}\otimes\varphi^{j}}_{\in E^
 Daher kann man $T$ auf kanonische Weise mit einem Element aus $E^{*}\otimes E^{*}$.
 
 
-\subsection{Definition}
+\subsection{Definition \textmd{(Wedge-Produkt)}}
 
 Wir definieren das \emph{Wedge-Produkt} (oder Dachprodukt) durch:
 \begin{align*}
 \wedge:\Omega^{k}\times\Omega^{l} & \to\Omega^{k+l}\\
-\left(\omega,\eta\right) & \mapsto\omega\wedge\eta:=\wedge\left(\omega,\eta\right):=\frac{\left(k+l\right)!}{k!\cdot l!}\text{Alt}\left(\omega\otimes\eta\right)
+\left(\omega,\eta\right) & \mapsto\omega\wedge\eta:=\frac{\left(k+l\right)!}{k!\cdot l!}\text{Alt}\left(\omega\otimes\eta\right)
 \end{align*}
 Dabei ist der Vorfaktor Konvention.
 
 
-\subsection{Satz}
+\subsection{Satz \textmd{(Eigenschaften des Wedge-Produkt)}}
 \begin{itemize}
 \item Aus $\Omega\in\Omega^{k}\left(E\right)$ folgt $\text{Alt}\left(\Omega\right)=\Omega$.
 \item $\wedge$ ist bilinear.
@@ -5126,10 +5135,20 @@ Dabei ist der Vorfaktor Konvention.
 \subsubsection*{Beweis}
 
 \begin{align*}
+\text{Alt}\left(\Omega\right)\left(v_{1},\ldots,v_{k}\right) & =\frac{1}{k!}\sum_{\sigma\in S_{k}}\text{sgn}\left(\sigma\right)\Omega\left(v_{\sigma\left(1\right)},\ldots,v_{\sigma\left(k\right)}\right)=\\
+ & =\frac{1}{k!}\sum_{\sigma\in S_{k}}\left(\text{sgn}\left(\sigma\right)\right)^{2}\Omega\left(v_{1},\ldots,v_{k}\right)=\\
+ & =\frac{1}{k!}\cdot k!\Omega\left(v_{1},\ldots,v_{k}\right)=\Omega\left(v_{1},\ldots,v_{k}\right)
+\end{align*}
+Die Bilinearität ist klar.
+
+\begin{align*}
 \text{Alt}\left(\omega\otimes\eta\right) & =\left(-1\right)^{kl}\text{Alt}\left(\eta\otimes\omega\right)
 \end{align*}
 \begin{align*}
-\left(f^{*}\omega\right)\left(u_{1},\ldots,u_{k}\right) & =\omega\left(fu_{1},\ldots,fu_{k}\right)
+\left(f^{*}\omega\right)\left(u_{1},\ldots,u_{k}\right) & =\omega\left(f\left(u_{1}\right),\ldots,f\left(u_{k}\right)\right)\\
+\left(f^{*}\eta\right)\left(v_{1},\ldots,v_{l}\right) & =\eta\left(f\left(v_{1}\right),\ldots,f\left(v_{l}\right)\right)\\
+\left(f^{*}\omega\right)\wedge\left(f^{*}\eta\right)\left(u_{1},\ldots,u_{k},v_{1},\ldots,v_{l}\right) & =\left(\omega\wedge\eta\right)\left(f\left(u_{1}\right),\ldots,f\left(u_{k}\right),f\left(v_{1}\right),\ldots,f\left(v_{l}\right)\right)=\\
+ & =f^{*}\left(\omega\wedge\eta\right)\left(u_{1},\ldots,u_{k},v_{1},\ldots,v_{l}\right)
 \end{align*}
 \begin{align*}
 \big(\underbrace{\omega}_{k}\wedge\underbrace{\eta}_{l}\big)\wedge\underbrace{\Theta}_{m} & =\frac{\left(k+l+m\right)!}{\left(k+l\right)!m!}\text{Alt}\left(\left(\omega\wedge\eta\right)\otimes\Theta\right)=\\
@@ -5140,14 +5159,14 @@ Dabei ist der Vorfaktor Konvention.
 \qqed
 
 
-\subsection{Satz}
+\subsection{Satz \textmd{(Basis von \texorpdfstring{$\Omega^{k}\left(E\right)$}{Omega^k(E)})}}
 
 Die Vektoren
 \begin{align*}
 \varphi^{i_{1}}\wedge\varphi^{i_{2}}\wedge\ldots\wedge\varphi^{i_{k}}
 \end{align*}
 mit $1\le i_{1}<i_{2}<\ldots<i_{k}\le n$ bilden eine Basis von $\Omega^{k}\left(E\right)$
-und:
+und somit gilt:
 \begin{align*}
 \dim\left(\Omega^{k}\left(E\right)\right) & =\frac{n!}{k!\left(n-k\right)!}
 \end{align*}
@@ -5164,27 +5183,27 @@ T & =t_{i_{1}\ldots i_{k}}\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}
 \end{align*}
 Es folgt:
 \begin{align*}
-\text{Alt}\left(T\right) & =t_{i_{1}\ldots i_{k}}\text{Alt}\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)=ct_{i_{1}\ldots i_{k}}\varphi^{i_{1}}\wedge\ldots\wedge\varphi^{i_{k}}
+\text{Alt}\left(T\right) & =t_{i_{1}\ldots i_{k}}\text{Alt}\left(\varphi^{i_{1}}\otimes\ldots\otimes\varphi^{i_{k}}\right)=\frac{1}{k!}\cdot t_{i_{1}\ldots i_{k}}\varphi^{i_{1}}\wedge\ldots\wedge\varphi^{i_{k}}
 \end{align*}
 Daher ist $\varphi_{i_{1}}\wedge\ldots\wedge\varphi_{i_{k}}$ ein
-Erzeugendensystem von $\Omega^{k}\left(E\right)$.
+Erzeugendensystem von $\Omega^{k}\left(E\right)$. Es gilt
 \begin{align*}
 \varphi_{i_{1}}\wedge\varphi_{i_{2}} & =-\varphi_{i_{2}}\wedge\varphi_{i_{1}}
 \end{align*}
-Allgemein ist $\varphi_{i_{1}}\wedge\ldots\wedge\varphi_{i_{k}}$
-total antisymmetrisch und insbesondere verschwindet es, wenn zwei
-Indizes übereinstimmen.
+und allgemein ist $\varphi_{i_{1}}\wedge\ldots\wedge\varphi_{i_{k}}$
+total antisymmetrisch, das heißt insbesondere, dass es verschwindet,
+wenn zwei Indizes übereinstimmen.
 
-Ordne die Indizes so um, dass sie aufsteigend sind und es gilt:
+Ordne die Indizes so um, dass sie aufsteigend sind und erhalte:
 \begin{align*}
 \text{Alt}\left(T\right) & =\sum_{1\le i_{1}<i_{2}<\ldots<i_{k}\le n}\tilde{t}_{i_{1}\ldots i_{k}}\varphi^{i_{k}}\wedge\ldots\wedge\varphi^{i_{k}}
 \end{align*}
 Also sind die Vektoren $\left(\varphi^{i_{1}}\wedge\ldots\wedge\varphi^{i_{k}}\right)_{1\le i_{1}<i_{2}<\ldots<i_{k}\le n}$
-sind ein Erzeugendensystem.
+ein Erzeugendensystem.
 
-Um die lineare Unabhängigkeit zu zeigen, betrachtet man:
+Um die lineare Unabhängigkeit zu zeigen, verwendet man für $j_{1}<j_{2}<\ldots<j_{k}$:
 \begin{align*}
-\left(\varphi^{i_{!}}\wedge\ldots\wedge\varphi^{i_{k}}\right)\left(e_{j_{1}},\ldots,e_{j_{k}}\right) & =c\delta_{j_{1}}^{i_{1}}\ldots\delta_{j_{k}}^{i_{k}}
+\left(\varphi^{i_{1}}\wedge\ldots\wedge\varphi^{i_{k}}\right)\left(e_{j_{1}},\ldots,e_{j_{k}}\right) & =\delta_{j_{1}}^{i_{1}}\ldots\delta_{j_{k}}^{i_{k}}
 \end{align*}
 \qqed
 
@@ -5194,20 +5213,21 @@ $\Omega^{n}\left(E\right)$ wird aufgespannt von $\varphi^{1}\wedge\varphi^{2}\we
 
 \subsection{Satz}
 
-Sei $\omega\in\Omega^{n}\left(E\right)$. Dann gilt:
+Sei $\omega\in\Omega^{n}\left(E\right)$ für $n=\dim\left(E\right)$.
+Dann gilt:
 \begin{align*}
 \omega\left(v_{1},\ldots,v_{n}\right) & =\det\left(A\right)\cdot\omega\left(e_{1},\ldots,e_{n}\right)
 \end{align*}
 Dabei ist:
 \begin{align*}
-v_{j} & =a_{j}^{k}e_{k}
+v_{j} & =a_{j}^{i}e_{i}
 \end{align*}
 \begin{align*}
 A & :=\left(a_{j}^{i}\right)_{ij}=\left(\begin{array}{cccc}
-v_{1}^{1} & v_{1}^{2} & \ldots & v_{1}^{n}\\
-v_{2}^{1} & v_{2}^{2} & \ldots & v_{2}^{n}\\
+a_{1}^{1} & a_{2}^{1} & \ldots & a_{n}^{1}\\
+a_{1}^{2} & a_{2}^{2} & \ldots & a_{n}^{2}\\
 \vdots & \vdots & \ddots & \vdots\\
-v_{n}^{1} & v_{n}^{2} & \ldots & v_{n}^{n}
+a_{1}^{n} & a_{2}^{n} & \ldots & a_{n}^{n}
 \end{array}\right)
 \end{align*}
 
@@ -5217,7 +5237,7 @@ v_{n}^{1} & v_{n}^{2} & \ldots & v_{n}^{n}
 
 Definiere:
 \begin{align*}
-\mathcal{E}\left(v_{1},\ldots,v_{n}\right) & :=\det\left(a_{j}^{i}\right)
+\mathcal{E}\left(v_{1},\ldots,v_{n}\right) & :=\det\left(A\right)
 \end{align*}
 Diese Abbildung ist multilinear und total antisymmetrisch aufgrund
 der Eigenschaften der Determinante.
@@ -5246,9 +5266,7 @@ Daher ist $\epsilon_{i_{1}\ldots i_{n}}$ ist total antisymmetrisch:
 \epsilon_{\sigma\left(1\right)\ldots\sigma\left(n\right)} & =\text{sgn}\left(\sigma\right)
 \end{align*}
 $\epsilon_{i_{1}\ldots i_{n}}$ heißt \emph{total antisymmetrisches
-Symbol} oder \emph{Levi-Civita-Symbol}.
-
-Im $\mathbb{R}^{3}$ gilt:
+Symbol} oder \emph{Levi-Civita-Symbol}. Im $\mathbb{R}^{3}$ gilt:
 \begin{align*}
 \epsilon_{ijk}a_{l}^{i}a_{m}^{j}a_{n}^{k} & =\det\left(A\right)\cdot\epsilon_{lmn}
 \end{align*}
@@ -5262,20 +5280,20 @@ und betrachte $\Omega^{k}\left(\TT_{p}M\right)$.
 
 Was heißt differenzierbar?
 
-TODO: ABb1
+\textcolor{green}{TODO: Abb1 einfügen}
 
 Sei $U\subseteq M$ offen und
 \begin{align*}
 x:U & \to x\left(U\right)\subseteq\mathbb{R}^{n}
 \end{align*}
-eine Karte. Dann ist
+eine Karte. Dann ist der Pushforward
 \begin{align*}
 x_{*}\big|_{p}:\TT_{p}M & \to\TT_{x\left(p\right)}\mathbb{R}^{n}\stackrel{\sim}{=}\mathbb{R}^{n}
 \end{align*}
-eine lineare Abbildung.
+eine lineare Abbildung. Der Pullback wird definiert als:
 \begin{align*}
 x^{*}\big|_{p}:\Omega^{k}\left(\TT_{x\left(p\right)}\mathbb{R}^{n}\right) & \to\Omega^{k}\left(\TT_{p}M\right)\\
-\left(x^{*}\big|_{p}\omega\right)\underbrace{\left(u_{1},\ldots,u_{k}\right)}_{\in\left(\TT_{p}M\right)^{k}} & :=\omega\left(\left(x_{*}\big|_{p}u_{1},\ldots,x_{*}\big|_{p}u_{k}\right)\right)
+\left(x^{*}\big|_{p}\omega\right)\underbrace{\left(u_{1},\ldots,u_{k}\right)}_{\in\left(\TT_{p}M\right)^{k}} & :=\omega\left(x_{*}\big|_{p}\left(u_{1}\right),\ldots,x_{*}\big|_{p}\left(u_{k}\right)\right)
 \end{align*}
 Definiere Differentialformen auf $x\left(U\right)\subseteq\mathbb{R}^{n}$
 durch
@@ -5285,7 +5303,7 @@ T & =\sum_{1\le i_{1}<i_{2}<\ldots<i_{k}\le n}t_{i_{1}\ldots i_{k}}\left(x\right
 mit $t_{i_{1}\ldots i_{k}}\in C^{\infty}\left(x\left(U\right)\right)$.
 
 
-\subsection{Definition}
+\subsection{Definition \textmd{(Differentialform)}}
 
 Eine \emph{Differentialform} $\varphi$ der Stufe $k$ auf $M$ ist
 eine Abbildung, die jedem $p\in M$ ein Element aus $\Omega^{k}\left(\TT_{p}M\right)$
@@ -5293,7 +5311,7 @@ zuordnet, sodass für jede Karte $\left(x,U\right)$ nun $\left(x^{-1}\right)^{*}\
 ein glatter Tensor auf $x\left(U\right)$ ist, also in der kanonischen
 Basisdarstellung glatte Koeffizienten hat.
 
-TODO: ABb2
+\textcolor{green}{TODO: Abb2 einfügen}
 
 
 \subsubsection*{Bemerkung}
@@ -5316,29 +5334,28 @@ $\varphi$ ist eine total antisymmetrisches Tensorfeld der Stufe $\left(0,k\right
 Wir wollen mit Hilfe von $n$-Formen die Orientierung einführen. Sei
 $\omega\in\Omega^{n}\left(E\right)$:
 \begin{align*}
-\omega\left(v_{1},\ldots,v_{n}\right) & =\det\left(a_{j}^{i}\right)\omega\left(e_{1},\ldots,e_{n}\right)
+\omega\left(v_{1},\ldots,v_{n}\right) & =\det\left(A\right)\omega\left(e_{1},\ldots,e_{n}\right)
 \end{align*}
 
 
 
-\subsection{Definition}
+\subsection{Definition \textmd{(orientierungserhaltend, orientierbar)}}
 
 Sei $\omega\in\Omega^{n}\left(M\right)\setminus\left\{ 0\right\} $.
 Eine lineare Abbildung
 \begin{align*}
 f:E & \to E
 \end{align*}
-heißt \emph{orientierungserhaltend}, falls $\omega\left(fv_{1},\ldots,fv_{n}\right)$
+heißt \emph{orientierungserhaltend}, falls $\omega\left(f\left(v_{1}\right),\ldots,f\left(v_{n}\right)\right)$
 das gleiche Vorzeichen hat, wie $\omega\left(v_{1},\ldots,v_{n}\right)$
 für alle $v_{1},\ldots,v_{n}\in E$.
 \begin{itemize}
 \item Diese Definition hängt nicht von der Wahl von $\omega$ ab.
-\item Es genügt, eine feste Basis $\left(v_{1},\ldots,vn\right)$ von $E$
-zu betrachten.
+\item Es genügt, eine feste Basis $v_{1},\ldots,v_{n}$ von $E$ zu betrachten.
 \end{itemize}
-TODO: Abb3
+\textcolor{green}{TODO: Abb3 einfügen}
 
-Die Kartenwechselabbildung $y\circ x^{-1}$ heißt orientierungserhaltend,
+Die Kartenwechselabbildung $y\circ x^{-1}$ heißt \emph{orientierungserhaltend},
 falls
 \begin{align*}
 \left(y\circ x^{-1}\right)_{*}\big|_{p}:\TT_{x\left(p\right)}\mathbb{R}^{n}\stackrel{\sim}{=}\mathbb{R}^{n} & \to\TT_{y\left(p\right)}\mathbb{R}^{n}\stackrel{\sim}{=}\mathbb{R}^{n}
@@ -5361,36 +5378,65 @@ heißt \emph{orientiert}.
 
 \iii Der Torus ist orientierbar.
 
-TODO: Abb4
+\textcolor{green}{TODO: Abb4 einfügen}
 
 \iii Das Möbiusband ist \emph{nicht} orientierbar.
 
-TODO: Abb5
+\textcolor{green}{TODO: Abb5 einfügen}
 
-Kartenwechselabbildung \emph{nicht orientierungserhaltend.}
+Die Kartenwechselabbildung ist \emph{nicht orientierungserhaltend.}
 
 \end{iiilist}
 
 %DATE: Di 26.6.12
 
 
-\subsection{Theorem\label{sub:Thm-CharakterisierungOrientierbarkeit}}
+\subsection{Theorem \textmd{(Charakterisierung Orientierbarkeit)}\label{sub:Thm-CharakterisierungOrientierbarkeit}}
 
 Eine differenzierbare Mannigfaltigkeit ist genau dann orientierbar,
-wenn es eine nirgends verschwindende $n$-Form auf $M$ gibt.
+wenn es eine nirgends verschwindende $n$-Form auf $M^{n}$ gibt.
 
 
 \subsubsection{Beweis}
 
-\quotedblbase{}$\Leftarrow$\textquotedblleft{}: TODO: Beweis als
-Übungsaufgabe einfügen
+\quotedblbase{}$\Leftarrow$\textquotedblleft{}: Sei $\mathcal{A}:=\left\{ h_{i},U_{i}\big|i\in\mathbb{N}\right\} $
+ein Atlas von $M$. Dann ist $\left(h_{i}^{-1}\right)^{*}\omega$
+eine $n$-Form auf $h_{i}\left(U_{i}\right)\subseteq\mathbb{R}^{n}$
+für alle $i\in\mathbb{N}$. Betrachte nun die Funktionen:
+\begin{align*}
+f_{i}\left(p\right) & :=\left(\left(h_{i}^{-1}\right)^{*}\omega\right)\bigg|_{h_{i}\left(p\right)}\left(e_{1},\ldots,e_{n}\right)
+\end{align*}
+Dabei bezeichnet $e_{1},\ldots,e_{n}$ die Standardbasis des $\mathbb{R}^{n}$.
+Da $\omega$ nirgends verschwindet, haben die $f_{i}$ keine Nullstellen.
 
-Deswegen zeige jetzt nur die Hinrichtung:
+Falls $f_{i}<0$ für ein $i\in\mathbb{N}$ gilt, dann ersetze $h_{i}$
+durch $S\circ h_{i}$, wobei $S:\mathbb{R}^{n}\to\mathbb{R}^{n}$
+die Spiegelung an der Hyperebene $\left(e_{1}\right)^{\perp}$ bezeichnet.
+Danach definieren die $n$-Formen $\left(h_{i}^{-1}\right)^{*}\omega$
+alle die gleiche Orientierung auf dem Vektorraum $\mathbb{R}^{n}$,
+in dem die Standardbasis positiv orientiert ist. Sei nun $U_{i}\cap U_{j}\not=\emptyset$
+und $h_{i}\circ h_{j}^{-1}$ ein Kartenwechsel. Dann gilt
+\begin{align*}
+\left(\left(h_{i}^{-1}\right)^{*}\omega\right)\left(e_{1},\ldots,e_{n}\right) & >0
+\end{align*}
+und:
+\begin{align*}
+\left(\left(h_{i}^{-1}\right)^{*}\omega\right)\left(\left(h_{i}\circ h_{j}^{-1}\right)_{*}e_{1},\ldots,\left(h_{i}\circ h_{j}^{-1}\right)_{*}e_{n}\right) & =\left(\left(h_{i}\circ h_{j}^{-1}\right)^{*}\left(h_{i}^{-1}\right)^{*}\omega\right)\left(e_{1},\ldots,e_{n}\right)=\\
+ & =\left(\left(h_{i}^{-1}\circ h_{i}\circ h_{j}^{-1}\right)^{*}\omega\right)\left(e_{1},\ldots,e_{n}\right)=\\
+ & =\left(\left(h_{j}^{-1}\right)^{*}\omega\right)\left(e_{1},\ldots,e_{n}\right)>0
+\end{align*}
+Also ist $\left(h_{i}\circ h_{j}^{-1}\right)_{*}$ orientierungserhaltend
+für alle $i,j\in\mathbb{N}$ mit $U_{i}\cap U_{j}\not=\emptyset$.
+Damit ist $M$ nach Definition orientierbar und der Atlas $\left\{ h_{i},U_{i}\right\} $
+ist orientiert.\qqed[\quotedblbase{}$\Leftarrow$\textquotedblleft{}]
+
+\quotedblbase{}$\Rightarrow$\textquotedblleft{}: Dies folgt aus den
+folgenden Lemmata.
 
 
-\subsection{Lemma}
+\subsection{Lemma\label{sub:Lem-ExistenzVolumenform}}
 
-Auf iener orientierten Riemannschen Mannigfaltigkeiten $\left(M^{n},g\right)$
+Auf einer orientierten Riemannschen Mannigfaltigkeiten $\left(M^{n},g\right)$
 ist durch
 \begin{align*}
 \varepsilon & =\sqrt{\det\left(g\right)}\epsilon_{i_{1}\ldots i_{n}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{n}}
@@ -5412,8 +5458,8 @@ Bei der Herleitung des Volumenmaßes haben wir bereits gesehen:
 \begin{align*}
 \sqrt{\det g}\epsilon_{i_{1}\ldots i_{n}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{n}} & =\sqrt{\det g}\epsilon_{i_{1}\ldots i_{n}}\left(\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\dd y^{a_{1}}\right)\wedge\ldots\wedge\left(\frac{\partial x^{i_{n}}}{\partial y^{a_{n}}}\dd y^{a_{n}}\right)=\\
  & =\sqrt{\det g}\epsilon_{i_{1}\ldots i_{n}}\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{n}}}{\partial y^{a_{n}}}\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{n}}=\\
- & =\sqrt{\det g}\det\left(\frac{\partial x^{i}}{\partial y^{a}}\right)\epsilon_{i_{1}\ldots i_{n}}\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{n}}=\\
- & \stackrel{\det\left(\frac{\partial x^{i}}{\partial y^{a}}\right)>0}{=}\sqrt{\det\tilde{g}}\epsilon_{i_{1}\ldots i_{n}}\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{n}}
+ & =\sqrt{\det g}\det\left(\frac{\partial x^{i}}{\partial y^{a}}\right)\epsilon_{a_{1}\ldots a_{n}}\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{n}}=\\
+ & \stackrel{\det\left(\frac{\partial x^{i}}{\partial y^{a}}\right)>0}{=}\sqrt{\det\tilde{g}}\epsilon_{a_{1}\ldots a_{n}}\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{n}}
 \end{align*}
 Dabei ist $\det\left(\frac{\partial x^{i}}{\partial y^{a}}\right)>0$,
 da die Kartenwechselabbildungen orientierungserhaltend sind.\qqed
@@ -5422,8 +5468,8 @@ da die Kartenwechselabbildungen orientierungserhaltend sind.\qqed
 \subsection{Lemma\label{sub:Lem-ExistenzRiemannscheMetrik}}
 
 Auf jeder differenzierbaren Mannigfaltigkeit $M^{n}$ kann man eine
-Riemannsche Metrik $g$ einführen, die nicht eindeutig und nicht kanonisch
-ist.
+Riemannsche Metrik $g$ einführen. Diese ist aber im Allgemeinen weder
+eindeutig noch kanonisch.
 
 
 \subsubsection*{Beweis}
@@ -5432,54 +5478,54 @@ Sei $\left(\eta_{k}\right)_{k\in\mathbb{N}}$ sei eine abzählbare
 Zerlegung der Eins, untergeordnet zu einem abzählbaren Atlas $\left(x_{n},U_{n}\right)$,
 genauer $\text{supp}\left(\eta_{k}\right)\subseteq U_{n_{k}}$.
 
-TODO: Abb1
+\textcolor{green}{TODO: Abb1 einfügen}
 
-Sei
+Sei $g_{ij}=\delta_{ij}$ die Euklidische Metrik auf $\mathbb{R}^{n}$.
+Mit dem Pullback definiere:
 \begin{align*}
-g_{ij} & =\delta_{ij}
+g^{\left(k\right)} & :=\eta_{k}\cdot x_{n_{k}}^{*}\left(\delta\right)\in\TT^{0,2}U
 \end{align*}
-die Euklidische Metrik auf $\mathbb{R}^{n}$. Mit dem Pullback definiere:
+Dann ist
 \begin{align*}
-g^{\left(k\right)} & :=\eta_{k}\cdot x_{n_{k}}^{*}\left(\delta\right)\in\TT^{0,2}U\\
 g & :=\sum_{k\in\mathbb{N}}\eta_{k}x_{n_{k}}^{*}\left(\delta\right)
 \end{align*}
-Ist dann eine Riemannsche Metrik auf $M^{n}$.\qqed
+eine Riemannsche Metrik auf $M^{n}$.\qqed
 
 
 \subsubsection{Beweis von \ref{sub:Thm-CharakterisierungOrientierbarkeit}}
 
-Wähle eine Orientierung und eine Riemannsche Metrik nach \ref{sub:Lem-ExistenzRiemannscheMetrik}.
-Dann gibt es nach\ref{sub:Thm-CharakterisierungOrientierbarkeit}
-eine nirgends verschwindende $n$-Form.\qqed[\ref{sub:Thm-CharakterisierungOrientierbarkeit}]
+\quotedblbase{}$\Rightarrow$\textquotedblleft{}: Wähle eine Orientierung
+und eine Riemannsche Metrik nach \ref{sub:Lem-ExistenzRiemannscheMetrik}.
+Dann gibt es nach \ref{sub:Lem-ExistenzVolumenform} eine nirgends
+verschwindende $n$-Form.\qqed[\ref{sub:Thm-CharakterisierungOrientierbarkeit}]
 
 
 \section{Die äußere Ableitung, der deRham-Komplex}
 
-Die äußere Ableitung ist eine Abbildung:
+
+\subsection{Definition \textmd{(äußere Ableitung)}}
+
+\emph{Die äußere Ableitung} ist eine Abbildung:
 \begin{align*}
-\dd:\Omega^{k}\left(M\right) & \to\Omega^{k+1}M
+\dd:\Omega^{k}\left(M\right) & \to\Omega^{k+1}\left(M\right)
 \end{align*}
-
-
-
-\subsection{Definition}
-
-Sei $\varphi\in\Omega^{0}\left(M\right):=C^{\infty}\left(M\right)$.
+Für $\varphi\in\Omega^{0}\left(M\right):=C^{\infty}\left(M\right)$
+sei:
 \begin{align*}
 \dd\varphi & :=\DD\varphi=\varphi_{*}=\left(\frac{\partial}{\partial x^{j}}\varphi\right)\dd x^{j}\in\Omega^{1}\left(M\right)
 \end{align*}
-Sei $\varphi\in\Omega^{k}\left(M\right)$, dann ist:
+Für $\varphi\in\Omega^{k}\left(M\right)$, also
 \begin{align*}
 \varphi & =\varphi_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
 \end{align*}
-Definiere:
+definiere:
 \begin{align*}
 \dd\varphi & :=\left(\frac{\partial}{\partial x^{j}}\varphi_{i_{1}\ldots i_{k}}\right)\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
 \end{align*}
 
 
 
-\subsection{Theorem \textmd{(Rechenregeln)}}
+\subsection{Theorem \textmd{(Rechenregeln)\label{sub:Thm-Rechenregeln}}}
 
 Für $\omega\in\Omega^{k}\left(M\right)$ und $\eta\in\Omega^{l}\left(M\right)$
 gilt:
@@ -5504,7 +5550,7 @@ gilt:
 
 \begin{iiilist}
 
-\iii ist klar nach Definition.
+\iii Die Linearität ist klar nach Definition.
 
 \iii Darstellung in einer Basis:
 \begin{align*}
@@ -5526,9 +5572,8 @@ gilt:
 \begin{align*}
 \dd\omega & =\frac{\partial}{\partial x^{a}}\omega_{i_{1}\ldots i_{k}}\dd x^{a}\wedge\dd x^{i}\wedge\ldots\wedge\dd x^{i_{k}}\\
 \dd\left(\dd\omega\right) & =\frac{\partial}{\partial x^{b}}\left(\frac{\partial}{\partial x^{a}}\omega_{i_{1}\ldots i_{k}}\right)\dd x^{b}\wedge\dd x^{a}\wedge\dd x^{i}\wedge\ldots\wedge\dd x^{i_{k}}=\\
- & =\frac{\partial}{\partial x^{b}x^{a}}\omega_{i_{1}\ldots i_{k}}\dd x^{b}\wedge\dd x^{a}\wedge\dd x^{i}\wedge\ldots\wedge\dd x^{i_{k}}=\\
- & =-\frac{\partial}{\partial x^{a}\partial x^{b}}\omega_{i_{1}\ldots i_{k}}\dd x^{a}\wedge\dd x^{b}\wedge\dd x^{i}\wedge\ldots\wedge\dd x^{i_{k}}=\\
- & =-\frac{\partial}{\partial x^{b}\partial x^{a}}\omega_{i_{1}\ldots i_{k}}\dd x^{a}\wedge\dd x^{b}\wedge\dd x^{i}\wedge\ldots\wedge\dd x^{i_{k}}=-\dd\left(\dd\omega\right)
+ & =\frac{\partial^{2}}{\partial x^{b}\partial x^{a}}\omega_{i_{1}\ldots i_{k}}\dd x^{b}\wedge\dd x^{a}\wedge\dd x^{i}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =-\frac{\partial^{2}}{\partial x^{a}\partial x^{b}}\omega_{i_{1}\ldots i_{k}}\dd x^{a}\wedge\dd x^{b}\wedge\dd x^{i}\wedge\ldots\wedge\dd x^{i_{k}}=-\dd\left(\dd\omega\right)
 \end{align*}
 Also folgt $\dd\left(\dd\omega\right)=0$.
 
@@ -5547,19 +5592,21 @@ definiert.
 \begin{enumerate}
 \item Beweis: Rechne das Transformationsverhalten nach:
 \begin{align*}
-\omega & =\omega_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\tilde{\omega}_{i_{1}\ldots i_{k}}\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}
+\omega & =\omega_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\tilde{\omega}_{a_{1}\ldots a_{k}}\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}
 \end{align*}
 \begin{align*}
-\tilde{\omega}_{i_{1}\ldots i_{k}} & =\omega_{i_{1}\ldots i_{k}}\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}
+\tilde{\omega}_{a_{1}\ldots a_{k}} & =\omega_{i_{1}\ldots i_{k}}\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}
 \end{align*}
 Berechne $\dd\omega$ im Koordinatensystem:
 \begin{align*}
-\frac{\partial}{\partial y^{b}}\tilde{\omega}_{i_{1}\ldots i_{k}}\dd y^{b}\wedge\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}} & =\frac{\partial}{\partial y^{b}}\left(\omega_{i_{1}\ldots i_{k}}\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\right)\dd y^{b}\wedge\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}=\\
- & =\frac{\partial}{\partial y^{b}}\left(\omega_{i_{1}\ldots i_{k}}\right)\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\dd y^{b}\wedge\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}+\\
- & \quad+\omega_{i_{1}\ldots i_{k}}\underbrace{\frac{\partial x^{i_{1}}}{\partial y^{b}\partial y^{a_{1}}}}_{\text{symmetrisch in }a_{1}\leftrightarrow b}\frac{\partial x^{i_{2}}}{\partial y^{a_{2}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}+\underbrace{\dd y^{b}\wedge\dd y^{a_{1}}}_{\text{antisymmetrisch in }a_{1}\leftrightarrow b}\wedge\ldots\wedge\dd y^{a_{k}}+\ldots=\\
- & =\frac{\partial x^{j}}{\partial y^{b}}\frac{\partial}{\partial x^{j}}\left(\omega_{i_{1}\ldots i_{k}}\right)\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\dd y^{b}\wedge\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}=\\
- & =\frac{\partial}{\partial x^{j}}\left(\omega_{i_{1}\ldots i_{k}}\right)\left(\frac{\partial x^{j}}{\partial y^{b}}\dd y^{b}\right)\wedge\left(\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\dd y^{a_{1}}\right)\wedge\ldots\wedge\left(\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\dd y^{a_{k}}\right)=\\
- & =\frac{\partial}{\partial x^{j}}\left(\omega_{i_{1}\ldots i_{k}}\right)\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+ & \frac{\partial}{\partial y^{b}}\tilde{\omega}_{a_{1}\ldots a_{k}}\dd y^{b}\wedge\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}=\\
+ & \qquad\qquad=\frac{\partial}{\partial y^{b}}\left(\omega_{i_{1}\ldots i_{k}}\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\right)\dd y^{b}\wedge\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}=\\
+ & \qquad\qquad=\frac{\partial}{\partial y^{b}}\left(\omega_{i_{1}\ldots i_{k}}\right)\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\dd y^{b}\wedge\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}+\\
+ & \qquad\qquad\quad+\omega_{i_{1}\ldots i_{k}}\underbrace{\frac{\partial x^{i_{1}}}{\partial y^{b}\partial y^{a_{1}}}}_{\text{symmetrisch in }a_{1}\leftrightarrow b}\frac{\partial x^{i_{2}}}{\partial y^{a_{2}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\cdot\\
+ & \qquad\qquad\quad\cdot\underbrace{\dd y^{b}\wedge\dd y^{a_{1}}}_{\text{antisymmetrisch in }a_{1}\leftrightarrow b}\wedge\ldots\wedge\dd y^{a_{k}}+\ldots=\\
+ & \qquad\qquad=\frac{\partial x^{j}}{\partial y^{b}}\frac{\partial}{\partial x^{j}}\left(\omega_{i_{1}\ldots i_{k}}\right)\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\cdots\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\dd y^{b}\wedge\dd y^{a_{1}}\wedge\ldots\wedge\dd y^{a_{k}}=\\
+ & \qquad\qquad=\frac{\partial}{\partial x^{j}}\left(\omega_{i_{1}\ldots i_{k}}\right)\left(\frac{\partial x^{j}}{\partial y^{b}}\dd y^{b}\right)\wedge\left(\frac{\partial x^{i_{1}}}{\partial y^{a_{1}}}\dd y^{a_{1}}\right)\wedge\ldots\wedge\left(\frac{\partial x^{i_{k}}}{\partial y^{a_{k}}}\dd y^{a_{k}}\right)=\\
+ & \qquad\qquad=\frac{\partial}{\partial x^{j}}\left(\omega_{i_{1}\ldots i_{k}}\right)\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
 \end{align*}
 \qqed[1. Beweis]%DATE: Fr 29.6.12
 \item Beweis (elegante Methode): Seien $V\subseteq\mathbb{R}^{n}$, $U\subseteq\mathbb{R}$
@@ -5587,31 +5634,25 @@ Ableitung.\\
 \begin{align*}
 f:M & \to N
 \end{align*}
-diffbar.
+differenzierbar.
 \begin{align*}
 f_{*}:\TT_{p}M & \to\TT_{f\left(p\right)}N\\
-u & \mapsto\left(\eta\mapsto u\left(\eta\circ f\right)\right)
-\end{align*}
-\begin{align*}
-\left(f_{*}u\right)\left(\eta\right) & =u\left(\eta\circ f\right)
+\left(f_{*}u\right)\left(\eta\right) & :=u\left(\eta\circ f\right)
 \end{align*}
 \begin{align*}
 f^{*}:\Omega^{k}\left(N\right) & \to\Omega^{k}\left(M\right)\\
 \left(f^{*}\omega\right)\left(u_{1},\ldots,u_{k}\right) & :=\omega\left(f_{*}u_{1},\ldots,f_{*}u_{k}\right)
 \end{align*}
-Aus Theorem \ref{asdf}6.3.2 wissen wir:
+Aus Theorem \ref{sub:Thm-Rechenregeln} wissen wir, dass
 \begin{align*}
 \dd:\Omega^{k}\left(N\right) & \to\Omega^{k+1}\left(N\right)
 \end{align*}
-ist linear und es gilt mit der Definition
+linear ist, und die graduierte Leibniz-Regel
 \begin{align*}
-\text{grad}\left(\omega\right) & :=k\quad\Leftrightarrow\quad\omega\in\Omega^{k}\left(N\right)
+\dd\left(\omega\wedge\eta\right) & =\dd\omega\wedge\eta+\left(-1\right)^{k}\omega\wedge\dd\eta
 \end{align*}
-gilt die graduierte Leibniz-Regel
-\begin{align*}
-\dd\left(\omega\wedge\eta\right) & =\dd\omega\wedge\eta+\left(-1\right)^{\text{grad}\left(\omega\right)}\omega\wedge\dd\eta
-\end{align*}
-und $\dd^{2}=0$. Gehe induktiv nach der Stufe von $\omega$ vor:\\
+und $\dd^{2}=0$ gelten. Gehe induktiv nach der Stufe von $\omega$
+vor:\\
 Induktionsanfang bei $k=0$: Sei $\omega\in\Omega^{0}\left(N\right)$
 also $\omega\in C^{\infty}\left(N\right)$. Richtungsableitung:
 \begin{align*}
@@ -5628,7 +5669,7 @@ Denn es gilt:
 f^{*}\omega & =\omega\circ f
 \end{align*}
 \begin{align*}
-\left(f^{*}\omega\right)\left(u_{1},\ldots,u_{k}\right) & =\omega\left(f_{*}u_{1},\ldots,f_{*}u_{k}\right)\bigg|_{f\left(p\right)}
+\left(f^{*}\omega\right)\left(u_{1},\ldots,u_{k}\right)\big|_{p} & =\omega\left(f_{*}u_{1},\ldots,f_{*}u_{k}\right)\big|_{f\left(p\right)}
 \end{align*}
 Also gilt:
 \begin{align*}
@@ -5638,7 +5679,7 @@ Induktionsschritt $k\leadsto k+1$: Sei $\omega\in\Omega^{k}\left(N\right)$.
 Betrachte zunächst die $k+1$-Form $\omega\wedge\dd x^{i}$. Mit der
 Leibniz-Regel folgt:
 \begin{align*}
-\dd\left(\omega\wedge\dd x^{i}\right) & =\dd\omega\wedge\dd x^{i}+\left(-1\right)^{\text{grad}\left(\omega\right)}\omega\wedge\underbrace{\dd\left(\dd x^{i}\right)}_{=0}
+\dd\left(\omega\wedge\dd x^{i}\right) & =\dd\omega\wedge\dd x^{i}+\left(-1\right)^{k}\omega\wedge\underbrace{\dd\left(\dd x^{i}\right)}_{=0}
 \end{align*}
 Mit
 \begin{align*}
@@ -5649,14 +5690,14 @@ folgt:
 \begin{align*}
 f^{*}\left(\dd\left(\omega\wedge\dd x^{i}\right)\right) & =f^{*}\left(\dd\omega\wedge\dd x^{i}\right)=f^{*}\left(\dd\omega\right)\wedge f^{*}\left(\dd x^{i}\right)
 \end{align*}
-Nach Induktionsvoraussetzung (IV) gilt:
+Nach Induktionsvoraussetzung (Abkürzung: IV) gilt:
 \begin{align*}
 f^{*}\left(\dd\omega\right) & =\dd\left(f^{*}\omega\right)
 \end{align*}
 Damit folgt:
 \begin{align*}
-f^{*}\left(\dd\left(\omega\wedge\dd x^{i}\right)\right) & =\dd\left(f^{*}\omega\right)\wedge f^{*}\left(\dd x^{i}\right)=\dd\left(f^{*}\omega\wedge f^{*}\dd x^{i}\right)-\left(-1\right)^{\text{grad}\left(\omega\right)}\omega\wedge\dd\left(f^{*}\dd x^{i}\right)=\\
- & \stackrel{\text{IV}}{=}\dd\left(f^{*}\omega\wedge f^{*}\dd x^{i}\right)-\left(-1\right)^{\text{grad}\left(\omega\right)}\omega\wedge f^{*}\dd\left(\dd x^{i}\right)=\\
+f^{*}\left(\dd\left(\omega\wedge\dd x^{i}\right)\right) & \stackrel{\text{IV}}{=}\dd\left(f^{*}\omega\right)\wedge f^{*}\left(\dd x^{i}\right)=\dd\left(f^{*}\omega\wedge f^{*}\dd x^{i}\right)-\left(-1\right)^{k}\omega\wedge\dd\left(f^{*}\dd x^{i}\right)=\\
+ & \stackrel{\text{IV }}{=}\dd\left(f^{*}\omega\wedge f^{*}\dd x^{i}\right)-\left(-1\right)^{k}\omega\wedge f^{*}\dd\left(\dd x^{i}\right)=\\
  & =\dd\left(f^{*}\left(\omega\wedge\dd x^{i}\right)\right)
 \end{align*}
 Verwende nun die Linearität von $\dd$ und $f^{*}$.\qqed[Behauptung]\\
@@ -5664,8 +5705,8 @@ Das Transformationsverhalten kann man ausdrücken als
 \begin{align*}
 f^{*}\underbrace{\left(\dd\omega\right)}_{\text{auf }y\left(U\cap V\right)\subseteq\mathbb{R}^{n}} & =\dd\underbrace{\left(f^{*}\omega\right)}_{\text{auf }x\left(U\cap V\right)\subseteq\mathbb{R}^{n}}
 \end{align*}
-mit $f=y\circ x^{-1}$ und $\omega$ als Differentialform auf einer
-offenen Teilmenge des $\mathbb{R}^{n}$ aufgefasst wird.\qqed[2. Beweis]
+mit $f=y\circ x^{-1}$ und $\omega$ aufgefasst als Differentialform
+auf einer offenen Teilmenge des $\mathbb{R}^{n}$.\qqed[2. Beweis]
 \end{enumerate}
 
 \subsubsection*{Bemerkung}
@@ -5677,20 +5718,7 @@ Es gilt:
 \begin{align*}
 0\stackrel{\dd}{\to}\mathbb{R}\stackrel{\dd}{\to}C^{\infty}\left(M\right)=\Omega^{0}\left(M\right)\stackrel{\dd}{\to}\Omega^{1}\left(M\right)\stackrel{\dd}{\to}\Omega^{2}\left(M\right)\to\ldots\stackrel{\dd}{\to}\Omega^{n}\left(M\right)\stackrel{\dd}{\to}0
 \end{align*}
-Für den letzten Schritt beachte:
-\begin{align*}
-\dd\omega & =\frac{\partial}{\partial x^{j}}\omega_{i_{1},\ldots,i_{k}}\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
-\end{align*}
-Im Fall $k=n$ hat man $\left(n+1\right)$-Faktoren $\dd x^{j_{l}}$.
-Wenigstens zwei der Indizes $j_{l}$ müssen daher übereinstimmen.
-
-Wegen der Antisymmetrie erhalten wir null.
-
-Außerdem gilt $\dd^{2}=0$, das heißt es gilt:
-\begin{align*}
-\dd\left(\Omega^{k}\right) & \subseteq\text{ker}\left(\dd\big|_{\Omega^{k+1}}\right)
-\end{align*}
-Außerdem definiere:
+Für die ersten beiden Abbildungen definiere:
 \begin{align*}
 \dd:0 & \to\mathbb{R}\\
 0 & \mapsto0
@@ -5699,10 +5727,22 @@ Außerdem definiere:
 \dd:\mathbb{R} & \to C^{\infty}\left(M\right)\\
 \lambda & \mapsto\left(m\mapsto\lambda\right)
 \end{align*}
-Dies nennt man allgemein einen \emph{Kettenkomplex}.
+Für den letzten Schritt beachte:
+\begin{align*}
+\dd\omega & =\frac{\partial}{\partial x^{j}}\omega_{i_{1},\ldots,i_{k}}\dd x^{j}\wedge\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\end{align*}
+Im Fall $k=n$ hat man $\left(n+1\right)$-Faktoren $\dd x^{j_{l}}$.
+Wenigstens zwei der Indizes $j_{l}$ müssen daher übereinstimmen.
+Wegen der Antisymmetrie erhalten wir null.
+
+Außerdem gilt $\dd^{2}=0$, das heißt es gilt:
+\begin{align*}
+\dd\left(\Omega^{k}\right) & \subseteq\text{ker}\left(\dd\big|_{\Omega^{k+1}}\right)
+\end{align*}
+Eine solche Folge nennt man allgemein einen \emph{Kettenkomplex}.
 
 
-\subsection{Definition}
+\subsection{Definition \textmd{(deRham-Komplex, geschlossen, exakt)}}
 
 Der durch die äußere Ableitung gegebene Kettenkomplex heißt \emph{deRham-Komplex}.
 
@@ -5742,7 +5782,7 @@ $\dim\left(H^{k}\right)\in\mathbb{N}$ beschreibt die Topologie von
 $M$.
 
 
-\subsection{Definition}
+\subsection{Definition \textmd{(sternförmig)}}
 
 Ein offenes Gebiet $A\subseteq\mathbb{R}^{n}$ heißt sternförmig bezüglich
 $a\in A$, falls mit jedem $x\in A$ auch
@@ -5751,7 +5791,7 @@ $a\in A$, falls mit jedem $x\in A$ auch
 \end{align*}
 ist.
 
-TODO: Abb1
+\textcolor{green}{TODO: Abb1 einfügen}
 
 
 \subsection{Theorem \textmd{(Poincarésches Lemma)}}
@@ -5768,7 +5808,7 @@ jede geschlossene Form auf $A$ exakt.
 
 \subsubsection*{Beweis für den Fall $k=1$}
 
-Sei $\omega$ eine geschlossene 1-Form, das heißt
+Sei $\omega$ eine geschlossene 1-Form, das heißt:
 \begin{align*}
 \omega & =\omega_{i}\dd x^{i}
 \end{align*}
@@ -5777,26 +5817,27 @@ Sei $\omega$ eine geschlossene 1-Form, das heißt
 \end{align*}
 Für
 \begin{align*}
-\varphi\left(x\right) & :=\int_{0}^{1}\omega_{i}\left(tx\right)\dd tx^{i}
+\varphi\left(x\right) & :=\left(\int_{0}^{1}\omega_{i}\left(tx\right)\dd t\right)x^{i}
 \end{align*}
 gilt:
 \begin{align*}
 \dd\varphi\left(x\right) & =\left(\frac{\partial}{\partial x^{j}}\varphi\left(x\right)\right)\dd x^{j}=\bigg(\int_{0}^{1}t\cdot\underbrace{\partial_{j}\omega_{i}}_{=\partial_{i}\omega_{j}}\big|_{tx}\dd t\bigg)x^{i}\dd x^{j}+\left(\int_{0}^{1}\omega_{i}\big|_{tx}\dd t\right)\delta_{j}^{i}\dd x^{j}=\\
- & =\bigg(\int_{0}^{1}t\cdot\underbrace{\partial_{j}\omega_{i}}_{=\partial_{i}\omega_{j}}\big|_{tx}\dd t\bigg)x^{i}\dd x^{j}+\left(\int_{0}^{1}\omega_{j}\big|_{tx}\dd t\right)\dd x^{j}
+ & =\bigg(\int_{0}^{1}t\cdot\underbrace{\partial_{j}\omega_{i}}_{=\partial_{i}\omega_{j}}\big|_{tx}\dd t\bigg)x^{i}\dd x^{j}+\left(\int_{0}^{1}\omega_{j}\big|_{tx}\dd t\right)\dd x^{i}
 \end{align*}
 Es gilt:
 \begin{align*}
-\partial_{j}\omega_{i}\big|_{tx}x^{i}\dd x^{j} & \stackrel{\omega\text{ geschlossen}}{=}\partial_{i}\omega_{j}\big|_{tx}x^{i}\dd x^{i}\stackrel{\text{Kettenregel}}{=}\frac{\dd}{\dd t}\omega_{j}\big|_{tx}\dd x^{j}
+\partial_{j}\omega_{i}\big|_{tx}x^{i}\dd x^{j} & \stackrel{\omega\text{ geschlossen}}{=}\partial_{i}\omega_{j}\big|_{tx}x^{i}\dd x^{j}\stackrel{\text{Kettenregel}}{=}\frac{\dd}{\dd t}\omega_{j}\big|_{tx}\dd x^{j}
 \end{align*}
 Es folgt:
 \begin{align*}
 \dd\varphi\left(x\right) & =\left(\int_{0}^{1}t\cdot\partial_{j}\omega_{i}\big|_{tx}\dd t\right)x^{i}\dd x^{j}+\left(\int_{0}^{1}\omega_{j}\big|_{tx}\dd t\right)\dd x^{j}\\
- & =\left(\int_{0}^{1}\frac{\dd}{\dd t}\left(t\cdot\omega_{j}\big|_{tx}\right)\dd t\right)\dd x^{j}\stackrel{\text{part. Int.}}{=}\omega_{j}\left(x\right)\dd x^{j}
+ & =\left(\int_{0}^{1}\frac{\dd}{\dd t}\left(t\cdot\omega_{j}\big|_{tx}\right)\dd t\right)\dd x^{j}=\omega_{j}\left(x\right)\dd x^{j}
 \end{align*}
 Also ist $\varphi$ eine $0$-Form mit $\dd\varphi=\omega$, das heißt
 $\omega$ ist exakt.\qqed[Beweis für $k=1$]
 
-Frobenius \quotedblbase{}Integrabilitätsbedingungen\textquotedblleft{}
+
+\subsubsection*{Frobenius \quotedblbase{}Integrabilitätsbedingungen\textquotedblleft{}}
 
 Frage: Sei $\omega_{i}$ gegeben. Gibt es ein $\varphi$ so, dass
 ${\displaystyle \omega_{i}=\frac{\partial}{\partial x^{i}}\varphi}$
@@ -5838,7 +5879,7 @@ $\omega$ ist geschlossen, das heißt:
 \end{align*}
 Also folgt:
 \begin{align*}
-\partial_{i_{\alpha}}\omega_{i_{1}\ldots l\ldots i_{k}} & =\frac{1}{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
+\partial_{i_{\alpha}}\omega_{i_{1}\ldots l\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}} & =\frac{1}{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
 \end{align*}
 Damit erhält man:
 \begin{align*}
@@ -5847,8 +5888,9 @@ B & =\frac{1}{k}\sum_{\alpha=1}^{k}\left(\int_{0}^{1}t^{k}\partial_{l}\omega_{i_
 \end{align*}
 Insgesamt gibt das:
 \begin{align*}
-\dd\varphi & =k\cdot\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}+\left(\int_{0}^{1}t^{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)x^{l}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
- & =\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)+t^{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+\dd\varphi & =k\cdot\left(\int_{0}^{1}t^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}+\\
+ & \quad+\left(\int_{0}^{1}t^{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\left(tx\right)\dd t\right)x^{l}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
+ & =\left(\int_{0}^{1}kt^{k-1}\omega_{i_{1}\ldots i_{k}}\left(tx\right)+t^{k}\partial_{l}\omega_{i_{1}\ldots i_{k}}\left(tx\right)x^{l}\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
  & =\left(\int_{0}^{1}\frac{\dd}{\dd t}\left(t^{k}\omega_{i_{1}\ldots i_{k}}\right)\big|_{tx}\dd t\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
  & =\omega_{i_{1}\ldots i_{k}}\left(x\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\omega
 \end{align*}
@@ -5857,15 +5899,13 @@ Insgesamt gibt das:
 
 \subsection{Beispiel}
 
-\begin{align*}
-T^{2} & =\modulo{\mathbb{R}^{2}}{\mathbb{Z}^{2}}
-\end{align*}
+Betrachte den Torus $T^{2}=\modulo{\mathbb{R}^{2}}{\mathbb{Z}^{2}}$.
 \begin{align*}
 \omega & :=\dd x\in\Omega^{1}\left(T^{2}\right)\\
 \dd\omega & =\left(\frac{\partial}{\partial x^{i}}1\right)\dd x^{i}\wedge\dd x=0
 \end{align*}
-Also ist $\omega$ geschlossen. Ist $\omega$ exakt? Also gibt es
-ein $\varphi\in\Omega^{0}=C^{\infty}\left(T^{2}\right)$ mit $\omega=\dd\varphi$?
+Also ist $\omega$ geschlossen. Ist $\omega$ exakt, das heißt gibt
+es ein $\varphi\in\Omega^{0}=C^{\infty}\left(T^{2}\right)$ mit $\omega=\dd\varphi$?
 \begin{align*}
 \dd\varphi & =\frac{\partial\varphi}{\partial x}\dd x+\frac{\partial\varphi}{\partial y}\dd y\stackrel{!}{=}\omega
 \end{align*}
@@ -5875,23 +5915,20 @@ ein $\varphi\in\Omega^{0}=C^{\infty}\left(T^{2}\right)$ mit $\omega=\dd\varphi$?
 \begin{align*}
 \Rightarrow\varphi\left(x,y\right) & =x+c
 \end{align*}
-mit $c\in\mathbb{R}$.
-
-$\varphi$ ist auf $\mathbb{R}^{2}$ stetig, aber nicht auf $T^{2}$.
+mit $c\in\mathbb{R}$. $\varphi$ ist auf $\mathbb{R}^{2}$ stetig,
+aber nicht auf $T^{2}$.
 
 Also ist $\omega$ nicht exakt und $\omega\in H^{1}\not=\left\{ 0\right\} $.
 
 
 \section{Integration von Differentialformen}
 
-Sei $M^{n}$ eine differenzierbare Mannigfaltigkeit (\emph{keine}
-Riemannsche Metrik), zur Einfachheit kompakt.
+Sei $M^{n}$ eine differenzierbare Mannigfaltigkeit (\emph{ohne} Riemannsche
+Metrik), zur Einfachheit kompakt.
 
 Sei $\omega\in\Omega^{k}\left(M\right)$. Was ist $\int_{M}\omega\,?$
 
-Für $k\not=n$ geht das nicht.
-
-Für $k=n$ ist:
+Für $k\not=n$ geht das nicht. Für $k=n$ ist:
 \begin{align*}
 \omega & =\omega_{i_{1}\ldots i_{n}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{n}}
 \end{align*}
@@ -5909,8 +5946,8 @@ Volumenform nehmen:
 \end{align*}
 
 
-Allgemein $\eta\in\Omega^{k}$, also $\eta_{i_{1}\ldots i_{k}}\left(x\right)$
-total antisymmetrisch.
+Allgemein für ein $\eta\in\Omega^{k}$, also total antisymmetrisches
+$\eta_{i_{1}\ldots i_{k}}\left(x\right)$ gilt:
 \begin{align*}
 \eta & =\sum_{1\le i_{1}<\ldots<i_{k}\le n}\eta_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\\
  & =\frac{1}{n^{k}}\left(\begin{array}{c}
@@ -5921,15 +5958,14 @@ k
 
 
 
-\subsection{Definition\label{sub:Def-Integral-Differentialform}}
+\subsection{Definition \textmd{(Integral von Differentialformen)}\label{sub:Def-Integral-Differentialform}}
 
 Sei $\left(\eta_{k}\right)_{k=1\ldots,K}$ eine Zerlegung der Eins,
-die einem Atlas $\left(x_{n},U_{n}\right)$ untergeordnet ist, der
-endlich gewählt werden kann, da $M^{n}$ kompakt ist. Also sei $\text{supp}\left(\eta_{k}\right)\subseteq U_{n_{k}}$.
-
+die einem Atlas $\left(x_{m},U_{m}\right)$ untergeordnet ist, der
+endlich gewählt werden kann, da $M^{n}$ kompakt ist. Also sei $\text{supp}\left(\eta_{k}\right)\subseteq U_{k}$.
 Für $\varphi\in\Omega^{n}\left(M\right)$ definiere:
 \begin{align*}
-\int_{M}\varphi & :=\sum_{k=1}^{K}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\left(x_{n_{k}}^{-1}\right)^{*}\left(\eta_{k}\cdot\varphi\right)\bigg|_{x}\left(\frac{\partial}{\partial x^{1}},\ldots,\frac{\partial}{\partial x^{n}}\right)\dd x^{1}\ldots\dd x^{n}
+\int_{M}\varphi & :=\sum_{k=1}^{K}\int_{x_{k}\left(U_{k}\right)}\left(x_{k}^{-1}\right)^{*}\left(\eta_{k}\cdot\varphi\right)\bigg|_{x}\left(\frac{\partial}{\partial x^{1}},\ldots,\frac{\partial}{\partial x^{n}}\right)\dd x^{1}\ldots\dd x^{n}
 \end{align*}
 Oder kürzer:
 \begin{align*}
@@ -5980,14 +6016,17 @@ Bei Kartenwechseln, die die Orientierung umkehren, kehrt sich das
 Vorzeichen von $f$ und $\varepsilon$ um, das Integral bleibt wieder
 erhalten.\qqed
 
-Oder durch elementare Rechnung:
+
+\subsubsection*{2. Beweis}
+
+Durch elementare Rechnung folgt mit
 \begin{align*}
 \omega & =\omega_{i_{1}\ldots i_{n}}\left(x\right)\dd x^{i}\wedge\ldots\wedge\dd x^{i_{n}}
 \end{align*}
 \begin{align*}
 \dd x^{i} & =\frac{\partial x^{i}}{\partial y^{j}}\dd y^{j}
 \end{align*}
-Damit folgt:
+nun:
 \begin{align*}
 \omega & =\omega_{i_{1}\ldots i_{n}}\frac{\partial x^{i_{1}}}{\partial y^{j_{1}}}\ldots\frac{\partial x^{i_{n}}}{\partial y^{j_{n}}}\dd y^{j_{1}}\wedge\ldots\wedge\dd y^{j_{n}}=\left(\det\frac{\partial x^{i}}{\partial y^{j}}\right)\cdot\omega_{j_{1}\ldots j_{n}}\dd y^{j_{1}}\wedge\ldots\dd y^{j_{n}}
 \end{align*}
@@ -6003,7 +6042,7 @@ Damit folgt:
 \section{Der Satz von Stokes}
 
 
-\subsection{Theorem}
+\subsection{Theorem \textmd{(Satz von Stokes)}}
 
 Sei $M^{n}$ eine kompakte differenzierbare Mannigfaltigkeit (ohne
 Rand) und $\omega\in\Omega^{n-1}\left(M\right)$. Dann gilt für die
@@ -6013,7 +6052,7 @@ Rand) und $\omega\in\Omega^{n-1}\left(M\right)$. Dann gilt für die
 \end{align*}
 
 
-Später: Mannigfaltigkeit mit Rand:
+Später zeigen wir für Mannigfaltigkeit mit Rand:
 \begin{align*}
 \int_{M}\dd\omega & =\int_{\partial M}\omega
 \end{align*}
@@ -6026,7 +6065,7 @@ Später: Mannigfaltigkeit mit Rand:
 
 Wähle eine endliche Zerlegung der Eins.
 \begin{align*}
-\int_{M}\dd\omega & =\sum_{k}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\eta_{k}\left(\dd\omega\right)_{1\ldots n}\dd^{n}x
+\int_{M}\dd\omega & =\sum_{k}\int_{x_{k}\left(U_{k}\right)}\eta_{k}\left(\dd\omega\right)_{1\ldots n}\dd^{n}x
 \end{align*}
 Betrachte speziell:
 \begin{align*}
@@ -6056,7 +6095,8 @@ Summiere über $k$:
 \begin{align*}
 \Rightarrow\quad\int_{M}\dd\omega & =\int_{M}\left(\dd\left(1\right)\right)\wedge\omega=0
 \end{align*}
-\qqed
+Für allgemeine $\omega$ folgt die Behauptung nun aus der Linearität
+von $\dd$, indem man eine Basisdarstellung von $\omega$ betrachtet.\qqed
 
 Nun zum Fall mit Rand: Sei $M$ eine kompakte Mannigfaltigkeit mit
 Rand $\partial M$. (Dieser ist auch kompakt.)
@@ -6066,25 +6106,26 @@ x:U & \to\mathbb{R}_{-}^{n}:=\left\{ x\in\mathbb{R}^{n}\big|x^{1}\le0\right\}
 \begin{align*}
 x:U\cap\partial M & \to\mathbb{R}_{0}^{n}:=\left\{ x\in\mathbb{R}^{n}\big|x^{1}=0\right\} 
 \end{align*}
-Sei $\omega\in\Omega^{k}\left(M\right)$. Sei $\left(x,U\right)$
-Karte um Randpunkt $p\in\partial M$. Sei $x\in\mathbb{R}_{-}^{n}$.
+Seien $\omega\in\Omega^{k}\left(M\right)$ und $\left(x,U\right)$
+eine Karte um einen Randpunkt $p\in\partial M$. Für $x\in\mathbb{R}_{-}^{n}$
+schreibe:
 \begin{align*}
 \omega & =\omega_{i_{1}\ldots i_{k}}\left(x\right)\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}
 \end{align*}
-Oder
+Dann ist
 \begin{align*}
 \omega\left(p\right):\left(\TT_{p}M\right)^{k} & \to\mathbb{R}
 \end{align*}
-ist eine $k$-Linearform, die total antisymmetrisch ist. Fasse
+eine $k$-Linearform, die total antisymmetrisch ist. Fasse
 \begin{align*}
 \TT_{p}\partial M=\left\langle \frac{\partial}{\partial x^{2}}\bigg|_{p},\ldots,\frac{\partial}{\partial x^{n}}\bigg|_{p}\right\rangle  & \subseteq\left\langle \frac{\partial}{\partial x^{1}}\bigg|_{p},\ldots,\frac{\partial}{\partial x^{n}}\bigg|_{p}\right\rangle =\TT_{p}M
 \end{align*}
-als Unterraum auf. Schränke $\omega\big|_{p}$ auf $\left(\TT_{p}\partial M\right)^{k}$
+als Unterraum auf. Schränke $\omega\left(p\right)$ auf $\left(\TT_{p}\partial M\right)^{k}$
 ein:
 \begin{align*}
-\omega\big|_{p} & =\left(\TT_{p}\partial M\right)^{k}\to\mathbb{R}
+\omega\left(p\right)\big|_{\partial M} & =\left(\TT_{p}\partial M\right)^{k}\to\mathbb{R}
 \end{align*}
-ist multilinear und total antisymmetrisch und $\omega\in\Omega^{k}\left(\partial_{M}\right)$.
+ist multilinear und total antisymmetrisch und somit $\omega\big|_{\partial M}\in\Omega^{k}\left(\partial_{M}\right)$.
 
 Oder in Komponenten für ein $x\in\mathbb{R}_{0}^{n}$:
 \begin{align*}
@@ -6096,21 +6137,23 @@ nämlich die duale Basis zu ${\displaystyle \frac{\partial}{\partial x^{2}},\ldot
 
 \subsection{Theorem \textmd{(Satz von Stokes mit Rand)}}
 
+Sei $M$ eine $n$-dimensionale, kompakte Mannigfaltigkeit mit Rand
+$\partial M$ und $\dd\omega$ eine $n$-Form. $\omega$ ist dann
+eine $\left(n-1\right)$-Form auf $\partial M$. Es gilt:
 \begin{align*}
 \int_{M}\dd\omega & =\int_{\partial M}\omega
 \end{align*}
-$M$ ist $n$-dimensional und $\dd\omega$ eine $n$-Form. $\omega$
-ist dann eine $\left(n-1\right)$-Form auf $\partial M$.
+
 
 
 \subsubsection*{Beweis}
 
 Wähle wieder eine endlich Zerlegung der Eins $\eta_{k}$.
 \begin{align*}
-\int_{M}\dd\omega & =\sum_{k}\int_{x_{n_{k}}\left(U_{n_{k}}\right)}\eta_{k}\left(x\right)\left(\dd\omega\right)_{1\ldots n}\dd x^{1}\ldots\dd x^{n}
+\int_{M}\dd\omega & =\sum_{k}\int_{x_{k}\left(U_{k}\right)}\eta_{k}\left(x\right)\left(\dd\omega\right)_{1\ldots n}\dd x^{1}\ldots\dd x^{n}
 \end{align*}
-Falls $U_{n_{k}}\cap\partial M=\emptyset$, also eine Karte im Innern,
-so gilt genau wie im Fall ohne Rand:
+Falls $U_{k}\cap\partial M=\emptyset$ gilt, also $x_{k}$ eine Karte
+im Innern ist, so gilt genau wie im Fall ohne Rand:
 \begin{align*}
 \int_{M}\eta_{k}\dd\omega & =-\int_{M}\left(\dd\eta_{k}\right)\wedge\omega
 \end{align*}
@@ -6120,7 +6163,7 @@ Falls $U_{n_{k}}$ den Rand schneidet, gilt:
 \end{align*}
 
 
-TODO: Abb2
+\textcolor{green}{TODO: Abb2 einfügen}
 
 Nehme wieder an, dass gilt:
 \begin{align*}
@@ -6130,10 +6173,10 @@ Nehme wieder an, dass gilt:
 \begin{align*}
 \Rightarrow\quad\int_{M}\eta_{k}\dd\omega & =\left(-1\right)^{l-1}\int_{\mathbb{R}_{-}^{n}}\eta_{k}\left(x\right)\frac{\partial f}{\partial x^{l}}\dd x^{1}\ldots\dd x^{n}
 \end{align*}
-Integriere nun partiell. Falls $l\not=1$: ${\displaystyle \int_{-\infty}^{\infty}\dd x^{l}\ldots}$
+Integriere nun partiell. Fall $l\not=1$: ${\displaystyle \int_{-\infty}^{\infty}\dd x^{l}\ldots}$
 $\Rightarrow$ Man bekommt also keine Randterme
 
-Falls $l=1$:
+Fall $l=1$:
 \begin{align*}
 \int_{-\infty}^{0}\dd x^{1}\eta_{k}\cdot\frac{\partial f}{\partial x^{1}} & =\eta_{k}f\big|_{x^{1}=0}-\int_{-\infty}^{\infty}\dd x^{1}\left(\frac{\partial}{\partial x^{1}}\eta_{k}\right)\cdot f
 \end{align*}
@@ -6151,8 +6194,8 @@ Also gilt allgemein:
 \begin{align*}
 \int_{M}\eta_{k}\dd\omega & =-\int_{M}\left(\dd\eta_{k}\right)\wedge\omega+\int_{\partial M}\eta_{k}\omega
 \end{align*}
-Summiere über $k$, verwende, dass ${\displaystyle \sum_{k}\eta_{k}=1}$
-und $\dd1=0$.
+Summiere über $k$, verwende dann ${\displaystyle \sum_{k}\eta_{k}=1}$
+und $\dd\left(1\right)=0$.
 \begin{align*}
 \Rightarrow\quad\int_{M}\dd\omega & =\int_{\partial M}\omega
 \end{align*}
@@ -6161,11 +6204,11 @@ und $\dd1=0$.
 
 \section{Hodge-Stern, Hodge-Theorem}
 
-Im Moment: $M^{n}$ differenzierbare Mannigfaltigkeit, (zur Einfachheit
-kompakt, ohne Rand).
+Sei nun $M^{n}$ eine differenzierbare Mannigfaltigkeit, zur Einfachheit
+kompakt und ohne Rand.
 
-Betrachte $\Omega^{k}$ auf ganz $M$ als Vektorraum mit für $\omega,\eta\in\Omega^{k}$
-und $\lambda$:
+Betrachte $\Omega^{k}$ auf ganz $M$ als Vektorraum mit folgenden
+Operationen für $\omega,\eta\in\Omega^{k}$ und $\lambda,\nu\in\mathbb{R}$:
 \begin{align*}
 \left(\lambda\omega+\nu\eta\right)\left(p\right) & :=\lambda\omega\left(p\right)+\nu\eta\left(p\right)
 \end{align*}
@@ -6180,24 +6223,24 @@ Kombiniere $\wedge$ und $\int_{M}$:
 \left\langle .,.\right\rangle :\Omega^{k}\times\Omega^{n-k} & \to\mathbb{R}\\
 \left(\omega,\eta\right) & \mapsto\int_{M}\omega\wedge\eta
 \end{align*}
-Ist Bilinearform, nennt man auch \emph{duale Paarung}.
+Dies ist eine Bilinearform und man nennt sie auch \emph{duale Paarung}.
 
-(Bemerkung: $\Omega^{k}$, $\Omega^{n-k}$ sind $\infty$-dimensional.
-Wir müssten eigentlich eine Topologie auf $\Omega^{k},\Omega^{n-k}$
-einführen, lassen wir hier außer Acht, in Funktionalanalysis)
+(Bemerkung: $\Omega^{k}$ und $\Omega^{n-k}$ sind $\infty$-dimensional.
+Wir müssten eigentlich eine Topologie auf $\Omega^{k}$ und $\Omega^{n-k}$
+einführen. Dies lassen wir hier außer Acht und verweisen auf die Funktionalanalysis.)
 
-Falls
+Falls für alle $u\in E,v\in F$ die Bedingung
 \begin{align*}
-\left\langle Au,v\right\rangle  & =\left\langle u,A^{*}v\right\rangle \quad\fall_{u\in E,v\in F}
+\left\langle Au,v\right\rangle  & =\left\langle u,A^{*}v\right\rangle 
 \end{align*}
-heißt $A^{*}$ Adjungierte von $A$ und $\left\langle .,.\right\rangle :E\times F$
-duale Paarung. $A:E\circlearrowleft$ , $A^{*}:F\circlearrowleft$
+für die duale Paarung $\left\langle .,.\right\rangle :E\times F\to\mathbb{R}$
+erfüllt ist, heißt $A^{*}:F\to F$ die \emph{Adjungierte} von $A:E\to E$.
 
 Was ist $\dd^{*}$?
 
 Sei $\omega\in\Omega^{k-1}$ und $\eta\in\Omega^{n-k}$.
 \begin{align*}
-0 & \stackrel{\text{S.v.S}}{=}\int_{M}\dd\left(\omega\wedge\eta\right)\sr ={\text{graduierte}}{\text{Leibnizregel}}\int_{M}\dd\left(\omega\right)\wedge\eta+\left(-1\right)^{k-1}\omega\wedge\left(\dd\eta\right)=\left\langle \dd\omega,\eta\right\rangle +\left(-1\right)^{\left(k-1\right)}\left\langle \omega,\dd\eta\right\rangle 
+0 & \sr ={\text{Satz von}}{\text{Schwarz}}\int_{M}\dd\left(\omega\wedge\eta\right)\sr ={\text{graduierte}}{\text{Leibnizregel}}\int_{M}\left(\dd\left(\omega\right)\wedge\eta+\left(-1\right)^{k-1}\omega\wedge\left(\dd\eta\right)\right)=\left\langle \dd\omega,\eta\right\rangle +\left(-1\right)^{\left(k-1\right)}\left\langle \omega,\dd\eta\right\rangle 
 \end{align*}
 Also ist \emph{formal}:
 \begin{align*}
@@ -6207,12 +6250,10 @@ Wegen $\dd^{2}=0$ folgt:
 \begin{align*}
 \dd\dd^{*} & =0=\dd^{*}\dd
 \end{align*}
-Es ist also unmöglich einen Differentialoperator zweiter Ordnung zu
-bilden. 
+Es ist also unmöglich so einen Differentialoperator zweiter Ordnung
+zu bilden. Dafür benötigt man den Hodge-Stern-Operator: 
 \begin{align*}
-*:\Omega^{k} & \to\Omega^{n-k} &  & \text{Hodge-Stern wird gebraucht}
-\end{align*}
-\begin{align*}
+* & :\Omega^{k}\to\Omega^{n-k} &  & \text{Hodge-Stern}\\
 \Delta & :=-\left(\dd^{*}\dd+\dd\dd^{*}\right) &  & \text{Hodge-Laplace}
 \end{align*}
 
@@ -6241,12 +6282,12 @@ isomorph. Ist $E$ zusätzlich orientiert und mit Skalarprodukt versehen,
 dann gibt es einen \emph{natürlichen} Isomorphismus, der wie folgt
 definiert ist:
 
-Für jede positiv orientierte Orhonormalbasis $\left\{ e_{1},\ldots,e_{n}\right\} $
+Für jede positiv orientierte Orthonormalbasis $\left\{ e_{1},\ldots,e_{n}\right\} $
 und alle $k\in\left\{ 1,\ldots,n\right\} $ gilt:
 \begin{align*}
 *\left(e^{1}\wedge\ldots\wedge e^{k}\right) & =e^{k+1}\wedge\ldots\wedge e^{n}
 \end{align*}
-Dabei ist $\left\{ e^{1},\ldots,e^{n}\right\} $ die Dualbasis bezeichnet.
+Dabei ist $\left\{ e^{1},\ldots,e^{n}\right\} $ die Dualbasis.
 
 Diese Abbildung kann man schreiben als:
 \begin{align*}
@@ -6265,9 +6306,9 @@ durch $\varepsilon_{i_{1}\ldots i_{n}}=\sqrt{\det\left(g\left(x\right)\right)}\e
 ersetzt.
 
 
-\subsection{Definition}
+\subsection{Definition \textmd{(Hodge-Stern)}}
 
-Der \emph{Hodge-Stern} $*$ ist der lineare Isomorphismus
+Der \emph{Hodge-Stern} $*$ ist der lineare Isomorphismus:
 \begin{align*}
 *:\Omega^{k}\left(M\right) & \to\Omega^{n-k}\left(M\right)\\
 \omega & \mapsto*\omega:=\frac{1}{\left(n-k\right)!}\varepsilon_{\phantom{i_{1}\ldots i_{k}}i_{k+1}\ldots i_{n}}^{i_{1}\ldots i_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{i_{k+1}}\wedge\ldots\wedge\dd x^{i_{n}}
@@ -6291,9 +6332,11 @@ Es gilt:
 \subsubsection*{Beweis}
 
 \begin{align*}
-**\omega & =\frac{1}{k!\left(n-k\right)!}\varepsilon_{\phantom{j_{1}\ldots j_{n-k}}l_{1}\ldots l_{k}}^{j_{1}\ldots j_{n-k}}\varepsilon_{\phantom{i_{1}\ldots i_{k}}i_{k+1}\ldots i_{n}}^{i_{1}\ldots i_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
- & =\frac{1}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}\varepsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\varepsilon_{s_{1}\ldots s_{k},i_{k+1}\ldots i_{n}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
- & =\frac{\left(-1\right)^{k\left(n-k\right)}}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\varepsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}\varepsilon_{s_{1}\ldots s_{k},i_{k+1}\ldots i_{n}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}
+**\omega & =*\left(\frac{1}{\left(n-k\right)!}\varepsilon_{\phantom{i_{1}\ldots i_{k}}i_{k+1}\ldots i_{n}}^{i_{1}\ldots i_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{i_{k+1}}\wedge\ldots\wedge\dd x^{i_{n}}\right)=\\
+ & =\frac{1}{k!}\varepsilon_{\phantom{j_{1}\ldots j_{n-k}}l_{1}\ldots l_{k}}^{j_{1}\ldots j_{n-k}}\left(\frac{1}{\left(n-k\right)!}\varepsilon_{\phantom{i_{1}\ldots i_{k}}j_{1}\ldots j_{n-k}}^{i_{1}\ldots i_{k}}\omega_{i_{1}\ldots i_{k}}\right)\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
+ & =\frac{1}{k!\left(n-k\right)!}\varepsilon_{\phantom{j_{1}\ldots j_{n-k}}l_{1}\ldots l_{k}}^{j_{1}\ldots j_{n-k}}\varepsilon_{\phantom{i_{1}\ldots i_{k}}j_{1}\ldots j_{n-k}}^{i_{1}\ldots i_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
+ & =\frac{1}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}\varepsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\varepsilon_{s_{1}\ldots s_{k},j_{1}\ldots j_{n-k}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
+ & =\frac{\left(-1\right)^{k\left(n-k\right)}}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\varepsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}\varepsilon_{j_{1}\ldots j_{n-k},s_{1}\ldots s_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}
 \end{align*}
 Beachte:
 \begin{align*}
@@ -6302,15 +6345,16 @@ Beachte:
 \end{align*}
 Damit folgt:
 \begin{align*}
-**\omega & =\frac{\left(-1\right)^{k\left(n-k\right)}}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\epsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}\epsilon_{s_{1}\ldots s_{k},i_{k+1}\ldots i_{n}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}
+**\omega & =\frac{\left(-1\right)^{k\left(n-k\right)}}{k!\left(n-k\right)!}g_{l_{1}r_{1}}\ldots g_{l_{k}r_{k}}g^{s_{1}i_{1}}\ldots g^{s_{k}i_{k}}\epsilon^{j_{1}\ldots j_{n-k},r_{1}\ldots r_{k}}\epsilon_{j_{1}\ldots j_{n-k},s_{1}\ldots s_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}
 \end{align*}
 Klar ist, dass man nur Beiträge bekommt, wenn $\left(s_{1},\ldots,s_{k}\right)$
-eine Permutation von $\left(r_{1},\ldots,r_{k}\right)$ ist. Wegen
+eine Permutation von $\left(r_{1},\ldots,r_{k}\right)$ ist, da sonst
+einer der beiden total antisymmetrischen Tensoren verschwindet. Wegen
 der Antisymmetrie des Dachprodukts und der Komponenten $\omega_{i_{1},\ldots,i_{k}}$
 folgt schließlich:
 \begin{align*}
 **\omega & =\left(-1\right)^{k\left(n-k\right)}g_{l_{1}r_{1}}g^{r_{1}i_{1}}\ldots g_{l_{k}r_{k}}g^{r_{k}i_{k}}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\\
- & =\left(-1\right)^{k\left(n-k\right)}\omega_{i_{1}\ldots i_{k}}\dd x^{l_{1}}\wedge\ldots\wedge\dd x^{l_{k}}=\left(-1\right)^{k\left(n-k\right)}\omega
+ & =\left(-1\right)^{k\left(n-k\right)}\omega_{i_{1}\ldots i_{k}}\dd x^{i_{1}}\wedge\ldots\wedge\dd x^{i_{k}}=\left(-1\right)^{k\left(n-k\right)}\omega
 \end{align*}
 \qqed
 
@@ -6323,7 +6367,7 @@ einführen:
 
 
 
-\subsection{Lemma}
+\subsection{Lemma\label{sub:Lem-Integral-n-Form}}
 
 Für jede $n$-Form $\omega\in\Omega^{n}\left(M\right)$ gilt:
 \begin{align*}
@@ -6334,10 +6378,11 @@ Für jede $n$-Form $\omega\in\Omega^{n}\left(M\right)$ gilt:
 
 \subsubsection*{Beweis}
 
+Es gilt:
 \begin{align*}
 *^{2}\big|_{\Omega^{n}\left(M\right)} & =\mathbbm{1}
 \end{align*}
-Es ist
+Nun ist
 \begin{align*}
 *\omega & =:f
 \end{align*}
@@ -6357,7 +6402,7 @@ ist symmetrisch und positiv definit.
 \subsubsection*{Beweis}
 
 \begin{align*}
-\left\langle \omega,\eta\right\rangle  & \stackrel{\ref{a}6.6.3}{=}\int_{M}*\left(\omega\wedge\left(*\eta\right)\right)\dd\mu_{M}\\
+\left\langle \omega,\eta\right\rangle  & \stackrel{\ref{sub:Lem-Integral-n-Form}}{=}\int_{M}*\left(\omega\wedge\left(*\eta\right)\right)\dd\mu_{M}\\
 *\left(\omega\wedge\left(*\eta\right)\right) & =\varepsilon^{i_{1}\ldots i_{n}}\left(\omega_{i_{1}\ldots i_{k}}\left(*\eta\right)_{i_{k+1}\ldots i_{n}}\right)=\\
  & =\frac{1}{k!}\varepsilon^{i_{1}\ldots i_{n}}\omega_{i_{1}\ldots i_{k}}\varepsilon_{j_{1}\ldots j_{k},i_{k+1}\ldots i_{n}}\eta^{j_{1}\ldots j_{k}}=\\
  & =\frac{\left(n-k\right)!}{k!}\left(*\omega\right)^{i_{1}\ldots i_{n-k}}\left(*\eta\right)_{i_{1}\ldots i_{n-k}}
@@ -6365,12 +6410,12 @@ ist symmetrisch und positiv definit.
 Offenbar ist dies symmetrisch und positiv definit.\qqed
 
 
-\subsection{Lemma}
+\subsection{Lemma \textmd{(Adjungierte $d^{*}$)}}
 
 Die Adjungierte von $\dd$ bezüglich $\left\langle .,.\right\rangle $
 ist:
 \begin{align*}
-\dd^{*} & =\left(-1\right)^{k\left(n-k+1\right)}*\dd*:\Omega^{k}\left(M\right)\to\Omega^{k-1}\left(M\right)
+\dd^{*} & =\left(-1\right)^{k\left(n-k+1\right)\left(k-1\right)}*\dd*:\Omega^{k}\left(M\right)\to\Omega^{k-1}\left(M\right)
 \end{align*}
 
 
@@ -6381,7 +6426,7 @@ Sei $\omega\in\Omega^{k-1}\left(M\right)$ und $\eta\in\Omega^{k}\left(M\right)$.
 Dann gilt:
 \begin{align*}
 \left\langle \dd\omega,\eta\right\rangle  & =\int_{M}\left(\dd\omega\right)\wedge\left(*\eta\right)\sr ={\text{Produktregel}}{}\underbrace{\int_{M}\dd\left(\omega\wedge*\eta\right)}_{=0}+\left(-1\right)^{k}\int_{M}\omega\wedge\dd*\eta=\\
- & \sr ={\text{Stokes}}{}\left(-1\right)^{k}\int_{M}\omega\wedge\dd*\eta=\left(-1\right)^{k\left(n-k+1\right)}\int_{M}\omega\wedge*\left(*\dd*\eta\right)=\left(-1\right)^{k\left(n-k+1\right)}\left\langle \omega,*\dd*\eta\right\rangle 
+ & =\left(-1\right)^{k\left(n-k+1\right)\left(k-1\right)}\int_{M}\omega\wedge*\left(*\dd*\eta\right)=\left(-1\right)^{k\left(n-k+1\right)\left(k-1\right)}\left\langle \omega,*\dd*\eta\right\rangle 
 \end{align*}
 \qqed
 
@@ -6390,17 +6435,17 @@ Ordnung einführen, den Hodge-Laplace-Operator:
 \begin{align*}
 \Delta & :=-\left(\dd\dd^{*}+\dd^{*}\dd\right):\Omega^{k}\left(M\right)\to\Omega^{k}\left(M\right)
 \end{align*}
-Auf 0-Formen ist:
+Auf 0-Formen ist
 \begin{align*}
 \Delta f & =-\left(\dd\dd^{*}+\dd^{*}\dd\right)f=-\dd^{*}\dd f=\LB_{g}f
 \end{align*}
-Gerade wider der Laplace-Beltrami-Operator.
+gerade wieder der Laplace-Beltrami-Operator.
 
 Der Laplace-Operator ist jetzt aber allgemein auf $k$-Formen definiert.
 Er hat \emph{schöne} Eigenschaften.
 
 
-\subsection{Lemma}
+\subsection{Lemma \textmd{(Rechenregeln Laplace-Operator)\label{sub:Lem-Rechenregeln-Laplace-Operator}}}
 
 \begin{iiilist}
 
@@ -6424,7 +6469,7 @@ und $\dd^{*}\varphi=0$
 
 \begin{iiilist}
 
-\iii
+\iii Es gilt:
 
 \begin{align*}
 \Delta\dd & =-\left(\dd\dd^{*}+\dd^{*}\dd\right)\dd=-\dd\dd^{*}\dd=-\dd\left(\dd^{*}\dd+\dd\dd^{*}\right)=\dd\Delta
@@ -6459,7 +6504,7 @@ Man kann also \emph{spezielle} geschlossene Formen konstruieren, indem
 man harmonische Formen betrachtet. Damit lässt sich die deRham-Kohomologie
 untersuchen. Dieses Gebiet heißt Harmonische Analysis.
 
-Auf 0-Formen:
+Auf 0-Formen gilt:
 \begin{align*}
 \dd^{*} & =*\dd*=0
 \end{align*}
@@ -6487,15 +6532,15 @@ $H^{0}\left(M\right)=0$
 
 \subsubsection*{Beweis}
 
-Nach Korollar \ref{a}5.2.3 ist jede harmonische Funktion konstant.
-Also ist jede geschlossene $0$-Form exakt.\qqed
+Nach \ref{sub:KuD-Laplace-Gleichung_harmonisch} ist jede harmonische
+Funktion konstant. Also ist jede geschlossene $0$-Form exakt.\qqed
 
 %DATE: Fr 13.7.12
 
-Auf 1-Formen:
+Auf 1-Formen gilt:
 
-Sei $\varphi\in\Omega^{1}$ mit $\Delta\varphi=0$, man sagt dazu
-$\varphi$ ist harmonisch. Es folgt:
+Sei $\varphi\in\Omega^{1}$ \emph{harmonisch}, das heißt $\Delta\varphi=0$.
+Es folgt:
 \begin{align*}
 \dd\varphi & =0 & \dd^{*}\varphi & =0
 \end{align*}
@@ -6508,7 +6553,7 @@ $\Delta\varphi=0$ ist, denn:
 \begin{align*}
 \Delta\varphi & =-\dd\dd^{*}\varphi-\dd^{*}\underbrace{\dd\varphi}_{=0}=-\dd\dd^{*}\varphi\stackrel{\text{i.A.}}{\not=}0
 \end{align*}
-Im allgemeinen kann $\dd^{*}\varphi\not=0$ sein.
+Im Allgemeinen kann $\dd^{*}\varphi\not=0$ sein.
 
 Frage: Sei $\varphi\in\Omega^{1}$ mit $\dd\varphi=0$. Kann man $\varphi$
 um eine exakte Form $\dd\eta$ abändern, sodass $\varphi+\dd\eta$
@@ -6521,11 +6566,11 @@ kann durch eine harmonische Form repräsentiert werden.
 
 \subsection{Theorem \textmd{(Hodge-Theorem)}}
 
-Zu jeder Äquivalenzklasse der de-Rham-Kohomologie $H^{k}\left(M\right)$
+In jeder Äquivalenzklasse der de-Rham-Kohomologie $H^{k}\left(M\right)$
 liegt genau eine harmonische Form.
 
-\quotedblbase{}Beweisidee\textquotedblleft{}: Nehme an, $\varphi\in\Omega^{k}$
-und $\dd\varphi=0$. Sei $\eta\in\Omega^{k-1}$.
+\quotedblbase{}Beweisidee\textquotedblleft{}: Nehme $\varphi\in\Omega^{k}$
+und $\dd\varphi=0$ an. Sei $\eta\in\Omega^{k-1}$.
 \begin{align*}
 \Delta\left(\varphi+\dd\eta\right) & =-\left(\dd\dd^{*}+\dd^{*}\dd\right)\left(\varphi+\dd\eta\right)=\\
  & =-\dd\dd^{*}\varphi-\dd^{*}\underbrace{\dd\varphi}_{=0}+\underbrace{\Delta\dd\eta}_{=\dd\left(\Delta\eta\right)}=\\
@@ -6535,9 +6580,9 @@ Dies ist sicher erfüllt, wenn gilt:
 \begin{align*}
 \Delta\eta & =\dd^{*}\varphi &  & \text{Poisson-Gleichung}
 \end{align*}
-In der Theorie der partiellen Differentialgleichungen (SoSe 2013)
-zeigt man, dass die Poisson-Gleichung für jedes $\dd^{*}\varphi$
-eine glatte Lösung besitzt $\eta$. (elliptische Differentialgleichung)
+In der Theorie der partiellen Differentialgleichungen zeigt man, dass
+die Poisson-Gleichung für jedes $\dd^{*}\varphi$ eine glatte Lösung
+$\eta$ besitzt. (elliptische Differentialgleichung)
 
 Eindeutigkeit:
 
@@ -6549,7 +6594,7 @@ harmonisch.
 \begin{align*}
 \left\langle \alpha_{1}-\alpha_{2},\dd\beta\right\rangle  & =\left\langle \dd^{*}\left(\alpha_{1}-\alpha_{2}\right),\beta\right\rangle =0
 \end{align*}
-Denn $\alpha_{1}-\alpha_{2}$ ist harmonisch und nach Lemma \ref{d}6.6.6
+Denn $\alpha_{1}-\alpha_{2}$ ist harmonisch und nach Lemma \ref{sub:Lem-Rechenregeln-Laplace-Operator}
 folgt:
 \begin{align*}
 \dd\left(\alpha_{1}-\alpha_{2}\right) & =0 & \dd^{*}\left(\alpha_{1}-\alpha_{2}\right) & =0
@@ -6566,18 +6611,16 @@ Also ist $\alpha_{1}=\alpha_{2}$.\qqed
 
 \chapter{Distributionen und Fouriertransformation}
 
-Literatur:
-\begin{itemize}
-\item \noun{J. Rauch}: \emph{Partial Differential Equations}, Anhang: \emph{A
-crash course in distribution theory}
-\item \noun{L. Schwartz}: \emph{Theory of Distributions}
-\end{itemize}
-Historisch: Dirac $\delta$-Distribution
+
+\section{Distributionen}
+
+Historisch: Dirac $\delta$-Distribution:
 \begin{align*}
-\delta\left(x\right) & =0\quad\text{für }x\not=0\\
-\int_{-\infty}^{\infty}\delta\left(x\right)\dd x & =1
+\delta\left(x\right) & :=0\quad\text{für }x\not=0\\
+\int_{-\infty}^{\infty}\delta\left(x\right)\dd x & :=1
 \end{align*}
-TODO: Abb1
+\textcolor{green}{TODO: Abb1 einfügen}
+
 \begin{align*}
 \eta_{\varepsilon} & \xrightarrow{\varepsilon\to0}\delta
 \end{align*}
@@ -6585,15 +6628,15 @@ Rechenregel:
 \begin{align*}
 \int_{-\infty}^{\infty}f\left(x\right)\delta\left(x\right)\dd x & =f\left(0\right)
 \end{align*}
-Eine Möglichkeit, dies mathematisch einzufüren ist das Dirac-Maß.
+Eine Möglichkeit, dies mathematisch einzuführen ist das Dirac-Maß.
 
 Aber wir möchten außerdem Distributionen und nicht-glatte Funktionen
 differenzieren können. $\delta'\left(x\right)$ ist nicht als Maß
-einführbar. Für $x\in\mathbb{R}^{n}$:
+einführbar. Für $x\in\mathbb{R}^{n}$ wollen wir
 \begin{align*}
 \Delta\frac{1}{\norm x}
 \end{align*}
-
+berechnen können.
 
 Idee: Werte im schwachen Sinn aus, rechne formal:
 \begin{align*}
@@ -6601,36 +6644,38 @@ Idee: Werte im schwachen Sinn aus, rechne formal:
 \end{align*}
 
 
-Allgemein: $\eta\in S\left(\mathbb{R}^{n}\right)$ Schwartz-Raum.
-$S^{*}\left(\mathbb{R}^{n}\right)$ ist der Dualraum von $S\left(\mathbb{R}^{n}\right)$.
+Allgemein betrachte Elemente $\eta\in\mathscr{S}\left(\mathbb{R}^{n}\right)$
+aus dem Schwartz-Raum. $\mathscr{S}^{*}\left(\mathbb{R}^{n}\right)$
+ist der Dualraum von $\mathscr{S}\left(\mathbb{R}^{n}\right)$.
 \begin{align*}
-S^{*}\ni\phi:S & \to\mathbb{R}\\
-\left(\Delta\phi\right):S & \to\mathbb{R}\\
-\left(\Delta\phi\right)\left(\eta\right) & :=\phi\underbrace{\left(\Delta\eta\right)}_{\in S}
+\mathscr{S}^{*}\ni\phi:\mathscr{S} & \to\mathbb{R}\\
+\left(\Delta\phi\right):\mathscr{S} & \to\mathbb{R}\\
+\left(\Delta\phi\right)\left(\eta\right) & :=\phi\underbrace{\left(\Delta\eta\right)}_{\in\mathscr{S}}
 \end{align*}
-$S\left(\mathbb{R}^{n}\right)$ ist unendlich-dimensional. Hier ist
-unklar, was \emph{Stetigkeit} von $\phi\in S^{*}$ heißt.
+$\mathscr{S}\left(\mathbb{R}^{n}\right)$ ist unendlich-dimensional.
+Hier ist unklar, was \emph{Stetigkeit} von $\phi\in\mathscr{S}^{*}$
+heißt.
 
 
-\section{Definition}
+\subsection{Definition \textmd{(Multiindex, Schwartz-Norm)}}
 
 Für $i_{1},\ldots,i_{k}\in\left\{ 1,\ldots,n\right\} $ ist der \emph{Multiindex}
-$\alpha:=\left(i_{1},\ldots,i_{k}\right)$ ein geordnete Tupel von
+$\alpha:=\left(i_{1},\ldots,i_{k}\right)$ ein geordnetes Tupel von
 Indizes und $\abs{\alpha}:=k$ die \emph{Stufe des Multiindex}.\\
-Der Differentialoperator der Ordnung $k$.
 \begin{align*}
 \DD^{\alpha} & =\frac{\partial}{\partial x^{i_{1}}}\ldots\frac{\partial}{\partial x^{i_{k}}} &  & \text{Differentialoperator der Ordnung }k\\
 x^{\alpha} & =x^{i_{1}}\ldots x^{i_{k}} &  & \text{Monom der Ordnung }k
 \end{align*}
-Sei $f\in C^{\infty}\left(\mathbb{R}^{n}\right)$ und $r,s\in\mathbb{N}$.
+Sei $f\in C^{\infty}\left(\mathbb{R}^{n}\right)$ und $r,s\in\mathbb{N}$,
+dann ist die \emph{Schwartz-Norm}:
 \begin{align*}
-\norm f_{r,s} & :=\sum_{\sr{}{\alpha\text{ mit}}{\abs{\alpha}\le r}}\sum_{\sr{}{\beta\text{ mit}}{\abs{\beta}\le s}}\sup_{x\in\mathbb{R}^{n}}\abs{x^{\alpha}\DD^{\beta}f\left(x\right)} &  & \text{Schwartz-Norm}\\
- & =\sup_{x}\abs{f\left(x\right)}+\sup\abs{\frac{\partial}{\partial x^{1}}f}+\sup\abs{x^{1}f}+\ldots
+\norm f_{r,s} & :=\sum_{\sr{}{\alpha\text{ mit}}{\abs{\alpha}\le r}}\sum_{\sr{}{\beta\text{ mit}}{\abs{\beta}\le s}}\sup_{x\in\mathbb{R}^{n}}\abs{x^{\alpha}\DD^{\beta}f\left(x\right)}\\
+ & =\sup_{x\in\mathbb{R}^{n}}\abs{f\left(x\right)}+\sup_{x\in\mathbb{R}^{n}}\abs{\frac{\partial}{\partial x^{1}}f}+\sup_{x\in\mathbb{R}^{n}}\abs{x^{1}f}+\ldots
 \end{align*}
 
 
 
-\section{Definition}
+\subsection{Definition \textmd{(Schwartz-Raum)}}
 
 Der \emph{Schwartz-Raum} $\mathscr{S}\left(\mathbb{R}^{n}\right)$
 besteht aus allen $C^{\infty}$-Funktionen $f$, sodass $\norm f_{r,s}<\infty$
@@ -6646,11 +6691,12 @@ $f\left(x\right)=1$
 $f\left(x\right)=e^{-\norm x^{2}}$
 \begin{align*}
 \norm f_{r,0} & =\sum_{\abs{\alpha}\le r}\sup_{x}\abs{x^{\alpha}e^{-\norm x^{2}}}<\infty\\
-\norm f_{r,s} & =\sum_{\abs{\alpha}\le r}\sum_{\abs{\beta}\le s}\sup\abs{\underbrace{x^{\alpha}\DD^{\beta}e^{-\norm x^{2}}}_{=P\left(x\right)e^{-\norm x^{2}}}}\stackrel{P\left(x\right)\text{ Polynom}}{=}\infty
+\norm f_{r,s} & =\sum_{\abs{\alpha}\le r}\sum_{\abs{\beta}\le s}\sup\abs{\underbrace{x^{\alpha}\DD^{\beta}e^{-\norm x^{2}}}_{=P\left(x\right)e^{-\norm x^{2}}}}\stackrel{P\left(x\right)\text{ Polynom}}{=}0
 \end{align*}
 Es ist $C_{0}^{\infty}\subseteq\mathscr{S}\left(\mathbb{R}^{n}\right)$.
 Man sagt auch, $\mathscr{S}\left(\mathbb{R}^{n}\right)$ sind die
-glatten Funktionen mit \emph{schnellem Abfall} (engl.: rapid decay).
+glatten Funktionen mit \emph{schnellem Abfall} (engl.: \foreignlanguage{english}{rapid
+decay}).
 
 
 \subsubsection*{Topologie auf $\mathscr{S}$}
@@ -6662,17 +6708,14 @@ und $r,s\in\mathbb{N}$ gibt, sodass gilt:
 B_{\varepsilon}^{r,s}\left(f\right) & :=\left\{ g\big|\norm{g-f}_{r,s}<\varepsilon\right\} \subseteq A
 \end{align*}
 Dies ist ähnlich wie in einem Banachraum, aber man hat jetzt eine
-ganze Familie von Normen $\norm ._{r,s}$.
+ganze Familie von Normen $\norm ._{r,s}$. Allgemeiner: topologischer
+Vektorraum, uniformer Raum, $\ldots$
 
-Allgemeiner: topologischer Vektorraum, uniformer Raum, $\ldots$
-
-Konvergenzbegriff:
-
-$f_{n}\to f$ in $\mathscr{S}$, falls in jeder offenen Umgebung von
-$f$ fast alle $f_{n}$ liegen.
+Konvergenzbegriff: $f_{n}\to f$ in $\mathscr{S}$, falls in jeder
+offenen Umgebung von $f$ fast alle $f_{n}$ liegen.
 
 
-\section{Satz}
+\subsection{Satz}
 
 Eine Folge $\left(f_{n}\right)_{n\in\mathbb{N}}$ mit $f_{n}\in\mathscr{S}$
 konvergiert gegen $f\in\mathscr{S}$ genau dann, wenn für alle $r,s\in\mathbb{N}$
@@ -6683,17 +6726,19 @@ schon $\norm{f-f_{n}}_{r,s}\xrightarrow{n\to\infty}0$ gilt.
 
 Es gelte $f_{n}\to f$. Das heißt insbesondere gilt $\norm{f-f_{n}}_{0,0}\to0$,
 also $\sup_{x\in\mathbb{R}^{n}}\abs{f_{n}\left(x\right)-f\left(x\right)}\to0$,
-also $f_{n}\rightrightarrows f$. Außerdem gilt:
+also konvergiert $f_{n}\rightrightarrows f$ gleichmäßig. Außerdem
+gilt:
 \begin{align*}
 \norm{f-f_{n}}_{r,0} & \to0
 \end{align*}
 Also gilt $\sup_{x}\abs{\DD^{\alpha}f_{n}\left(x\right)-\DD^{\alpha}f\left(x\right)}\to0$
-für alle $\alpha$, das heißt $\DD^{\alpha}f_{n}\rightrightarrows f$.
+für alle $\alpha$, das heißt $\DD^{\alpha}f_{n}\rightrightarrows f$
+konvergiert gleichmäßig und wegen
 \begin{align*}
 \norm{f-f_{n}}_{r,s} & \to0
 \end{align*}
-Also konvergiert $x^{\alpha}\DD^{\beta}f_{n}\rightrightarrows x^{\alpha}\DD^{\beta}f$
-gleichmäßig.
+konvergiert $x^{\alpha}\DD^{\beta}f_{n}\rightrightarrows x^{\alpha}\DD^{\beta}f$
+ebenfalls gleichmäßig.
 
 Dies führt dazu, dass $\mathscr{S}$ vollständig ist.
 
@@ -6723,17 +6768,17 @@ Wegen $\norm{f_{n}-f}_{r,s}\to0$ folgt, dass fast alle $f_{n}$ in
 $B_{\varepsilon}^{r,s}\left(f\right)$ liegen, und somit auch in $A$.\qqed
 
 
-\section{Definition \textmd{(Distribution)}}
+\subsection{Definition \textmd{(Distribution)}}
 
 Sei $\mathscr{S}^{*}:=\left\{ T:\mathscr{S}\to\mathbb{R}\text{ linear und stetig}\right\} $
 der Dualraum. $\mathscr{S}^{*}$ heißt der Raum der \emph{temperierten
 Distributionen}.
 
 
-\section{Satz\label{sec:Satz-StetigkeitDistribution}}
+\subsection{Satz \textmd{(stetig \texorpdfstring{$\Leftrightarrow$}{<->} beschränkt)}\label{sec:Satz-StetigkeitDistribution}}
 
 Ein lineares Funktional $T:\mathscr{S}\to\mathbb{R}$ ist genau dann
-stetig, wenn es $r,s\in\mathbb{N}$ und ein $c\in\mathbb{R}_{>0}$
+stetig, wenn es $r,s\in\mathbb{N}$ und ein $C\in\mathbb{R}_{>0}$
 gibt, sodass gilt:
 \begin{align}
 \abs{Tf} & \le C\norm f_{r,s}\label{eq:Beschraenkt}
@@ -6755,8 +6800,8 @@ Also bildet $T$ konvergente Folgen auf konvergente Folgen ab und
 ist somit stetig.
 
 \quotedblbase{}$\Rightarrow$\textquotedblright{}: Sei $T$ stetig.
-Dann ist das Urbild offener Mengen offen. Also insbesondere für die
-offene Menge $B_{1}\left(0\right)\subseteq\mathbb{R}$:
+Dann ist das Urbild offener Mengen offen. Also gilt insbesondere für
+die offene Menge $B_{1}\left(0\right)\subseteq\mathbb{R}$:
 \begin{align*}
 T^{-1}\left(B_{1}\left(0\right)\right) & \stackrel{\text{offen}}{\subseteq}\mathscr{S}
 \end{align*}
@@ -6770,13 +6815,14 @@ Betrachte diese Ungleichung für $\tilde{f}=\lambda f$ mit $\lambda\in\mathbb{R}_
 \begin{align*}
 \norm f_{r,s}<\frac{\varepsilon}{\lambda} & \quad\Rightarrow\quad\abs{Tf}<\frac{1}{\lambda}
 \end{align*}
-Wähle nun zu gegebenem $f$ mit $\norm f_{r,s}\not=0$ (Sonst ist
-die Behauptung klar, da $f=0$ folgt.) den Skalierungsfaktor ${\displaystyle \lambda:=\frac{\varepsilon}{\norm f_{r,s}}}$:
-Aus
+Ohne Beschränkung der Allgemeinheit sei $f\not=0$, denn sonst ist
+die Behauptung klar. Wähle nun zu gegebenem $f$ mit $\norm f_{r,s}\not=0$
+den Skalierungsfaktor ${\displaystyle \lambda:=\frac{\varepsilon}{2\norm f_{r,s}}}$:
+Damit folgt aus der stets gültigen Beziehung
 \begin{align*}
-\norm f_{r,s} & <\frac{2\varepsilon}{\varepsilon}\norm f_{r,s}
+\norm f_{r,s} & <\frac{2\varepsilon}{\varepsilon}\norm f_{r,s}=2\norm f_{r,s}
 \end{align*}
-folgt dann:
+dann:
 \begin{align*}
 \abs{Tf} & <\frac{2}{\varepsilon}\norm f_{r,s}
 \end{align*}
@@ -6787,7 +6833,7 @@ Also gilt für alle $f\in\mathscr{S}$:
 \qqed
 
 
-\section{Beispiele \textmd{($\delta$-Distribution)}}
+\subsection{Beispiele \textmd{($\delta$-Distribution)}}
 
 $\delta\in\mathscr{S}^{*}\left(\mathbb{R}^{n}\right)$ soll eingeführt
 werden. Die Abbildung
@@ -6808,7 +6854,7 @@ Nützliche Notation:
 
 
 
-\section{Beispiel \textmd{(Integraloperator)}}
+\subsection{Beispiel \textmd{(Integraloperator)}}
 
 \begin{abclist}
 
@@ -6816,7 +6862,7 @@ Nützliche Notation:
 polynomialem Anstieg, das heißt, es gibt $r,C\in\mathbb{R}_{>0}$
 mit:
 \begin{align*}
-\abs{g\left(x\right)} & \le\left(1+\norm x^{r}\right)
+\abs{g\left(x\right)} & \le C\left(1+\norm x^{r}\right)
 \end{align*}
 \begin{align*}
 T_{g}:\mathscr{S}\left(\mathbb{R}^{n}\right) & \to\mathbb{R}\\
@@ -6824,31 +6870,33 @@ f & \mapsto\int_{\mathbb{R}^{n}}f\left(x\right)g\left(x\right)\dd^{n}x
 \end{align*}
 Dieses Integral ist endlich:
 \begin{align*}
-\abs{T_{g}f} & \le\int_{\mathbb{R}}\abs{f\left(x\right)}\cdot\underbrace{\abs{g\left(x\right)}}_{\le C\left(1+\norm x^{r}\right)}\dd^{n}x\le C\left(1+\norm x^{r}\right)
+\abs{T_{g}f} & \le\int_{\mathbb{R}}\abs{f\left(x\right)}\cdot\underbrace{\abs{g\left(x\right)}}_{\le C\left(1+\norm x^{r}\right)}\dd^{n}x\le C\int_{\mathbb{R}}\abs{f\left(x\right)}\left(1+\norm x^{r}\right)\dd^{n}x
 \end{align*}
-Da $f\in\mathscr{S}$ gilt, folgt:
+Da $f\in\mathscr{S}$ ist, folgt:
 \begin{align*}
-\infty> & \underbrace{\norm f_{0,0}+\norm f_{r+n+1,0}}_{=:K}=\sup_{x}\left(\abs{f\left(x\right)}\right)+\sup_{x}\abs{\norm x^{r+n++1}f\left(x\right)}\ge\sup\left(\left(1+\norm x^{r+n+1}\right)f\left(x\right)\right)
+\sup\left(\left(1+\norm x^{r+n+1}\right)f\left(x\right)\right) & \le\sup_{x\in\mathbb{R}^{n}}\left(\abs{f\left(x\right)}\right)+\sup_{x\in\mathbb{R}^{n}}\abs{\norm x^{r+n+1}f\left(x\right)}=\\
+ & =\underbrace{\norm f_{0,0}+\norm f_{r+n+1;0}}_{=:K}<\infty
 \end{align*}
 \begin{align*}
 \Rightarrow\quad\abs{f\left(x\right)}\left(1+\norm x^{r+n+1}\right) & \le K\\
 \abs{f\left(x\right)} & \le\frac{K}{1+\norm x^{r+n+1}}\\
-\Rightarrow\quad\abs{T_{g}f} & \le\int_{\mathbb{R}^{n}}\frac{a\left(1+\norm x^{r}\right)}{1+\norm x^{r+n+1}}\dd^{n}x\le\int_{\mathbb{R}^{n}}\frac{\tilde{a}}{1+\norm x^{n+1}}<b
+\Rightarrow\quad\abs{T_{g}f} & \le CK\int_{\mathbb{R}^{n}}\frac{1+\norm x^{r}}{1+\norm x^{r+n+1}}\dd^{n}x\le\\
+ & \le2CK\underbrace{\int_{\mathbb{R}^{n}}\frac{1}{1+\norm x^{n+1}}\dd^{n}x}_{=:a<\infty}=2CKa<\infty
 \end{align*}
 $T_{g}f$ ist stetig:
 \begin{align*}
-\abs{T_{g}f} & \le\int_{\mathbb{R}^{n}}\frac{C}{1+\norm x^{n+1}}\left(\norm f_{0,0}+\norm f_{r+n+1,0}\right)\le\tilde{a}\norm f_{r+n+1,0}
+\abs{T_{g}f} & \le2CKa=2Ca\left(\norm f_{0,0}+\norm f_{r+n+1,0}\right)\le4Ca\norm f_{r+n+1,0}
 \end{align*}
-Denn $\norm f_{p,q}\le\norm f_{r,s}$ für alle $p\le r$ und $g\le s$.
+Denn $\norm f_{p,q}\le\norm f_{r,s}$ für alle $p\le r$ und $q\le s$.
 
 Auf diese Weise kann man $g$ eine Distribution $T_{g}$ zuordnen.
 Oft wird $g$ mit $T_{g}$ identifiziert. Damit werden Distributionen
-zu verallgemeinern.
+zu verallgemeinerten Funktionen.
 
 \abc $g=e^{x}$:
 \begin{align*}
-T_{g}f:\mathscr{S}\left(\mathbb{R}\right) & \to\mathbb{R}\\
-f & \mapsto\int_{\mathbb{R}^{n}}f\cdot g\dd^{n}x
+T_{g}:\mathscr{S}\left(\mathbb{R}\right) & \to\mathbb{R}\\
+f & \mapsto\int_{\mathbb{R}^{n}}f\cdot g\,\dd^{n}x
 \end{align*}
 ist \emph{nicht} wohldefiniert, denn zum Beispiel ${\displaystyle f=\frac{1}{\cosh\left(x\right)}}$
 fällt exponentiell im Unendlichen ab und somit ist $f\in\mathscr{S}$,
@@ -6864,27 +6912,28 @@ Also ist $T_{g}$ keine temperierte Distribution.
 \end{abclist}
 
 
-\section{Beispiel \textmd{(Ableitung der $\delta$-Distribution)}}
+\subsection{Beispiel \textmd{(Ableitung der $\delta$-Distribution)}}
 
 Was ist die Ableitung $\delta'$?
 
 Rechne erst formal für ein $f\in\mathscr{S}$:
 \begin{align*}
-\int_{\mathbb{R}}\delta'\left(x\right)f\left(x\right)\dd x & \stackrel{\text{part.Int.}}{=}-\int_{\mathbb{R}}\delta\left(x\right)f'\left(x\right)\dd x=-f'\left(0\right)
+\int_{\mathbb{R}}\delta'\left(x\right)f\left(x\right)\dd x & \stackrel{\text{part. Int.}}{=}-\int_{\mathbb{R}}\delta\left(x\right)f'\left(x\right)\dd x=-f'\left(0\right)
 \end{align*}
 Das Ergebnis dieser formalen Rechnung verwenden wir jetzt als Definition:
 \begin{align*}
 \delta':\mathscr{S} & \to\mathbb{R}\\
 f & \mapsto-f^{'}\left(0\right)
 \end{align*}
-ist eine lineare Abbildung, also ist $\delta'$ stetig und somit $\delta'\in\mathscr{S}^{*}$.
+ist eine lineare Abbildung und es gilt:
 \begin{align*}
 \abs{\delta'\left(f\right)} & \le\sup_{x\in\mathbb{R}}\abs{f'\left(x\right)}\le\sup_{x\in\mathbb{R}}\abs{f\left(x\right)}+\sup_{x\in\mathbb{R}}\abs{f'\left(x\right)}=\norm f_{0,1}
 \end{align*}
+Also ist $\delta'$ stetig nach \ref{sec:Satz-StetigkeitDistribution}
+und somit $\delta'\in\mathscr{S}^{*}$.
 
 
-
-\section{Definition \textmd{(Distributionsableitung)}}
+\subsection{Definition \textmd{(Distributionsableitung)}}
 
 Sei $T\in\mathscr{S}^{*}\left(\mathbb{R}^{n}\right)$ und $\alpha$
 ein Multi-Index. Definiere die Distributionsabbildung $\DD^{\alpha}T$
@@ -6898,7 +6947,7 @@ durch:
 \subsubsection*{Behauptung}
 
 $\DD^{\alpha}T\in\mathscr{S}^{*}\left(\mathbb{R}^{n}\right)$ ist
-also eine temperiere Distribution.
+eine temperiere Distribution.
 
 
 \subsubsection*{Beweis}
@@ -6916,21 +6965,252 @@ Also ist $\DD^{\alpha}T$ stetig nach Satz \eqref{sec:Satz-StetigkeitDistribution
 Es gilt noch Folgendes (ohne Beweis):
 
 
-\section{Satz}
+\subsection{Satz}
 
 Für $g\in C^{\infty}$ mit höchstens polynomialem Anstieg ist die
-Abbildung $g\mapsto T_{g}\in\mathscr{S}^{*}$ ist injektiv.
-
-Allgemeiner $g\in\hat{L}_{\text{loc}}$.
+Abbildung $g\mapsto T_{g}\in\mathscr{S}^{*}$ injektiv.
 
 
-\section{Lemma}
+\subsection{Lemma}
 
 Es gilt
 \begin{align*}
 \norm{f\cdot g}_{r,s} & \le\norm f_{r,s}\cdot\norm g_{r,s}
 \end{align*}
 und sogar noch bessere Ungleichungen.
+
+%DATE: Fr 20.7.12
+
+Ab jetzt in einer Dimension. Die Verallgemeinerung geht analog.
+\begin{align*}
+\mathscr{S}\left(\mathbb{R}\right) & =\left\{ f\in C^{\infty}\left(\mathbb{R}\right)\big|\norm f_{p,q}<\infty\right\} \\
+\norm f_{p,q} & =\sum_{r=0}^{p}\sum_{s=0}^{q}\sup_{x}\abs{x^{r}f^{\left(s\right)}\left(x\right)}
+\end{align*}
+Der Dualraum $\mathscr{S}^{*}\left(\mathbb{R}\right)$ besteht aus
+den temperierte Distribution, das ein $T\in\mathscr{S}^{*}\left(\mathbb{R}\right)$
+ist eine Abbildung $T:\mathscr{S}\left(\mathbb{R}\right)\to\mathbb{R}$,
+die linear und stetig ist.
+
+
+\section{Die Fouriertransformation}
+
+
+\subsection{Definition \textmd{(Fouriertransformation)}}
+
+Sei $f\in\mathscr{S}\left(\mathbb{C}\right)$, das heißt $f=f_{1}+\ii f_{2}$
+mit $f_{1},f_{2}\in\mathscr{S}\left(\mathbb{R}\right)$. Setze:
+\begin{align*}
+\left(\mathcal{F}f\right)\left(p\right) & =\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}f\left(x\right)e^{-\ii px}\dd x & \left(\overline{\mathcal{F}}f\right)\left(p\right) & =\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}f\left(x\right)e^{\ii px}\dd x
+\end{align*}
+
+
+
+\subsection{Satz}
+
+$\mathcal{F},\overline{\mathcal{F}}:\mathscr{S}\left(\mathbb{C}\right)\to\mathscr{S}\left(\mathbb{C}\right)$
+sind linear und stetig.
+
+
+\subsubsection*{Beweis}
+
+Es gilt:
+\begin{align*}
+\abs{\left(\mathcal{F}f\right)\left(p\right)} & \le\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\abs{f\left(x\right)e^{-\ii px}}\dd x=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\abs{f\left(x\right)}\left(1+x^{2}\right)\cdot\frac{1}{1+x^{2}}\dd x\le\\
+ & \le\frac{1}{\sqrt{2\pi}}\underbrace{\sup_{x}\left(\abs{f\left(x\right)}\left(1+x^{2}\right)\right)}_{\le\norm f_{2,0}<\infty}\underbrace{\int_{-\infty}^{\infty}\cdot\frac{1}{1+x^{2}}\dd x}_{<\infty}<\infty
+\end{align*}
+Das Integral ist also konvergent. Verwende
+\begin{align*}
+p^{r}e^{-\ii px} & =\ii^{r}\left(\frac{\partial}{\partial x}\right)^{r}e^{-\ii px}
+\end{align*}
+und erhalte:
+\begin{align*}
+\left(p^{r}\DD^{s}f\right)\left(p\right) & =p^{r}\left(\frac{\partial}{\partial p}\right)^{s}\int_{-\infty}^{\infty}f\left(x\right)e^{-\ii px}\dd x=\\
+ & =\left(\frac{\partial}{\partial p}\right)^{s}\int_{-\infty}^{\infty}f\left(x\right)\left(\left(\ii\frac{\partial}{\partial x}\right)^{r}e^{-\ii px}\right)\dd x=\\
+ & \stackrel{\text{part.Int.}}{=}\left(\frac{\partial}{\partial p}\right)^{s}\int_{-\infty}^{\infty}\underbrace{\left(\left(-\ii\frac{\partial}{\partial x}\right)^{r}f\left(x\right)\right)}_{\in\mathscr{S}}e^{-\ii px}\dd x=\\
+ & =\int_{-\infty}^{\infty}\left(-\ii x\right)^{s}\left(\left(-\ii\frac{\partial}{\partial x}\right)^{r}f\left(x\right)\right)e^{-\ii px}\dd x
+\end{align*}
+\begin{align*}
+\frac{\partial}{\partial p} & \leftrightarrow-\ii x & p & \leftrightarrow\ii\frac{\partial}{\partial x}
+\end{align*}
+\begin{align*}
+\abs{p^{r}\DD^{s}f\left(p\right)} & \le\int_{-\infty}^{\infty}\abs{x^{s}f^{\left(r\right)}\left(x\right)}\left(1+x^{2}\right)\cdot\frac{1}{1+x^{2}}\dd x\le\\
+ & \le\sup_{x}\abs{x^{s}f^{r}\left(x\right)\left(1+x^{2}\right)}\cdot\underbrace{\int_{-\infty}^{\infty}\frac{1}{1+x^{2}}\dd x}_{=:C<\infty}\le C\norm f_{s+2,r}
+\end{align*}
+Also gilt:
+\begin{align*}
+\norm{\mathcal{F}f}_{r,s} & \le\tilde{C}\norm f_{s+2,r}
+\end{align*}
+Also ist $\mathcal{F}$ tatsächlich stetig. Für $\overline{\mathcal{F}}$
+geht das analog.\qqed
+
+
+\subsection{Theorem \textmd{(Plancherel)}}
+
+\begin{align*}
+\mathcal{F}\overline{\mathcal{F}} & =\overline{\mathcal{F}}\mathcal{F}=\text{id}:\mathscr{S}\left(\mathbb{C}\right)\to\mathscr{S}\left(\mathbb{C}\right)
+\end{align*}
+
+
+
+\subsubsection{Beweis}
+
+\begin{align*}
+\left(\mathcal{F}\overline{\mathcal{F}}f\right)\left(p\right) & =\frac{1}{2\pi}\int_{-\infty}^{\infty}e^{-\ii px}\left(\int_{-\infty}^{\infty}e^{\ii qx}f\left(q\right)\dd q\right)\dd x\\
+ & \stackrel{\text{naiv}}{=}\frac{1}{2\pi}\int f\left(q\right)\underbrace{\left(\int e^{-\ii\left(p-q\right)x}\dd x\right)}_{\text{Integral existiert nicht}}\dd q
+\end{align*}
+
+
+Um diese Konvergenzprobleme der Integrale zu vermeiden, führt man
+einen sogenannten \emph{konvergenzerzeugenden Faktor} ein:
+\begin{align*}
+\left(\mathcal{F}\overline{\mathcal{F}}f\right)\left(p\right) & =\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\underbrace{\left(\overline{\mathcal{F}}f\right)\left(x\right)}_{\in\mathscr{S}\left(\mathbb{C}\right)}e^{-\ii px}\dd x=\\
+ & \sr ={\text{dominierte}}{\text{Konvergenz}}\frac{1}{\sqrt{2\pi}}\lim_{\varepsilon\searrow0}\int_{-\infty}^{\infty}\underbrace{e^{-\varepsilon x^{2}}}_{\to1}\left(\overline{\mathcal{F}}f\right)\left(x\right)e^{-\ii px}\dd x=\\
+ & =\frac{1}{2\pi}\lim_{\varepsilon\searrow0}\int_{-\infty}^{\infty}e^{-\varepsilon x^{2}}\left(\int_{-\infty}^{\infty}e^{\ii qx}f\left(q\right)\dd q\right)e^{-\ii px}\dd x=\\
+ & =\frac{1}{2\pi}\lim_{\varepsilon\searrow0}\int_{-\infty}^{\infty}f\left(q\right)\left(\int_{-\infty}^{\infty}e^{-\varepsilon x^{2}}e^{\ii\left(q-p\right)x}\dd x\right)\dd q
+\end{align*}
+Berechne das Innere Integral mit $u:=p-q$:
+\begin{align*}
+\int_{-\infty}^{\infty}e^{-\varepsilon x^{2}-\ii ux}\dd x & =\int_{-\infty}^{\infty}e^{-\varepsilon\left(x+\frac{\ii u}{2\varepsilon}\right)^{2}}e^{-\frac{u^{2}}{4\varepsilon}}\dd x\sr ={y=x+\frac{\ii u}{2\varepsilon}}{\dd y=\dd x}e^{-\frac{u^{2}}{4\varepsilon}}\int_{-\infty}^{\infty}e^{-\varepsilon y^{2}}\dd y=\sqrt{\frac{\pi}{\varepsilon}}e^{-\frac{u^{2}}{2\varepsilon}}
+\end{align*}
+Setze dies ein:
+\begin{align*}
+\left(\mathcal{F}\overline{\mathcal{F}}f\right)\left(p\right) & =\frac{1}{2\pi}\lim_{\varepsilon\searrow0}\int_{-\infty}^{\infty}\underbrace{f\left(q\right)}_{=f\left(p\right)+\left(f\left(q\right)-f\left(p\right)\right)}\sqrt{\frac{\pi}{\varepsilon}}e^{-\frac{\left(p-q\right)^{2}}{4\varepsilon}}\dd q=\\
+ & =\frac{1}{2\pi}\lim_{\varepsilon\searrow0}\sqrt{\frac{\pi}{\varepsilon}}\left(f\left(p\right)\int_{-\infty}^{\infty}e^{-\frac{\left(p-q\right)^{2}}{4\varepsilon}}\dd q+\int_{-\infty}^{\infty}\left(f\left(q\right)-f\left(p\right)\right)e^{-\frac{\left(p-q\right)^{2}}{4\varepsilon}}\dd q\right)
+\end{align*}
+
+
+\textcolor{green}{TODO: Abb: Plot von $\sqrt{\frac{\pi}{\varepsilon}}e^{-\frac{\left(p-q\right)^{2}}{4\varepsilon}}$
+für zwei verschiedene $\varepsilon$}
+
+Man erhält:
+\begin{align*}
+\int_{-\infty}^{\infty}e^{-\frac{\left(p-q\right)^{2}}{4\varepsilon}}\dd q & \sr ={v:=\frac{p-q}{\sqrt{4\varepsilon}}}{\dd v=-\frac{\dd q}{\sqrt{4\varepsilon}}}-\sqrt{4\varepsilon}\int_{\infty}^{-\infty}e^{-v^{2}}\dd v=2\sqrt{\pi\varepsilon}
+\end{align*}
+\begin{align*}
+\abs{\int_{-\infty}^{\infty}\left(f\left(q\right)-f\left(p\right)\right)e^{-\frac{\left(p-q\right)^{2}}{4\varepsilon}}\dd q} & \le C\int_{-\infty}^{\infty}\abs{q-p}e^{-\frac{\left(p-q\right)^{2}}{4\varepsilon}}\dd q=\\
+ & \sr ={v:=\frac{p-q}{\sqrt{4\varepsilon}}}{\dd v=-\frac{\dd q}{\sqrt{4\varepsilon}}}C\int_{-\infty}^{\infty}\abs v\sqrt{4\varepsilon}e^{-v^{2}}\left(-\sqrt{4\varepsilon}\right)\dd v\le\\
+ & \le4C\varepsilon\int_{-\infty}^{\infty}\abs ve^{-v^{2}}\dd v\le\varepsilon\tilde{C}
+\end{align*}
+Es folgt:
+\begin{align*}
+\left(\mathcal{F}\overline{\mathcal{F}}f\right)\left(p\right) & =\frac{1}{2\pi}\lim_{\varepsilon\searrow0}\sqrt{\frac{\pi}{\varepsilon}}\left(f\left(p\right)\cdot2\sqrt{\pi\varepsilon}+\mathcal{O}\left(\varepsilon\right)\right)=\frac{1}{2\pi}\lim_{\varepsilon\searrow0}2\pi\left(f\left(p\right)+\mathcal{O}\left(\sqrt{\varepsilon}\right)\right)=\\
+ & =\lim_{\varepsilon\searrow0}f\left(p\right)+\mathcal{O}\left(\sqrt{\varepsilon}\right)=f\left(p\right)
+\end{align*}
+$\overline{\mathcal{F}}\mathcal{F}$ geht analog.\qqed
+
+Ziel: Verallgemeinere $\mathcal{F},\overline{\mathcal{F}}$ auf $\mathscr{S}^{*}\left(\mathbb{C}\right)$.
+Als Vorbereitung seien $f,g\in\mathscr{S}\left(\mathbb{C}\right)$.
+\begin{align*}
+\int_{-\infty}^{\infty}\mathcal{F}\left(f\right)\left(p\right)\cdot g\left(p\right)\dd p & =\int_{-\infty}^{\infty}\left(\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}f\left(x\right)e^{-\ii px}\dd x\right)\cdot g\left(p\right)\dd p=\\
+ & \sr ={\text{Fubini}}{\text{wie oben}}\int_{-\infty}^{\infty}f\left(x\right)\left(\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}g\left(p\right)e^{-\ii px}\dd p\right)\dd x=\\
+ & =\int_{-\infty}^{\infty}f\left(x\right)\left(\mathcal{F}g\right)\left(x\right)\dd x
+\end{align*}
+Die letzte Gleichung lässt sich unmittelbar verwenden, um die Fouriertransformation
+einer Distribution zu definieren.
+
+
+\subsection{Definition \textmd{(Fouriertransformation für Distribution)}}
+
+$\mathcal{F},\overline{\mathcal{F}}:\mathscr{S}^{*}\left(\mathbb{R}\right)\to\mathscr{S}^{*}\left(\mathbb{R}\right)$
+\begin{align*}
+\left(\mathcal{F}T\right)\left(f\right) & :=T\left(\mathcal{F}f\right)\\
+\left(\overline{\mathcal{F}}T\right)\left(f\right) & :=T\left(\overline{\mathcal{F}}f\right)
+\end{align*}
+
+
+
+\subsection{Satz}
+
+Es gilt:
+\begin{align*}
+\mathcal{F}\overline{\mathcal{F}} & =\text{id}_{\mathscr{S}^{*}\left(\mathbb{C}\right)}=\overline{\mathcal{F}}\mathcal{F}
+\end{align*}
+
+
+
+\subsubsection*{Beweis}
+
+\begin{align*}
+\left(\mathcal{F}\left(\overline{\mathcal{F}}T\right)\right)\left(f\right) & =\left(\overline{\mathcal{F}}T\right)\left(\mathcal{F}f\right)=T\left(\overline{\mathcal{F}}\mathcal{F}f\right)=T\left(f\right)
+\end{align*}
+Also gilt $\mathcal{F}\overline{\mathcal{F}}T=T$ und für $\overline{\mathcal{F}}\mathcal{F}T=T$
+folgt es analog.\qqed
+
+
+\subsection{Lemma}
+
+Für alle $f,g\in\mathscr{S}$ gilt:
+\begin{align*}
+\int_{\mathbb{R}}\overline{f}\left(x\right)\cdot g\left(x\right)\dd x & =\int_{\mathbb{R}}\overline{\left(\mathcal{F}f\right)}\left(x\right)\left(\mathcal{F}g\right)\left(x\right)\dd x
+\end{align*}
+
+
+
+\subsubsection*{Beweis}
+
+\begin{align*}
+\int_{\mathbb{R}}\overline{\mathcal{F}f}h\dd x & =\int_{\mathbb{R}}\left(\overline{\mathcal{F}}\overline{f}\right)h\dd x\stackrel{\text{wie oben}}{=}\int_{\mathbb{R}}\overline{f}\cdot\left(\overline{\mathcal{F}}h\right)\dd x
+\end{align*}
+Für $h=\mathcal{F}g$ folgt:
+\begin{align*}
+\int_{\mathbb{R}}\overline{\mathcal{F}f}\mathcal{F}g\dd x & =\int_{\mathbb{R}}\overline{f}\left(\overline{\mathcal{F}}\mathcal{F}g\right)\dd x=\int_{\mathbb{R}}\overline{f}\cdot g\dd x
+\end{align*}
+\qqed
+
+Führe das folgende Skalarprodukt auf $\mathscr{S}$ ein:
+\begin{align*}
+\left\langle f,g\right\rangle  & :=\int_{\mathbb{R}}\overline{f}g\dd x
+\end{align*}
+$\left(\mathcal{\mathscr{S}},\left\langle .,.\right\rangle \right)$
+ist ein Skalarproduktraum. Vervollständige dies zum Hilbertraum $\left(\mathcal{L}^{2}\left(\mathbb{C}\right),\left\langle .,.\right\rangle \right)$.
+
+Dann ist $\mathcal{F}:\mathscr{S}\to\mathscr{S}$ eine \emph{Isometrie},
+das heißt $\left\langle f,g\right\rangle =\left\langle \mathcal{F}f,\mathcal{F}g\right\rangle $.
+Die Abbildung
+\begin{align*}
+\mathcal{F}:\mathcal{L}^{2}\left(\mathbb{C}\right) & \to\mathcal{L}^{2}\left(\mathbb{C}\right)
+\end{align*}
+ist \emph{unitär}.
+
+
+\subsection{Beispiele}
+
+\begin{iiilist}
+
+\iii $\mathcal{F}\delta$ ist zu berechnen.
+\begin{align*}
+\left(\mathcal{F}\delta\right)\left(f\right) & =\delta\left(\mathcal{F}f\right)=\left(\mathcal{F}f\right)\left(0\right)=\frac{1}{\sqrt{2\pi}}\left(\int_{-\infty}^{\infty}f\left(x\right)e^{-ipx}\dd x\right)_{p=0}=\\
+ & =\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}f\left(x\right)\dd x=\int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}}f\left(x\right)\dd x=T_{\frac{1}{\sqrt{2\pi}}}\left(f\right)
+\end{align*}
+Oder einfacher:
+\begin{align*}
+\mathcal{F}\delta & =\frac{1}{\sqrt{2\pi}}
+\end{align*}
+
+
+\iii $g\left(p\right)=e^{\ii py}$ mit einem gegeben Parameter $y\in\mathbb{R}$.
+$g$ ist keine Schwartzfunktion, aber betrachte $\TT_{g}\in\mathscr{S}^{*}$
+definiert durch:
+\begin{align*}
+\left(T_{g}\right)f & :=\int_{\mathbb{R}}g\left(p\right)f\left(p\right)\dd p
+\end{align*}
+Es folgt:
+\begin{align*}
+\left(\mathcal{F}T_{g}\right)f & =T_{g}\left(\mathcal{F}f\right)=\int_{\mathbb{R}}\underbrace{e^{\ii py}}_{=g\left(p\right)}\left(\frac{1}{\sqrt{2\pi}}\int_{\mathbb{R}}f\left(x\right)e^{-\ii px}\dd x\right)\dd p=\\
+ & \stackrel{\text{Plancherel}}{=}\sqrt{2\pi}\cdot f\left(y\right)
+\end{align*}
+\begin{align*}
+\Rightarrow\quad\left(\mathcal{F}T_{g}\right) & =\sqrt{2\pi}\delta_{y}
+\end{align*}
+Dabei ist $\delta_{y}\left(f\right)=f\left(y\right)$. Oft schreibt
+man auch:
+\begin{align*}
+\mathcal{F}e^{\ii py} & =\sqrt{2\pi}\delta_{y}\\
+\int\dd pe^{-\ii p\left(x-y\right)} & =2\pi\delta\left(x-y\right) &  & \text{Plancherel}
+\end{align*}
+
+
+\end{iiilist}
 
 
 \part*{Anhang\thispagestyle{empty}\addcontentsline{toc}{part}{Anhang}}
