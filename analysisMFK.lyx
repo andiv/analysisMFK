@@ -8080,7 +8080,7 @@ Vektorraum über punktweise Addition und Skalarmultiplikation.
 \end_layout
 
 \begin_layout Itemize
-Die Multiplikation ist ebenfalls punktweise, also als
+Die Multiplikation ist ebenfalls punktweise, also als 
 \begin_inset Formula $\left(f\cdot g\right)\left(q\right)=f\left(q\right)\cdot g\left(q\right)$
 \end_inset
 
@@ -8569,12 +8569,12 @@ Sei
 
 \end_inset
 
-Beachte die Notationsüberlastung: 
+Beachte: 
 \begin_inset Formula $x:U\to\mathbb{R}^{n}$
 \end_inset
 
  ist eine Abbildung und 
-\begin_inset Formula $\left(x^{1},\ldots,x^{n}\right)\in\mathbb{R}^{n}$
+\begin_inset Formula $\left(\xi^{1},\ldots,\xi^{n}\right)\in\mathbb{R}^{n}$
 \end_inset
 
  ist ein Vektor.
@@ -23033,7 +23033,7 @@ Die Adjungierte von
  ist:
 \begin_inset Formula 
 \begin{align*}
-\dd^{*} & =\left(-1\right)^{k\left(n-k+1\right)\left(k-1\right)}*\dd*:\Omega^{k}\left(M\right)\to\Omega^{k-1}\left(M\right)
+\dd^{*} & =\left(-1\right)^{k+\left(n-k+1\right)\left(k-1\right)}*\dd*:\Omega^{k}\left(M\right)\to\Omega^{k-1}\left(M\right)
 \end{align*}
 
 \end_inset
@@ -23059,7 +23059,7 @@ Sei
 \begin_inset Formula 
 \begin{align*}
 \left\langle \dd\omega,\eta\right\rangle  & =\int_{M}\left(\dd\omega\right)\wedge\left(*\eta\right)\sr ={\text{Produktregel}}{}\underbrace{\int_{M}\dd\left(\omega\wedge*\eta\right)}_{=0}+\left(-1\right)^{k}\int_{M}\omega\wedge\dd*\eta=\\
- & =\left(-1\right)^{k\left(n-k+1\right)\left(k-1\right)}\int_{M}\omega\wedge*\left(*\dd*\eta\right)=\left(-1\right)^{k\left(n-k+1\right)\left(k-1\right)}\left\langle \omega,*\dd*\eta\right\rangle 
+ & =\left(-1\right)^{k+\left(n-k+1\right)\left(k-1\right)}\int_{M}\omega\wedge*\left(*\dd*\eta\right)=\left(-1\right)^{k+\left(n-k+1\right)\left(k-1\right)}\left\langle \omega,*\dd*\eta\right\rangle 
 \end{align*}
 
 \end_inset
@@ -24377,7 +24377,6 @@ status open
 
 \begin_layout Plain Layout
 
-\series medium
 
 \backslash
 texorpdfstring{
@@ -24395,7 +24394,6 @@ status open
 
 \begin_layout Plain Layout
 
-\series medium
 }{<->}
 \end_layout
 

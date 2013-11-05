@@ -1,4 +1,4 @@
-%% LyX 2.0.4 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.0.6 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass[11pt,english,ngerman]{report}
 \usepackage[T1]{fontenc}
@@ -25,6 +25,7 @@
 \hypersetup{pdftitle={Analysis auf Mannigfaltigkeiten},
  pdfauthor={Andreas Völklein},
  pdfkeywords={Analysis auf Mannigfaltigkeiten, Mathematik}}
+\usepackage{breakurl}
 
 \makeatletter
 
@@ -247,18 +248,18 @@
 \pagenumbering{roman}
 
 
-\title{\textbf{\Huge \vspace*{-30mm}}\\
-\textbf{\Huge Analysis auf Mannigfaltigkeiten}}
+\title{\textbf{\Huge{\vspace*{-30mm}}}\\
+\textbf{\Huge{Analysis auf Mannigfaltigkeiten}}}
 
 
-\author{\textit{\small Vorlesung von}\\
-\textit{\noun{\small Prof. Dr. Felix Finster}}\textit{\small }\\
-\textit{\small im Sommersemester 2012}\\
-\textit{\small Überarbeitung und Textsatz in \LyX{} von}\\
-\textit{\noun{\small Andreas Völklein}}\\
-{\small \vspace*{10mm}}\\
-{\small \includegraphics[clip,width=15cm]{unir}}\textit{\noun{\small }}\\
-{\small \vspace*{3mm}}\\
+\author{\textit{\small{Vorlesung von}}\\
+\textit{\noun{\small{Prof. Dr. Felix Finster}}}\textit{\small{}}\\
+\textit{\small{im Sommersemester 2012}}\\
+\textit{\small{Überarbeitung und Textsatz in \LyX{} von}}\\
+\textit{\noun{\small{Andreas Völklein}}}\\
+{\small{\vspace*{10mm}}}\\
+{\small{\includegraphics[clip,width=15cm]{unir}}}\textit{\noun{\small{}}}\\
+{\small{\vspace*{3mm}}}\\
 Stand: \today}
 
 \maketitle
@@ -381,7 +382,7 @@ Equations}}, Anhang: \foreignlanguage{english}{\emph{A crash course
 in distribution theory}}
 \item \noun{L. Schwartz}: \foreignlanguage{english}{\emph{Theory of Distributions}}
 \end{itemize}
-{\small \newpage{}}\fancyhead[R]{Inhaltsverzeichnis}
+{\small{\newpage{}}}\fancyhead[R]{Inhaltsverzeichnis}
 \fancyhead[C]{}
 
 \tableofcontents{}\label{END-front}\newpage{}\pagenumbering{arabic}
@@ -1975,7 +1976,7 @@ F_{p}^{0} & =\left\{ f\in C^{\infty}\left(\Omega\right)\big|f\equiv0\text{ in ei
 $C^{\infty}\left(\Omega\right)$ ist eine Algebra:
 \begin{itemize}
 \item Vektorraum über punktweise Addition und Skalarmultiplikation.
-\item Die Multiplikation ist ebenfalls punktweise, also als$\left(f\cdot g\right)\left(q\right)=f\left(q\right)\cdot g\left(q\right)$
+\item Die Multiplikation ist ebenfalls punktweise, also als $\left(f\cdot g\right)\left(q\right)=f\left(q\right)\cdot g\left(q\right)$
 definiert
 \end{itemize}
 $F_{p}^{0}$ ist ein \emph{Ideal} in $C^{\infty}\left(\Omega\right)$,
@@ -2082,8 +2083,7 @@ ${\displaystyle \frac{\partial}{\partial x^{i}}\Big|_{p}}$ durch:
 {\displaystyle \frac{\partial}{\partial x^{i}}\Big|_{p}}f & :=\partial_{i}\left(f\circ x^{-1}\right)\left(\xi^{1},\ldots,\xi^{n}\right)\Big|_{x\left(p\right)}=\\
  & =\frac{\dd}{\dd t}\left(f\circ x^{-1}\right)\left(x\left(p\right)+te_{i}\right)
 \end{align*}
-Beachte die Notationsüberlastung: $x:U\to\mathbb{R}^{n}$ ist eine
-Abbildung und $\left(x^{1},\ldots,x^{n}\right)\in\mathbb{R}^{n}$
+Beachte: $x:U\to\mathbb{R}^{n}$ ist eine Abbildung und $\left(\xi^{1},\ldots,\xi^{n}\right)\in\mathbb{R}^{n}$
 ist ein Vektor.
 
 
@@ -6415,7 +6415,7 @@ Offenbar ist dies symmetrisch und positiv definit.\qqed
 Die Adjungierte von $\dd$ bezüglich $\left\langle .,.\right\rangle $
 ist:
 \begin{align*}
-\dd^{*} & =\left(-1\right)^{k\left(n-k+1\right)\left(k-1\right)}*\dd*:\Omega^{k}\left(M\right)\to\Omega^{k-1}\left(M\right)
+\dd^{*} & =\left(-1\right)^{k+\left(n-k+1\right)\left(k-1\right)}*\dd*:\Omega^{k}\left(M\right)\to\Omega^{k-1}\left(M\right)
 \end{align*}
 
 
@@ -6426,7 +6426,7 @@ Sei $\omega\in\Omega^{k-1}\left(M\right)$ und $\eta\in\Omega^{k}\left(M\right)$.
 Dann gilt:
 \begin{align*}
 \left\langle \dd\omega,\eta\right\rangle  & =\int_{M}\left(\dd\omega\right)\wedge\left(*\eta\right)\sr ={\text{Produktregel}}{}\underbrace{\int_{M}\dd\left(\omega\wedge*\eta\right)}_{=0}+\left(-1\right)^{k}\int_{M}\omega\wedge\dd*\eta=\\
- & =\left(-1\right)^{k\left(n-k+1\right)\left(k-1\right)}\int_{M}\omega\wedge*\left(*\dd*\eta\right)=\left(-1\right)^{k\left(n-k+1\right)\left(k-1\right)}\left\langle \omega,*\dd*\eta\right\rangle 
+ & =\left(-1\right)^{k+\left(n-k+1\right)\left(k-1\right)}\int_{M}\omega\wedge*\left(*\dd*\eta\right)=\left(-1\right)^{k+\left(n-k+1\right)\left(k-1\right)}\left\langle \omega,*\dd*\eta\right\rangle 
 \end{align*}
 \qqed
 
